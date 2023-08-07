@@ -11,6 +11,12 @@ INCLUDES = -I ./includes/
 FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 all: $(NAME)
+	
+run: all
+	@./$(NAME) 6667 123
+	
+v: all
+	@valgrind ./$(NAME)
 
 $(NAME): $(OBJS)
 	@c++ $(FLAGS) $(OBJS) -o $(NAME)
