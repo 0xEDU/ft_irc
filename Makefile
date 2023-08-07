@@ -1,4 +1,4 @@
-NAME = ft_irc
+NAME = ircserv
 
 PATH_SRCS = ./srcs/
 PATH_OBJS = ./objs/
