@@ -16,7 +16,7 @@ run: all
 	@./$(NAME) 6667 123
 	
 v: all
-	@valgrind ./$(NAME)
+	@valgrind --track-fds=yes ./$(NAME) 6667 123
 
 $(NAME): $(OBJS)
 	@c++ $(FLAGS) $(OBJS) -o $(NAME)

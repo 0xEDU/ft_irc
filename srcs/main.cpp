@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: etachott < etachott@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:52:43 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/08 19:39:03 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:43:40 by etachott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,12 @@ int main(int argc, char **argv) {
 		send(newsockfd, createdMsg.c_str(), createdMsg.length(), 0);
 		send(newsockfd, myInfoMsg.c_str(), myInfoMsg.length(), 0);
 		send(newsockfd, helloos.c_str(), helloos.length(), 0);
+		std::string hello = std::string(":ft_irc 001 GOD :Hello, world!\r\n");
+		send(newsockfd, hello.c_str(), hello.length(), 0);
 		std::memset(buffer, 0, BUFFER_SIZE);
 		
+		char rcv[1024];
+		int j = recv(newsockfd, rcv, 1024, MSG_DONTWAIT);
 		n = read(newsockfd, buffer, BUFFER_SIZE - 1); // Use poll (or similiar) instead of read
 		if (n < 0)
 			exitError("Reading from socket failed!");
