@@ -6,18 +6,19 @@
 /*   By: etachott < etachott@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:52:43 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/08 19:43:40 by etachott         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:21:25 by etachott         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_irc.hpp"
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 512
 
 int sockfd, newsockfd;
 
 // Will be subbed by a throw class
 void exitError(std::string error) {
 	std::cerr << "Error: " << error << std::endl;
+	std::cerr << "Also: " << errno << std::endl;
 	std::exit(1);
 }
 
