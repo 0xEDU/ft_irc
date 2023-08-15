@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_irc.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: etachott < etachott@student.42sp.org.br    +#+  +:+       +#+        */
+/*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:20:48 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/11 17:23:39 by etachott         ###   ########.fr       */
+/*   Updated: 2023/08/15 19:33:15 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #define FT_IRC_HPP
 
 #define LOG(x) std::cout << x << std::endl;
+#define ERROR(x) std::cerr << x << std::endl;
+#define CLIENT_LIMIT 9999
+#define TIMEOUT 100
+#define BUFFER_SIZE 512
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -30,9 +34,12 @@
 #include <cstring>
 #include <algorithm>
 
-#define CLIENT_LIMIT 3
-#define TIMEOUT 1000
+typedef struct sockaddr_in sockAddrIn;
+typedef struct sockaddr sockAddr;
+typedef struct pollfd pollfd;
 
-typedef struct sockaddr_in SockaddrIn;
+int		getPort(char *input);
+int		setupTCP(int port);
+void	mainLoop(int sockfd);
 
 #endif
