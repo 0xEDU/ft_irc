@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:20:48 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/17 19:12:04 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:23:08 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <algorithm>
+
+#include "Client.hpp"
 
 typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
