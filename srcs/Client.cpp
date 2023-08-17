@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 19:25:51 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/17 19:43:03 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:00:48 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,16 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void)
-{
-	this->_fd = 0;
-	this->_id = 0;
-	this->_name = "";
-	this->_nick = "";
-	return ;
-}
+Client::Client(void) : _fd(0), _id(0), _name(""), _nick("") {}
 
-Client::Client(int fd)
+Client::Client(int fd) : _fd(fd) 
 {
-	this->_fd = fd;
 	this->_idCounter++;
 	this->_id = this->_idCounter;
 	return ;
 }
 
-Client::~Client(void)
-{
-	return ;
-}
+Client::~Client(void) {}
 
 std::string const Client::getName(void) const
 {
@@ -56,7 +45,7 @@ void Client::setNick(const std::string &nick)
 	this->_nick = nick;
 }
 
-int const Client::getId(void)
+int const Client::getId(void) const
 {
 	return (this->_id);
 }
@@ -66,7 +55,7 @@ void Client::setId(const int &id)
 	this->_id = id;
 }
 
-int const Client::getFd(void)
+int const Client::getFd(void) const
 {
 	return (this->_fd);
 }

@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 19:22:00 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/17 19:40:58 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:54:17 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ class Client
 	Client(int fd);
 	~Client(void);
 	
-	int const getId(void);
+	int const getId(void) const;
 	void setId(const int &id);
-	int const getFd(void);
+	int const getFd(void) const;
 	void setFd(const int &fd);
 	std::string const getName(void) const;
 	void setName(const std::string &name);
