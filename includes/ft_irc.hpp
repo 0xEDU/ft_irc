@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:20:48 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/15 19:33:15 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:12:04 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ typedef struct pollfd pollfd;
 int		getPort(char *input);
 int		setupTCP(int port);
 void	mainLoop(int sockfd);
+void	intantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
+void	treatClientMessage(int currClientfd);
 
 #endif

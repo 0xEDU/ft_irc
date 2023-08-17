@@ -3,7 +3,12 @@ NAME = ircserv
 PATH_SRCS = ./srcs/
 PATH_OBJS = ./objs/
 
-SRCS = main.cpp getPort.cpp setupTCP.cpp mainLoop.cpp
+SRCS =	main.cpp \
+		getPort.cpp \
+		setupTCP.cpp \
+		mainLoop.cpp \
+		intantiateNewClient.cpp \
+		treatClientMessage.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 

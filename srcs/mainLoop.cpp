@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:40:36 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/15 19:50:30 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/17 19:15:50 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 int serverfd, clientfd;
 
+//close all fds from pollfds; same on QUIT cmd
 static void sigHandler(int)
 {
 	close(serverfd);
 	close(clientfd);
 	throw std::runtime_error("\nServer stopped by SIGINT");
 }
+
+// static std::ostream &operator<<(std::ostream &os, pollfd pollfds[CLIENT_LIMIT])
+// {
+// 	for (int i = 0; i < CLIENT_LIMIT; i++)
+// 	{
+// 		if (pollfds[i].fd == -1)
+// 			continue;
+// 		os << "fd = " << pollfds[i].fd << " | revents = " << pollfds[i].revents << " ||";
+// 	}
+// 	return os;
+// }
 
 static void initPollfds(pollfd pollfds[])
 {
@@ -35,8 +47,6 @@ static void initPollfds(pollfd pollfds[])
 void	mainLoop(int sockfd)
 {
 	pollfd pollfds[CLIENT_LIMIT];
-	sockAddrIn cliAddr;
-	socklen_t cliLen = sizeof(cliAddr);
 
 	serverfd = sockfd;
 	signal(SIGINT, &sigHandler);
@@ -44,17 +54,18 @@ void	mainLoop(int sockfd)
 	while (true)
 	{
 		int activity = poll(pollfds, CLIENT_LIMIT, TIMEOUT);
-		if (activity < 0) {
+		if (activity < 0)
+		{
 			ERROR("Poll error");
 			continue;
 		}
 		if (pollfds[0].revents & POLLIN)
+			intantiateNewClient(serverfd, clientfd, pollfds);
+		for (int i = 1; i < CLIENT_LIMIT; i++)
 		{
-			clientfd = accept(serverfd, (sockAddr *)&cliAddr, &cliLen);
-			if (clientfd < 0)
-				throw std::runtime_error("Failed to accept client");
+			if (pollfds[i].revents & POLLIN)
+				treatClientMessage(pollfds[i].fd);
 		}
-		LOG(activity);
 	}
 	return ;
 }
