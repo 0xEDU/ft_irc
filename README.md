@@ -1,5 +1,5 @@
 <h1 align="center">
-	Ft_irc
+	FT_IRC
 </h1>
 
 <p align="center">
