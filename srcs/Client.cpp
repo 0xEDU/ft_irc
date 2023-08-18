@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 19:25:51 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/17 20:00:48 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:51:08 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void Client::setNick(const std::string &nick)
 	this->_nick = nick;
 }
 
-int const Client::getId(void) const
+int Client::getId(void) const
 {
 	return (this->_id);
 }
@@ -55,7 +55,7 @@ void Client::setId(const int &id)
 	this->_id = id;
 }
 
-int const Client::getFd(void) const
+int Client::getFd(void) const
 {
 	return (this->_fd);
 }
