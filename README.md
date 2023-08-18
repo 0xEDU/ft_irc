@@ -1,10 +1,14 @@
-<h1 align="center">
+<div align="center">
+<h1>
 	ft_irc
 </h1>
 
 <p align="center">
     <img src="https://github.com/guiribei/guiribei/blob/main/42_badges/ft_ircn.png" />
 </p>
+
+<h1>WIP</h1>
+</div>
 
 ## Summary
 > <i>Internet Relay Chat (IRC) is a protocol that facilitates text communication in the form of messages. This project offers a C++98 IRC server implementation. Users can connect, join channels, send direct messages, and participate in group chats, among other typical IRC functionalities.</i>
