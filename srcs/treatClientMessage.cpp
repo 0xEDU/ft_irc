@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 19:07:21 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/17 19:12:22 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:46:00 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void treatClientMessage(int currClientfd)
 	if (recv(currClientfd, buff, BUFFER_SIZE, 0) < 0)
 		throw std::runtime_error("Failed to receive message");
 	LOG(buff)
+	std::exit(1);
 }
 
 

@@ -6,11 +6,12 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 19:25:51 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/18 16:51:08 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:16:04 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
+#include "ft_irc.hpp"
 
 int Client::_idCounter = 0;
 

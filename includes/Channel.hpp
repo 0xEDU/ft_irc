@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 19:45:41 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/17 20:04:33 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:01:18 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ class Channel
 	void setName(const std::string &name);
 	std::string const getPassword(void) const;
 	void setPassword(const std::string &password);
-	bool const getIsInviteOnly(void) const;
+	bool getIsInviteOnly(void) const;
 	void setIsInviteOnly(const bool &isInviteOnly);
 	std::vector<Client> const getClients(void) const;
 	void setClients(const std::vector<Client> &clients);
-	int const getUserLimit(void) const;
+	int getUserLimit(void) const;
 	void setUserLimit(const int &userLimit);
 	
 };

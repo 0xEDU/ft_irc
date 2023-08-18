@@ -8,7 +8,9 @@ SRCS =	main.cpp \
 		setupTCP.cpp \
 		mainLoop.cpp \
 		intantiateNewClient.cpp \
-		treatClientMessage.cpp
+		treatClientMessage.cpp \
+		Channel.cpp \
+		Client.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 

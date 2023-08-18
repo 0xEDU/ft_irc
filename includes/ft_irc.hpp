@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:20:48 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/17 19:23:08 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:26:05 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <algorithm>
+#include <vector>
 
 #include "Client.hpp"
 
@@ -43,7 +44,7 @@ typedef struct pollfd pollfd;
 int		getPort(char *input);
 int		setupTCP(int port);
 void	mainLoop(int sockfd);
-void	intantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
+Client	intantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
 void	treatClientMessage(int currClientfd);
 
 #endif

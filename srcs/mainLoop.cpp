@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:40:36 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/17 19:15:50 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:44:02 by guribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void initPollfds(pollfd pollfds[])
 void	mainLoop(int sockfd)
 {
 	pollfd pollfds[CLIENT_LIMIT];
+	std::vector<Client> clients; 
 
 	serverfd = sockfd;
 	signal(SIGINT, &sigHandler);
@@ -60,7 +61,7 @@ void	mainLoop(int sockfd)
 			continue;
 		}
 		if (pollfds[0].revents & POLLIN)
-			intantiateNewClient(serverfd, clientfd, pollfds);
+			clients.push_back(intantiateNewClient(serverfd, clientfd, pollfds));
 		for (int i = 1; i < CLIENT_LIMIT; i++)
 		{
 			if (pollfds[i].revents & POLLIN)
