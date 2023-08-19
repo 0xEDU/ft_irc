@@ -6,7 +6,7 @@
 /*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:20:48 by etachott          #+#    #+#             */
-/*   Updated: 2023/08/18 17:26:05 by guribeir         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:49:26 by etachott         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 #define LOG(x) std::cout << x << std::endl;
 #define ERROR(x) std::cerr << x << std::endl;
-#define CLIENT_LIMIT 9999
-#define TIMEOUT 100
+#define CLIENT_LIMIT 1024
+#define TIMEOUT 1000
 #define BUFFER_SIZE 512
 
 #include <sys/socket.h>
