@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Channel.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/17 19:25:51 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/18 17:01:22 by guribeir         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Channel.hpp"
 
 Channel::Channel(void) : _topic(""), _name(""), _password(NULL), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(NULL) {}

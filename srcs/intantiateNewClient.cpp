@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   intantiateNewClient.cpp                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/17 19:04:04 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/18 17:43:22 by guribeir         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_irc.hpp"
 
 Client intantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT])

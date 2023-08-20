@@ -1,43 +1,31 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   setupTCP.cpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: guribeir <guribeir@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 17:05:31 by guribeir          #+#    #+#             */
-/*   Updated: 2023/08/15 19:42:21 by guribeir         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_irc.hpp"
 
 inline static
-void initServAddr(sockAddrIn &servAddr, int port)
+void initServerAddr(sockAddrIn &serverAddr, int port)
 {
-	std::memset(&servAddr, 0, sizeof(servAddr));
-	servAddr.sin_family = AF_INET; 
-	servAddr.sin_addr.s_addr = INADDR_ANY;
-	servAddr.sin_port = htons(port);
+	std::memset(&serverAddr, 0, sizeof(serverAddr));
+	serverAddr.sin_family = AF_INET; 
+	serverAddr.sin_addr.s_addr = INADDR_ANY;
+	serverAddr.sin_port = htons(port);
 }
 
 int setupTCP(int port)
 {
 	const int	enable = 1;
-	int			sockfd;
-	sockAddrIn	servAddr;
+	int			socketFd;
+	sockAddrIn	serverAddr;
 	
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	int flags = fcntl(sockfd, F_GETFL, 0);
-	if (sockfd < 0)
-		throw std::runtime_error("Failed to connect to socket");
-	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+	socketFd = socket(AF_INET, SOCK_STREAM, 0);
+	if (socketFd < 0)
+		throw std::runtime_error("Failed to create socket");
+	if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
 		throw std::runtime_error("setsockopt failed");
-	initServAddr(servAddr, port);
-	if (bind(sockfd, (sockAddr *) &servAddr, sizeof(servAddr)) < 0)
+	initServerAddr(serverAddr, port);
+	if (bind(socketFd, (sockAddr *) &serverAddr, sizeof(serverAddr)) < 0)
 		throw std::runtime_error("Failed to bind to socket"); 
-	if (fcntl(sockfd, F_SETFL, flags | O_NONBLOCK) == -1)
-    	throw std::runtime_error("Failed to set sockfd to non-blocking");
-	listen(sockfd, CLIENT_LIMIT);
-	return (sockfd);
+	/* int flags = fcntl(socketFd, F_GETFL, 0); */
+	/* if (fcntl(serverfd, F_SETFL, flags | O_NONBLOCK) == -1) */
+    	/* throw std::runtime_error("Failed to set socketFd to non-blocking"); */
+	listen(socketFd, CLIENT_LIMIT);
+	return (socketFd);
 }
