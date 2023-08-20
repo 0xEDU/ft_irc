@@ -10,5 +10,3 @@ void treatClientMessage(int currClientfd)
 	}
 	/* std::exit(0); */
 }
-
-

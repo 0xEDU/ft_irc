@@ -32,7 +32,7 @@ typedef struct pollfd pollfd;
 int		getPort(char *input);
 int		setupTCP(int port);
 void	mainLoop(int sockfd);
-Client	intantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
+Client	instantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
 void	treatClientMessage(int currClientfd);
-
+bool	registerClient(Client &client);
 #endif
