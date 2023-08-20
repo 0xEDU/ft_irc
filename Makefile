@@ -7,10 +7,11 @@ SRCS =	main.cpp \
 		getPort.cpp \
 		setupTCP.cpp \
 		mainLoop.cpp \
-		intantiateNewClient.cpp \
+		instantiateNewClient.cpp \
 		treatClientMessage.cpp \
 		Channel.cpp \
-		Client.cpp
+		Client.cpp \
+		registerClient.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 

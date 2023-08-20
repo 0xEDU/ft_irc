@@ -35,7 +35,7 @@ static void initPollfds(pollfd pollfds[])
 void	mainLoop(int sockfd)
 {
 	pollfd pollfds[CLIENT_LIMIT];
-	std::vector<Client> clients; 
+	std::vector<Client> clients;
 
 	serverfd = sockfd;
 	signal(SIGINT, &sigHandler);
@@ -49,7 +49,11 @@ void	mainLoop(int sockfd)
 			continue;
 		}
 		if (pollfds[0].revents & POLLIN)
-			clients.push_back(intantiateNewClient(serverfd, clientfd, pollfds));
+		{
+			Client newClient = instantiateNewClient(serverfd, clientfd, pollfds);
+			if (newClient.getFd() != -1)
+				clients.push_back(newClient);
+		}
 		for (int i = 1; i < CLIENT_LIMIT; i++)
 		{
 			if (pollfds[i].revents & POLLIN)
