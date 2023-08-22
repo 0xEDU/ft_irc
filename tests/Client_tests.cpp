@@ -1,6 +1,6 @@
 #include "ft_irc_tests.hpp"
 
-void	newClient_test(void) {
+Client *newClient(void) {
 	int port = 2000;
 	pollfd fakePoll[CLIENT_LIMIT];
 
@@ -17,15 +17,20 @@ void	newClient_test(void) {
 	while (true) {
 		poll(fakePoll, CLIENT_LIMIT, TIMEOUT);
 		if (fakePoll[0].revents & POLLIN) {
-			Client client(fakeServer, fakePoll);
-			assert(client.getFd(), 4, "FD is correct");
-			assert(client.getId(), 1, "Id is correct");
-			close(client.getFd());
-			break ;
+			Client *client = new Client(fakeServer, fakePoll);
+			return client;
 		}
 	}
 }
 
+void clientInitialization_test(Client *client) {
+	assert(client->getFd(), 4, "FD is correct");
+	assert(client->getId(), 1, "Id is correct");
+}
+
 void	clientTests(void) {
-	newClient_test();
+	Client *client = newClient();
+	clientInitialization_test(client);
+	close(client->getFd());
+	delete client;
 }
