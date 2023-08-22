@@ -23,9 +23,9 @@ int setupTCP(int port)
 	initServerAddr(serverAddr, port);
 	if (bind(socketFd, (sockAddr *) &serverAddr, sizeof(serverAddr)) < 0)
 		throw std::runtime_error("Failed to bind to socket"); 
-	/* int flags = fcntl(socketFd, F_GETFL, 0); */
-	/* if (fcntl(serverfd, F_SETFL, flags | O_NONBLOCK) == -1) */
-    	/* throw std::runtime_error("Failed to set socketFd to non-blocking"); */
+	int flags = fcntl(socketFd, F_GETFL, 0);
+	if (fcntl(socketFd, F_SETFL, flags | O_NONBLOCK) == -1)
+    	throw std::runtime_error("Failed to set socketFd to non-blocking");
 	listen(socketFd, CLIENT_LIMIT);
 	return (socketFd);
 }
