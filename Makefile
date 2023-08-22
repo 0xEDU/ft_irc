@@ -9,7 +9,6 @@ SRCS =	main.cpp \
 		getPort.cpp \
 		setupTCP.cpp \
 		mainLoop.cpp \
-		instantiateNewClient.cpp \
 		treatClientMessage.cpp \
 		Channel.cpp \
 		Client.cpp \
