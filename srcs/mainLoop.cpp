@@ -10,17 +10,6 @@ static void sigHandler(int)
 	throw std::runtime_error("\nServer stopped by SIGINT");
 }
 
-// static std::ostream &operator<<(std::ostream &os, pollfd pollfds[CLIENT_LIMIT])
-// {
-// 	for (int i = 0; i < CLIENT_LIMIT; i++)
-// 	{
-// 		if (pollfds[i].fd == -1)
-// 			continue;
-// 		os << "fd = " << pollfds[i].fd << " | revents = " << pollfds[i].revents << " ||";
-// 	}
-// 	return os;
-// }
-
 static void initPollfds(pollfd pollfds[])
 {
 	std::memset(pollfds, 0, sizeof(pollfd) * CLIENT_LIMIT);
@@ -50,8 +39,9 @@ void	mainLoop(int sockfd)
 		}
 		if (pollfds[0].revents & POLLIN)
 		{
-			Client newClient = instantiateNewClient(serverfd, clientfd, pollfds);
-			if (newClient.getFd() != -1)
+			Client newClient(serverfd, pollfds);
+			//std::cout << "New client: \n" << newClient << std::endl;
+			if (validateClient(newClient))
 				clients.push_back(newClient);
 		}
 		for (int i = 1; i < CLIENT_LIMIT; i++)
@@ -59,6 +49,8 @@ void	mainLoop(int sockfd)
 			if (pollfds[i].revents & POLLIN)
 				treatClientMessage(pollfds[i].fd);
 		}
+		std::cout << "clients: " << clients.size() << std::endl;
+		sleep(1); // Will be removed
 	}
 	return ;
 }
