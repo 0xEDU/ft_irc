@@ -1,3 +1,4 @@
+#pragma once
 #ifndef FT_IRC_HPP
 #define FT_IRC_HPP
 
@@ -20,10 +21,14 @@
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
+#include <string>
 #include <algorithm>
 #include <vector>
 
 #include "Client.hpp"
+
+class Client;
 
 typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
@@ -35,4 +40,5 @@ void	mainLoop(int sockfd);
 Client	instantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
 void	treatClientMessage(int currClientfd);
 bool	registerClient(Client &client);
+bool	validateClient(Client &client);
 #endif
