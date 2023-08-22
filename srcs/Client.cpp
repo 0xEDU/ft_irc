@@ -1,13 +1,20 @@
 #include "Client.hpp"
 #include "ft_irc.hpp"
-
+#include "ft_irc.hpp"
 int Client::_idCounter = 1;
 
 Client::Client(void) : _fd(0), _id(0), _name(""), _nick("") {}
 
-Client::Client(int fd) : _fd(fd) 
+Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
 {
+	sockAddrIn cliAddr;
+	socklen_t cliLen = sizeof(cliAddr);
+
+	this->_fd = accept(serverfd, (sockAddr *)&cliAddr, &cliLen);
+	if (this->_fd < 0)
+		throw std::runtime_error("Failed to accept client");
 	this->_id = this->_idCounter;
+	pollfds[this->_id].fd = this->_fd;
 	this->_idCounter++;
 	return ;
 }

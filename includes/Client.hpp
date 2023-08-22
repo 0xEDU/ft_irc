@@ -1,7 +1,9 @@
+#pragma once
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
 #include <iostream>
+#include "ft_irc.hpp"
 
 class Client
 {
@@ -19,7 +21,7 @@ class Client
 	public:
 
 	Client(void);
-	Client(int fd);
+	Client(int serverfd, pollfd pollfds[CLIENT_LIMIT]);
 	~Client(void);
 	
 	int getId(void) const;
