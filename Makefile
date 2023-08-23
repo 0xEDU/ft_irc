@@ -19,9 +19,11 @@ OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
 TESTS =	main_tests.cpp \
 		Client_tests.cpp \
+		parseMsg_tests.cpp \
 		getPort.cpp \
 		setupTCP.cpp \
-		Client.cpp
+		Client.cpp \
+		parseMsg.cpp
 
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
 

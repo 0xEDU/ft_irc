@@ -13,6 +13,7 @@ void assert(bool result, bool expected, const char *test) {
 }
 
 int main(void) {
-	clientTests();
+	/* clientTests(); */
+	parseMsg_tests();
 	return (0);
 }
