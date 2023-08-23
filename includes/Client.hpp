@@ -21,6 +21,8 @@ class Client
 	public:
 
 	Client(void);
+	Client(const Client &rhs);
+	Client &operator=( const Client &rhs);
 	Client(int serverfd, pollfd pollfds[CLIENT_LIMIT]);
 	~Client(void);
 	
@@ -32,6 +34,8 @@ class Client
 	void setName(const std::string &name);
 	std::string const getNick(void) const;
 	void setNick(const std::string &nick);
+	int getIdCounter(void) const;
+	static void decrementIdCounter(void);
 };
 
 #endif

@@ -1,9 +1,10 @@
 #include "Client.hpp"
 #include "ft_irc.hpp"
 #include "ft_irc.hpp"
-int Client::_idCounter = 1;
+int Client::_idCounter = 0;
 
-Client::Client(void) : _fd(0), _id(0), _name(""), _nick("") {}
+Client::Client(void) : _fd(0), _id(0), _name(""), _nick("") {
+}
 
 Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
 {
@@ -13,13 +14,31 @@ Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
 	this->_fd = accept(serverfd, (sockAddr *)&cliAddr, &cliLen);
 	if (this->_fd < 0)
 		throw std::runtime_error("Failed to accept client");
+	this->_idCounter++;
 	this->_id = this->_idCounter;
 	pollfds[this->_id].fd = this->_fd;
-	this->_idCounter++;
+	std::cout << "CONSTRUCTOR CALLED" << std::endl;
 	return ;
 }
 
-Client::~Client(void) {}
+Client::Client(const Client &rhs) {
+	*this = rhs;
+	std::cout << "copy constructor called" << std::endl;
+}
+
+Client &Client::operator=(const Client &rhs) {
+	this->_name = rhs._name;
+	this->_nick = rhs._nick;
+	this->_id = rhs._id;
+	this->_fd = rhs._fd;
+
+	std::cout << "assigment operator called" << std::endl;
+	return *this;
+}
+
+Client::~Client(void) {
+	std::cout << "DESTRUCTOR CALLED" << std::endl;
+}
 
 std::string const Client::getName(void) const
 {
@@ -59,4 +78,14 @@ int Client::getFd(void) const
 void Client::setFd(const int &fd)
 {
 	this->_fd = fd;
+}
+
+int Client::getIdCounter(void) const
+{
+	return (this->_idCounter);
+}
+
+void Client::decrementIdCounter(void)
+{
+	_idCounter -= 1;
 }
