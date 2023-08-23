@@ -50,6 +50,15 @@ void	mainLoop(int sockfd)
 				treatClientMessage(pollfds[i].fd);
 		}
 		std::cout << "clients: " << clients.size() << std::endl;
+		
+		for (size_t i = 0; i < clients.size(); i++)
+		{
+			std::cout << "Nick: " << clients[i].getNick() << std::endl;
+			std::cout << "Name: " << clients[i].getName() << std::endl;
+			std::cout << "Fd: " << clients[i].getFd() << std::endl;
+			std::cout << "Id: " << clients[i].getId() << std::endl;
+			std::cout << "IdCounter: " << clients[i].getIdCounter() << std::endl;
+		}
 		sleep(1); // Will be removed
 	}
 	return ;
