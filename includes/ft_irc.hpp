@@ -41,4 +41,5 @@ Client	instantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LI
 void	treatClientMessage(int currClientfd);
 bool	registerClient(Client &client);
 bool	validateClient(Client &client);
+std::vector<std::string> parseMsg(std::string msg);
 #endif
