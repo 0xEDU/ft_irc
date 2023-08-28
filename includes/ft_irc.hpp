@@ -3,7 +3,7 @@
 #define FT_IRC_HPP
 
 #define LOG(x) std::cout << x << std::endl;
-#define ERROR(x) std::cerr << x << std::endl;
+#define ERROR(x) std::cerr << "Error: " << x << std::endl;
 #define CLIENT_LIMIT 1024
 #define TIMEOUT 1000
 #define BUFFER_SIZE 512
@@ -35,11 +35,11 @@ typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
 typedef struct pollfd pollfd;
 
-int		getPort(char *input);
-int		setupTCP(int port);
-void	mainLoop(int sockfd);
-void	treatClientMessage(int currClientfd);
-bool	registerClient(Client &client);
-bool	validateClient(Client &client);
-Message parseMsg(std::string msg);
+int			getPort(char *input);
+int			setupTCP(int port);
+void		mainLoop(int sockfd);
+void		treatClientMessage(int currClientfd);
+std::string receiveMessage(const Client client);
+bool		validateClient(Client &client);
+Message 	parseMsg(std::string msg);
 #endif
