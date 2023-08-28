@@ -35,6 +35,4 @@ void asserteq(T result, T expected, const char *test) {
 };
 
 void	assert(bool result, bool expected, const char *test);
-void	clientTests(void);
-void	parseMsg_tests(void);
 #endif
