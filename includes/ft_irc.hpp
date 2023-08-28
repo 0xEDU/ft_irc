@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "Client.hpp"
+#include "Message.hpp"
 
 class Client;
 
@@ -37,9 +38,8 @@ typedef struct pollfd pollfd;
 int		getPort(char *input);
 int		setupTCP(int port);
 void	mainLoop(int sockfd);
-Client	instantiateNewClient(int serverfd, int clientfd, pollfd pollfds[CLIENT_LIMIT]);
 void	treatClientMessage(int currClientfd);
 bool	registerClient(Client &client);
 bool	validateClient(Client &client);
-std::vector<std::string> parseMsg(std::string msg);
+Message parseMsg(std::string msg);
 #endif

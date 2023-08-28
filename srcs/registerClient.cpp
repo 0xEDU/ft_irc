@@ -13,6 +13,12 @@ bool registerClient(Client &client)
 		content += buff;
 	}
 	//parse content
+	std::cout << "Content = " << content << std::endl;
+	for (std::string::iterator it = content.begin(); it != content.end(); it++) {
+		std::cout << static_cast<int>(*it) << " ";
+	}
+	std::cout << std::endl;
+	exit(0);
 	std::istringstream ss(content);
 	std::string line;
 	while (std::getline(ss, line))

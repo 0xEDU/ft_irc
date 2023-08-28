@@ -13,7 +13,9 @@ SRCS =	main.cpp \
 		Channel.cpp \
 		Client.cpp \
 		registerClient.cpp \
-		validateClient.cpp
+		validateClient.cpp \
+		Message.cpp \
+		parseMsg.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
@@ -23,6 +25,7 @@ TESTS =	main_tests.cpp \
 		getPort.cpp \
 		setupTCP.cpp \
 		Client.cpp \
+		Message.cpp \
 		parseMsg.cpp
 
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
