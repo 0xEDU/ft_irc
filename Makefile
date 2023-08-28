@@ -20,15 +20,17 @@ SRCS =	main.cpp \
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
 TESTS =	main_tests.cpp \
-		Client_tests.cpp \
-		parseMsg_tests.cpp \
-		getPort.cpp \
-		setupTCP.cpp \
-		Client.cpp \
 		Message.cpp \
 		parseMsg.cpp
 
+CLIENT_TESTS =	client_tests.cpp \
+				getPort.cpp \
+				setupTCP.cpp \
+				Client.cpp \
+				Message.cpp \
+
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
+CLIENT_TESTS_OBJS = ${CLIENT_TESTS:%.cpp=$(PATH_OBJS)%.o}
 
 INCLUDES = -I ./includes/
 TESTS_INCLUDES = -I ./tests/
@@ -53,6 +55,11 @@ $(PATH_OBJS)%.o: $(PATH_SRCS)%.cpp
 tests: $(TESTS_OBJS)
 	@echo "\033[1;92mRunning tests\033[0m"
 	@c++ $(FLAGS) $(TESTS_OBJS) -o $(TEST_NAME)
+	@./$(TEST_NAME)
+	
+client-tests: $(CLIENT_TESTS_OBJS)
+	@echo "\033[1;92mRunning client tests\033[0m"
+	@c++ $(FLAGS) $(CLIENT_TESTS_OBJS) -o $(TEST_NAME)
 	@./$(TEST_NAME)
 
 $(PATH_OBJS)%.o: $(PATH_TESTS)%.cpp
