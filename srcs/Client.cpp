@@ -14,16 +14,17 @@ Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
 	this->_fd = accept(serverfd, (sockAddr *)&cliAddr, &cliLen);
 	if (this->_fd < 0)
 		throw std::runtime_error("Failed to accept client");
+	int flags = fcntl(this->_fd, F_GETFL, 0);
+	if (fcntl(this->_fd, F_SETFL, flags | O_NONBLOCK) == -1)
+    	throw std::runtime_error("Failed to set socketFd to non-blocking");
 	this->_idCounter++;
 	this->_id = this->_idCounter;
 	pollfds[this->_id].fd = this->_fd;
-	std::cout << "CONSTRUCTOR CALLED" << std::endl;
 	return ;
 }
 
 Client::Client(const Client &rhs) {
 	*this = rhs;
-	std::cout << "copy constructor called" << std::endl;
 }
 
 Client &Client::operator=(const Client &rhs) {
@@ -32,13 +33,10 @@ Client &Client::operator=(const Client &rhs) {
 	this->_id = rhs._id;
 	this->_fd = rhs._fd;
 
-	std::cout << "assigment operator called" << std::endl;
 	return *this;
 }
 
-Client::~Client(void) {
-	std::cout << "DESTRUCTOR CALLED" << std::endl;
-}
+Client::~Client(void) {}
 
 std::string const Client::getName(void) const
 {
