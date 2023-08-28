@@ -47,7 +47,8 @@ void	mainLoop(int sockfd)
 		for (int i = 1; i < CLIENT_LIMIT; i++)
 		{
 			if (pollfds[i].revents & POLLIN)
-				treatClientMessage(pollfds[i].fd);
+				(void) pollfds;
+				/* treatClientMessage(pollfds[i].fd); */
 		}
 		std::cout << "clients: " << clients.size() << std::endl;
 		
