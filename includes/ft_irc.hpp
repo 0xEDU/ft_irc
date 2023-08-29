@@ -38,8 +38,7 @@ typedef struct pollfd pollfd;
 int			getPort(char *input);
 int			setupTCP(int port);
 void		mainLoop(int sockfd);
-void		treatClientMessage(int currClientfd);
-std::string receiveMessage(const Client client);
+std::string receiveData(const Client client);
 bool		validateClient(Client &client);
 Message 	parseMsg(std::string msg);
 #endif
