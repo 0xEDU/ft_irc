@@ -10,56 +10,43 @@ static void sigHandler(int)
 	throw std::runtime_error("\nServer stopped by SIGINT");
 }
 
-static void initPollfds(pollfd pollfds[])
-{
-	std::memset(pollfds, 0, sizeof(pollfd) * CLIENT_LIMIT);
-	for (int i = 0; i < CLIENT_LIMIT; i++)
-	{
-		pollfds[i].fd = -1;
-		pollfds[i].events = POLLIN;
-	}
-	pollfds[0].fd = serverfd;
-}
-
 void	mainLoop(int sockfd)
 {
-	pollfd pollfds[CLIENT_LIMIT];
+	std::vector<pollfd> fds;
 	std::vector<Client> clients;
 
 	serverfd = sockfd;
 	signal(SIGINT, &sigHandler);
-	initPollfds(pollfds);
+	fds.push_back((pollfd) {.fd = serverfd, .events = POLLIN});
 	while (true)
 	{
-		int activity = poll(pollfds, CLIENT_LIMIT, TIMEOUT);
+		int activity = poll(fds.data(), fds.size(), TIMEOUT);
 		if (activity < 0)
 		{
 			ERROR("Poll error");
 			continue;
 		}
-		if (pollfds[0].revents & POLLIN)
+		if (fds.data()[0].revents & POLLIN)
 		{
-			Client newClient(serverfd, pollfds);
-			//std::cout << "New client: \n" << newClient << std::endl;
-			if (validateClient(newClient))
-				clients.push_back(newClient);
+			Client newClient(serverfd, fds.data());
+			fds.push_back((pollfd) { .fd = newClient.getFd(), .events = POLLIN});
+			clients.push_back(newClient);
 		}
-		for (int i = 1; i < CLIENT_LIMIT; i++)
+		for (std::size_t i = 1; i < fds.size(); i++)
 		{
-			if (pollfds[i].revents & POLLIN)
-				(void) pollfds;
-				/* treatClientMessage(pollfds[i].fd); */
+			if (fds.data()[i].revents & POLLIN)
+				std::string data = receiveData(clients[i - 1]);
 		}
 		std::cout << "clients: " << clients.size() << std::endl;
 		
-		for (size_t i = 0; i < clients.size(); i++)
-		{
-			std::cout << "Nick: " << clients[i].getNick() << std::endl;
-			std::cout << "Name: " << clients[i].getName() << std::endl;
-			std::cout << "Fd: " << clients[i].getFd() << std::endl;
-			std::cout << "Id: " << clients[i].getId() << std::endl;
-			std::cout << "IdCounter: " << clients[i].getIdCounter() << std::endl;
-		}
+		// for (size_t i = 0; i < clients.size(); i++)
+		// {
+		// 	std::cout << "Nick: " << clients[i].getNick() << std::endl;
+		// 	std::cout << "Name: " << clients[i].getName() << std::endl;
+		// 	std::cout << "Fd: " << clients[i].getFd() << std::endl;
+		// 	std::cout << "Id: " << clients[i].getId() << std::endl;
+		// 	std::cout << "IdCounter: " << clients[i].getIdCounter() << std::endl;
+		// }
 		sleep(1); // Will be removed
 	}
 	return ;
