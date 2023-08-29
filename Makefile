@@ -14,7 +14,8 @@ SRCS =	main.cpp \
 		Client.cpp \
 		validateClient.cpp \
 		Message.cpp \
-		parseMsg.cpp
+		parseMsg.cpp \
+		split.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	

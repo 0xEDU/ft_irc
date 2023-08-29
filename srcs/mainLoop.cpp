@@ -36,17 +36,16 @@ void	mainLoop(int sockfd)
 		{
 			if (fds.data()[i].revents & POLLIN)
 				std::string data = receiveData(clients[i - 1]);
+				std::vector<std::string> lines = split(data, "\n");
+				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
+				{
+					Message msg = parseMsg(line);
+					processMessage(msg);
+				//	if (isValidMessage(m)):
+				//	  sendResponse(m);
+				}
 		}
 		std::cout << "clients: " << clients.size() << std::endl;
-		
-		// for (size_t i = 0; i < clients.size(); i++)
-		// {
-		// 	std::cout << "Nick: " << clients[i].getNick() << std::endl;
-		// 	std::cout << "Name: " << clients[i].getName() << std::endl;
-		// 	std::cout << "Fd: " << clients[i].getFd() << std::endl;
-		// 	std::cout << "Id: " << clients[i].getId() << std::endl;
-		// 	std::cout << "IdCounter: " << clients[i].getIdCounter() << std::endl;
-		// }
 		sleep(1); // Will be removed
 	}
 	return ;
