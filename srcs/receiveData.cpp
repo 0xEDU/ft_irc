@@ -1,6 +1,6 @@
 #include "ft_irc.hpp"
 
-std::string receiveMessage(const Client client)
+std::string receiveData(const Client client)
 {
     std::string data;
     int retryCounter = 0;
