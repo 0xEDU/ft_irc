@@ -1,6 +1,27 @@
 #include "ft_irc_tests.hpp"
 #include "minunit.h"
 
+int value = 1;
+
+static void testFunction(CommandArgs cArgs) {
+	(void)cArgs;
+	value++;
+	return;
+}
+
+MU_TEST(insertAndExecuteFunctionFromCommandsMap) { // not a good name
+	// given:
+	void (*f)(CommandArgs) = testFunction;
+	CommandArgs mockArgs = (CommandArgs) {};
+
+	// when:
+	Commands::insertFunction("TEST", f);
+	Commands::callFunction("TEST", mockArgs);
+
+	// then:
+	mu_check(value == 2);
+}
+
 MU_TEST(parseMsg) {
 	Message response;
 	std::string request;
@@ -19,6 +40,7 @@ MU_TEST(parseMsg) {
 
 MU_TEST_SUITE(test_suite) {
 	MU_RUN_TEST(parseMsg);
+	MU_RUN_TEST(insertAndExecuteFunctionFromCommandsMap);
 }
 
 int main(void) {
