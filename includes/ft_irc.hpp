@@ -28,6 +28,8 @@
 
 #include "Client.hpp"
 #include "Message.hpp"
+#include "Commands.hpp"
+#include "Channel.hpp"
 
 class Client;
 
@@ -41,6 +43,7 @@ void						mainLoop(int sockfd);
 std::string					receiveData(const Client client);
 bool						validateClient(Client &client);
 Message 					parseMsg(std::string msg);
-std::vector<std::string> split(const std::string &s, char delimiter = ' ');
+std::vector<std::string>	split(const std::string &s, char delimiter = ' ');
+void						processMessage(Message msg);
 
 #endif

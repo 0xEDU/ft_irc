@@ -1,6 +1,5 @@
-#include "Client.hpp"
 #include "ft_irc.hpp"
-#include "ft_irc.hpp"
+
 int Client::_idCounter = 0;
 
 Client::Client(void) : _fd(0), _id(0), _name(""), _nick("") {

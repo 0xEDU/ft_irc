@@ -1,4 +1,4 @@
-#include "Channel.hpp"
+#include "ft_irc.hpp"
 
 Channel::Channel(void) : _topic(""), _name(""), _password(NULL), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(NULL) {}
 

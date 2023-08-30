@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include "Client.hpp"
+#include "ft_irc.hpp"
 
 class Channel
 {
