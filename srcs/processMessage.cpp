@@ -1,10 +1,10 @@
-#include "ft_irc.cpp"
+#include "ft_irc.hpp"
 
-template <typename T> 
-void executeCommand(T func)
-{
+// template <typename T> 
+// void executeCommand(T func)
+// {
 	
-}
+// }
 
 
 // struct Nick {do()};
@@ -12,6 +12,7 @@ void executeCommand(T func)
 // T::do()
 void processMessage(Message msg)
 {
-	std::string	options[] = {"NICK", "JOIN", "WARNING", "ERROR"};
-	void (Command::*ptrs[4])() = {&nick, &join, &Harl::warning, &Harl::error};
+	(void)msg;
+	// std::string	options[] = {"NICK", "JOIN", "WARNING", "ERROR"};
+	// void (Command::*ptrs[4])() = {&nick, &join, &Harl::warning, &Harl::error};
 }

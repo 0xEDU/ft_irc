@@ -15,13 +15,18 @@ SRCS =	main.cpp \
 		validateClient.cpp \
 		Message.cpp \
 		parseMsg.cpp \
-		split.cpp
+		split.cpp \
+		Commands.cpp \
+		processMessage.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
 TESTS =	main_tests.cpp \
 		Message.cpp \
-		parseMsg.cpp
+		parseMsg.cpp \
+		split.cpp \
+		Commands.cpp \
+		Client.cpp
 
 CLIENT_TESTS =	client_tests.cpp \
 				getPort.cpp \
