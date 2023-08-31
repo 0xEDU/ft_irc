@@ -57,6 +57,16 @@ void Client::setNick(const std::string &nick)
 	this->_nick = nick;
 }
 
+std::string const Client::getUser(void) const
+{
+	return (this->_user);
+}
+
+void Client::setUser(const std::string &user)
+{
+	this->_user = user;
+}
+
 int Client::getId(void) const
 {
 	return (this->_id);

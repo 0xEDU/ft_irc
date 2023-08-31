@@ -17,6 +17,7 @@ class Client
 	int _id;
 	std::string _name;
 	std::string _nick;
+	std::string _user;
 	
 	public:
 
@@ -32,6 +33,8 @@ class Client
 	void setFd(const int &fd);
 	std::string const getName(void) const;
 	void setName(const std::string &name);
+	std::string const getUser(void) const;
+	void setUser(const std::string &user);
 	std::string const getNick(void) const;
 	void setNick(const std::string &nick);
 	int getIdCounter(void) const;
