@@ -6,9 +6,9 @@ int main(int argc, char **argv)
 	{
 		if (argc != 3)
 			throw std::logic_error("Usage: ./ircserv <port> <password>");
+		Commands::populateMap();
 		int port = getPort(argv[1]);
 		int socket_fd = setupTCP(port);
-		//em algum momento precisamos criar a senha.
 		mainLoop(socket_fd);
 	}
 	catch(const std::exception& e)

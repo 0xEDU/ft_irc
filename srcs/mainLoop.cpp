@@ -18,6 +18,7 @@ void	mainLoop(int sockfd)
 	serverfd = sockfd;
 	signal(SIGINT, &sigHandler);
 	fds.push_back((pollfd) {.fd = serverfd, .events = POLLIN});
+	
 	while (true)
 	{
 		int activity = poll(fds.data(), fds.size(), TIMEOUT);
@@ -41,7 +42,7 @@ void	mainLoop(int sockfd)
 				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
 				{
 					Message msg = parseMsg(*line);
-					processMessage(msg);
+					processMessage(msg, clients[i - 1]);
 				//	if (isValidMessage(m)):
 				//	  sendResponse(m);
 				}
