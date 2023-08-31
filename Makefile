@@ -17,7 +17,11 @@ SRCS =	main.cpp \
 		parseMsg.cpp \
 		split.cpp \
 		Commands.cpp \
-		processMessage.cpp
+		processMessage.cpp \
+		NAME.cpp \
+		NICK.cpp \
+		PASS.cpp \
+		USER.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
@@ -33,6 +37,11 @@ CLIENT_TESTS =	client_tests.cpp \
 				setupTCP.cpp \
 				Client.cpp \
 				Message.cpp \
+				Commands.cpp \
+				NAME.cpp \
+				NICK.cpp \
+				PASS.cpp \
+				USER.cpp
 
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
 CLIENT_TESTS_OBJS = ${CLIENT_TESTS:%.cpp=$(PATH_OBJS)%.o}

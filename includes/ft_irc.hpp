@@ -31,6 +31,7 @@
 #include "Commands.hpp"
 #include "Channel.hpp"
 
+struct CommandArgs;
 class Client;
 
 typedef struct sockaddr_in sockAddrIn;
@@ -44,6 +45,6 @@ std::string					receiveData(const Client client);
 bool						validateClient(Client &client);
 Message 					parseMsg(std::string msg);
 std::vector<std::string>	split(const std::string &s, char delimiter = ' ');
-void						processMessage(Message msg);
+void						processMessage(Message &msg, Client &client);
 
 #endif
