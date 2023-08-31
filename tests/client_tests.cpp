@@ -24,24 +24,68 @@ Client *newClient(void) {
 	}
 }
 
-void clientInitialization_test(Client *client) {
+Client *client = newClient();
+
+MU_TEST(instantiateClient) {
 	mu_assert(client->getFd() == 4, "FD is correct");
 	mu_assert(client->getId() == 1, "Id is correct");
 }
+MU_TEST(callWrongCMD) {
+	// given:
+	std::vector<std::string> msgArgs;
+	msgArgs.push_back(std::string("test_name"));
+	Message mockMsg;
+	mockMsg.prefix = "";
+	mockMsg.command = "NAME";
+	mockMsg.args = msgArgs;
+	Client &cl = *client;
+	CommandArgs mockArgs = (CommandArgs) {
+		.client = cl,
+		.msg = mockMsg
+	};
+	const char *expected = "Invalid Command Name";
 
-MU_TEST(instantiateClient) {
-	Client *client = newClient();
-	clientInitialization_test(client);
-	close(client->getFd());
-	delete client;
+	// when:
+	try {
+		Commands::callFunction("TEST", mockArgs);
+	} catch (std::exception &e) {
+		// then:
+		mu_assert(e.what() == expected, "Wrong command");
+	}
+}
+
+MU_TEST(callCmdNAME) {
+	// given:
+	std::vector<std::string> msgArgs;
+	msgArgs.push_back(std::string("test_name"));
+	Message mockMsg;
+	mockMsg.prefix = "";
+	mockMsg.command = "NAME";
+	mockMsg.args = msgArgs;
+	Client &cl = *client;
+	CommandArgs mockArgs = (CommandArgs) {
+		.client = cl,
+		.msg = mockMsg
+	};
+
+	// when:
+	Commands::callFunction("NAME", mockArgs);
+
+	// then:
+	mu_assert(client->getName() == "test_name", "NAME is correct");
 }
 
 MU_TEST_SUITE(test_suite) {
 	MU_RUN_TEST(instantiateClient);
+	Commands::populateMap();
+	MU_RUN_TEST(callWrongCMD);
+	MU_RUN_TEST(callCmdNAME);
 }
 
 int main(void) {
 	MU_RUN_SUITE(test_suite);
 	MU_REPORT();
+	close(client->getFd());
+	delete client;
 	return MU_EXIT_CODE;
 }
