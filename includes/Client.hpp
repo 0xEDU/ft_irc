@@ -39,6 +39,7 @@ class Client
 	void setNick(const std::string &nick);
 	int getIdCounter(void) const;
 	static void decrementIdCounter(void);
+	void sendMessage(std::string &msg);
 };
 
 #endif

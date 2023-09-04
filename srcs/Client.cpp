@@ -96,3 +96,9 @@ void Client::decrementIdCounter(void)
 {
 	_idCounter -= 1;
 }
+
+void Client::sendMessage(std::string &msg)
+{
+	if (send(this->_fd, msg.c_str(), msg.length(), 0) == -1)
+		ERROR("Failed to send message to client")
+}
