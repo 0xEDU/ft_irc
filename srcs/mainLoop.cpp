@@ -46,6 +46,7 @@ void	mainLoop(int sockfd)
 				//	if (isValidMessage(m)):
 				//	  sendResponse(m);
 				}
+
 			}
 		}
 		std::cout << "clients: " << clients.size() << std::endl;

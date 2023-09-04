@@ -29,5 +29,6 @@ void nick(CommandArgs cArgs);
 void name(CommandArgs cArgs);
 void user(CommandArgs cArgs);
 void pass(CommandArgs cArgs);
+void cap(CommandArgs cArgs);
 
 #endif

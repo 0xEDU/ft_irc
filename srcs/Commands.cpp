@@ -4,10 +4,10 @@ std::map<std::string, Commands::funcPtr> Commands::_messageFunctions;
 
 void Commands::populateMap(void)
 {
-	_messageFunctions["NAME"] = name;
 	_messageFunctions["USER"] = user;
 	_messageFunctions["NICK"] = nick;
 	_messageFunctions["PASS"] = pass;
+	_messageFunctions["CAP"] = cap;
 }
 
 void Commands::callFunction(const std::string cmdName, CommandArgs args)

@@ -15,7 +15,7 @@ class Client
 
 	int _fd;
 	int _id;
-	std::string _name;
+	std::string _realName;
 	std::string _nick;
 	std::string _user;
 	
@@ -31,8 +31,8 @@ class Client
 	void setId(const int &id);
 	int getFd(void) const;
 	void setFd(const int &fd);
-	std::string const getName(void) const;
-	void setName(const std::string &name);
+	std::string const getRealName(void) const;
+	void setRealName(const std::string &name);
 	std::string const getUser(void) const;
 	void setUser(const std::string &user);
 	std::string const getNick(void) const;
