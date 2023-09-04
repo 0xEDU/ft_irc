@@ -25,6 +25,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <utility>
 
 #include "Client.hpp"
 #include "Message.hpp"
@@ -45,6 +46,6 @@ std::string					receiveData(const Client client);
 bool						validateClient(Client &client);
 Message 					parseMsg(std::string msg);
 std::vector<std::string>	split(const std::string &s, char delimiter = ' ');
-void						processMessage(Message &msg, Client &client);
+std::string					*processMessage(Message &msg, Client &client);
 
 #endif
