@@ -43,24 +43,27 @@ MU_TEST(callWrongCMD) {
 		.client = cl,
 		.msg = mockMsg
 	};
-	const char *expected = "Invalid Command Name";
+	std::string expected = "Invalid Command Name";
 
 	// when:
 	try {
 		Commands::callFunction("TEST", mockArgs);
-	} catch (std::exception &e) {
+	} catch (std::runtime_error &e) {
 		// then:
 		mu_assert(e.what() == expected, "Wrong command");
 	}
 }
 
-MU_TEST(callCmdNAME) {
+MU_TEST(callCmdUSER) {
 	// given:
 	std::vector<std::string> msgArgs;
-	msgArgs.push_back(std::string("test_name"));
+	msgArgs.push_back(std::string("test_user"));
+	msgArgs.push_back(std::string("0"));
+	msgArgs.push_back(std::string("*"));
+	msgArgs.push_back(std::string("real name"));
 	Message mockMsg;
 	mockMsg.prefix = "";
-	mockMsg.command = "NAME";
+	mockMsg.command = "USER";
 	mockMsg.args = msgArgs;
 	Client &cl = *client;
 	CommandArgs mockArgs = (CommandArgs) {
@@ -69,17 +72,18 @@ MU_TEST(callCmdNAME) {
 	};
 
 	// when:
-	Commands::callFunction("NAME", mockArgs);
+	Commands::callFunction("USER", mockArgs);
 
 	// then:
-	mu_assert(client->getName() == "test_name", "NAME is correct");
+	mu_assert(client->getUser() == "test_user", "USER is correct");
+	mu_assert(client->getRealName() == "real name", "REALNAME is correct");
 }
 
 MU_TEST_SUITE(test_suite) {
 	MU_RUN_TEST(instantiateClient);
 	Commands::populateMap();
 	MU_RUN_TEST(callWrongCMD);
-	MU_RUN_TEST(callCmdNAME);
+	MU_RUN_TEST(callCmdUSER);
 }
 
 int main(void) {

@@ -2,7 +2,7 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void) : _fd(0), _id(0), _name(""), _nick("") {
+Client::Client(void) : _fd(0), _id(0), _realName(""), _nick("") {
 }
 
 Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
@@ -27,7 +27,7 @@ Client::Client(const Client &rhs) {
 }
 
 Client &Client::operator=(const Client &rhs) {
-	this->_name = rhs._name;
+	this->_realName = rhs._realName;
 	this->_nick = rhs._nick;
 	this->_id = rhs._id;
 	this->_fd = rhs._fd;
@@ -37,14 +37,14 @@ Client &Client::operator=(const Client &rhs) {
 
 Client::~Client(void) {}
 
-std::string const Client::getName(void) const
+std::string const Client::getRealName(void) const
 {
-	return (this->_name);
+	return (this->_realName);
 }
 
-void Client::setName(const std::string &name)
+void Client::setRealName(const std::string &name)
 {
-	this->_name = name;
+	this->_realName = name;
 }
 
 std::string const Client::getNick(void) const
