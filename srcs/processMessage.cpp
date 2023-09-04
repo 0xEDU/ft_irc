@@ -1,6 +1,6 @@
 #include "ft_irc.hpp"
 
-void processMessage(Message &msg, Client &client)
+std::string *processMessage(Message &msg, Client &client)
 {
 	CommandArgs cArgs = {
 		.client = client,
@@ -8,4 +8,5 @@ void processMessage(Message &msg, Client &client)
 		};
 
 	Commands::callFunction(msg.command, cArgs);
+	return (Commands::getResponseMessage(msg.command));
 }
