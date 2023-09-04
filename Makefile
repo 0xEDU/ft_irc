@@ -18,10 +18,10 @@ SRCS =	main.cpp \
 		split.cpp \
 		Commands.cpp \
 		processMessage.cpp \
-		NAME.cpp \
 		NICK.cpp \
 		PASS.cpp \
-		USER.cpp
+		USER.cpp \
+		CAP.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
@@ -38,10 +38,10 @@ CLIENT_TESTS =	client_tests.cpp \
 				Client.cpp \
 				Message.cpp \
 				Commands.cpp \
-				NAME.cpp \
 				NICK.cpp \
 				PASS.cpp \
-				USER.cpp
+				USER.cpp \
+				CAP.cpp
 
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
 CLIENT_TESTS_OBJS = ${CLIENT_TESTS:%.cpp=$(PATH_OBJS)%.o}
