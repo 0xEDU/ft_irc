@@ -42,9 +42,8 @@ void	mainLoop(int sockfd)
 				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
 				{
 					Message msg = parseMsg(*line);
-					std::string *response = processMessage(msg, clients[i - 1]);
-					(void)response;
-					//clients[i - 1].sendResponse(response);
+					std::string response = processMessage(msg, clients[i - 1], clients);
+					clients[i - 1].sendMessage(response);
 				}
 
 			}
