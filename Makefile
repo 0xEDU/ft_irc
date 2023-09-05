@@ -1,7 +1,12 @@
 NAME = ircserv
 TEST_NAME = ircserv_test
 
+INCLUDES = -I ./includes/
+TESTS_INCLUDES = -I ./tests/
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
+
 PATH_SRCS = ./srcs/
+PATH_COMMANDS = ./srcs/commands/
 PATH_TESTS = ./tests/
 PATH_OBJS = ./objs/
 
@@ -16,14 +21,16 @@ SRCS =	main.cpp \
 		Message.cpp \
 		parseMsg.cpp \
 		split.cpp \
-		Commands.cpp \
 		processMessage.cpp \
-		NICK.cpp \
-		PASS.cpp \
-		USER.cpp \
-		CAP.cpp
+
+COMMANDS_SRCS =	Commands.cpp \
+				CAP.cpp \
+				PASS.cpp \
+				USER.cpp \
+				NICK.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
+COMMANDS_OBJS = ${COMMANDS_SRCS:%.cpp=$(PATH_OBJS)%.o}
 	
 TESTS =	main_tests.cpp \
 		Message.cpp \
@@ -46,10 +53,6 @@ CLIENT_TESTS =	client_tests.cpp \
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
 CLIENT_TESTS_OBJS = ${CLIENT_TESTS:%.cpp=$(PATH_OBJS)%.o}
 
-INCLUDES = -I ./includes/
-TESTS_INCLUDES = -I ./tests/
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
-
 all: $(NAME)
 	
 run: all
@@ -58,8 +61,13 @@ run: all
 v: all
 	@valgrind --track-fds=yes ./$(NAME) 6667 123
 
-$(NAME): $(OBJS)
-	@c++ $(FLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(COMMANDS_OBJS)
+	@c++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) -o $(NAME)
+
+$(PATH_OBJS)%.o: $(PATH_COMMANDS)%.cpp
+	@mkdir -p $(PATH_OBJS)
+	@c++ $(FLAGS) $(INCLUDES) -c $< -o $@
+	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
 
 $(PATH_OBJS)%.o: $(PATH_SRCS)%.cpp
 	@mkdir -p $(PATH_OBJS)
