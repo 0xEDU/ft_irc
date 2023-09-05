@@ -1,6 +1,7 @@
 #include "ft_irc.hpp"
 
-void nick(CommandArgs cArgs)
+std::string nick(CommandArgs cArgs)
 {
 	cArgs.client.setNick(cArgs.msg.args[0]);
+	return ("");
 }

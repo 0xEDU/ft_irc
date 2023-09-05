@@ -9,6 +9,7 @@ typedef struct CommandArgs
 {
 	Client &client;
 	Message msg;
+	std::vector<Client> &clients;
 }CommandArgs;
 
 class Commands
@@ -16,21 +17,20 @@ class Commands
 
 	public:
 
-	typedef void (*funcPtr)(CommandArgs);
+	typedef std::string (*funcPtr)(CommandArgs);
 
-	static void 		populateMap(void);
-	static void 		callFunction(const std::string cmdName, CommandArgs args);
-	static std::string	*getResponseMessage(const std::string cmdName);
+	static void 			populateMap(void);
+	static std::string 		callFunction(const std::string cmdName, CommandArgs args);
+	static std::string		getResponseMessage(const std::string cmdName);
 
 	private:
 
-	static std::map<std::string, std::pair<funcPtr, std::string *> > _messageFunctions;
+	static std::map<std::string, funcPtr> _messageFunctions;
 };
 
-void nick(CommandArgs cArgs);
-void name(CommandArgs cArgs);
-void user(CommandArgs cArgs);
-void pass(CommandArgs cArgs);
-void cap(CommandArgs cArgs);
+std::string nick(CommandArgs cArgs);
+std::string user(CommandArgs cArgs);
+std::string pass(CommandArgs cArgs);
+std::string cap(CommandArgs cArgs);
 
 #endif

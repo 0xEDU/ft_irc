@@ -1,12 +1,12 @@
 #include "ft_irc.hpp"
 
-std::string *processMessage(Message &msg, Client &client)
+std::string processMessage(Message &msg, Client &client, std::vector<Client> &clients)
 {
 	CommandArgs cArgs = {
 		.client = client,
-		.msg = msg
-		};
+		.msg = msg,
+		.clients = clients
+	};
 
-	Commands::callFunction(msg.command, cArgs);
-	return (Commands::getResponseMessage(msg.command));
+	return (Commands::callFunction(msg.command, cArgs));
 }

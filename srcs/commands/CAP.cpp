@@ -1,6 +1,7 @@
 #include "ft_irc.hpp"
 
-void cap(CommandArgs cArgs)
+std::string cap(CommandArgs cArgs)
 {
 	(void)cArgs;
+	return ("");
 }

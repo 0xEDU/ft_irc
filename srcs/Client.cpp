@@ -19,6 +19,9 @@ Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
 	this->_idCounter++;
 	this->_id = this->_idCounter;
 	pollfds[this->_id].fd = this->_fd;
+	this->_nick = "";
+	this->_realName = "";
+	this->_user = "";
 	return ;
 }
 
@@ -42,9 +45,9 @@ std::string const Client::getRealName(void) const
 	return (this->_realName);
 }
 
-void Client::setRealName(const std::string &name)
+void Client::setRealName(const std::string &clientRealName)
 {
-	this->_realName = name;
+	this->_realName = clientRealName;
 }
 
 std::string const Client::getNick(void) const
@@ -52,9 +55,9 @@ std::string const Client::getNick(void) const
 	return (this->_nick);
 }
 
-void Client::setNick(const std::string &nick)
+void Client::setNick(const std::string &clientNick)
 {
-	this->_nick = nick;
+	this->_nick = clientNick;
 }
 
 std::string const Client::getUser(void) const
@@ -62,9 +65,9 @@ std::string const Client::getUser(void) const
 	return (this->_user);
 }
 
-void Client::setUser(const std::string &user)
+void Client::setUser(const std::string &clientUser)
 {
-	this->_user = user;
+	this->_user = clientUser;
 }
 
 int Client::getId(void) const
