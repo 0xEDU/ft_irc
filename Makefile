@@ -53,13 +53,16 @@ CLIENT_TESTS =	client_tests.cpp \
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
 CLIENT_TESTS_OBJS = ${CLIENT_TESTS:%.cpp=$(PATH_OBJS)%.o}
 
+SERVER_PORT = 6667
+SERVER_PASSWORD = 123
+
 all: $(NAME)
 	
 run: all
-	@./$(NAME) 6667 123
+	@./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 	
 v: all
-	@valgrind --track-fds=yes ./$(NAME) 6667 123
+	@valgrind --track-fds=yes ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 
 $(NAME): $(OBJS) $(COMMANDS_OBJS)
 	@c++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) -o $(NAME)
