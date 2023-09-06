@@ -2,6 +2,12 @@
 
 std::string nick(CommandArgs cArgs)
 {
-	cArgs.client.setNick(cArgs.msg.args[0]);
+	std::string nickname = cArgs.msg.args[0];
+	for (std::size_t i = 0; i < cArgs.clients.size(); i++)
+	{
+		if (cArgs.clients[i].getNick() == nickname)
+			return (ERR_NICKNAMEINUSE(nickname));
+	}
+	cArgs.client.setNick(nickname);
 	return ("");
 }
