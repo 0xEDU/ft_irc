@@ -65,31 +65,31 @@ v: all
 	@valgrind --track-fds=yes ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 
 $(NAME): $(OBJS) $(COMMANDS_OBJS)
-	@c++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) -o $(NAME)
+	@clang++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) -o $(NAME)
 
 $(PATH_OBJS)%.o: $(PATH_COMMANDS)%.cpp
 	@mkdir -p $(PATH_OBJS)
-	@c++ $(FLAGS) $(INCLUDES) -c $< -o $@
+	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
 	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
 
 $(PATH_OBJS)%.o: $(PATH_SRCS)%.cpp
 	@mkdir -p $(PATH_OBJS)
-	@c++ $(FLAGS) $(INCLUDES) -c $< -o $@
+	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
 	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
 	
 tests: $(TESTS_OBJS)
 	@echo "\033[1;92mRunning tests\033[0m"
-	@c++ $(FLAGS) $(TESTS_OBJS) -o $(TEST_NAME)
+	@clang++ $(FLAGS) $(TESTS_OBJS) -o $(TEST_NAME)
 	@./$(TEST_NAME)
 	
 client-tests: $(CLIENT_TESTS_OBJS)
 	@echo "\033[1;92mRunning client tests\033[0m"
-	@c++ $(FLAGS) $(CLIENT_TESTS_OBJS) -o $(TEST_NAME)
+	@clang++ $(FLAGS) $(CLIENT_TESTS_OBJS) -o $(TEST_NAME)
 	@./$(TEST_NAME)
 
 $(PATH_OBJS)%.o: $(PATH_TESTS)%.cpp
 	@mkdir -p $(PATH_OBJS)
-	@c++ $(FLAGS) $(INCLUDES) $(TESTS_INCLUDES) -c $< -o $@
+	@clang++ $(FLAGS) $(INCLUDES) $(TESTS_INCLUDES) -c $< -o $@
 	@echo "\033[1;92m[SUCCESS] Test object creation done!\033[0m"
 
 clean:
