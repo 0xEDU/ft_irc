@@ -2,6 +2,13 @@
 
 int serverfd, clientfd;
 
+void printBytes(const std::string& str) {
+    for (size_t i = 0; i < str.size(); ++i) {
+        std::cout << static_cast<int>(static_cast<unsigned char>(str[i])) << " ";
+    }
+    std::cout << std::endl;
+}
+
 //close all fds from pollfds; same on QUIT cmd
 static void sigHandler(int)
 {
@@ -38,17 +45,22 @@ void	mainLoop(int sockfd)
 			if (fds.data()[i].revents & POLLIN)
 			{
 				std::string data = receiveData(clients[i - 1]);
-				std::vector<std::string> lines = split(data, '\n');
+				std::vector<std::string> lines = split(data, "\r\n");
 				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
 				{
 					Message msg = parseMsg(*line);
 					std::string response = processMessage(msg, clients[i - 1], clients);
 					clients[i - 1].sendMessage(response);
 				}
+				// if ("campoficouvazio")
+				// {
+				// 	clients.pop_back();
+				// 	Client::decrementIdCounter();
+				// }
 
 			}
 		}
-		std::cout << "clients: " << clients.size() << std::endl;
+			std::cout << "clients: " << clients.size() << std::endl;
 		sleep(1); // Will be removed
 	}
 	return ;
