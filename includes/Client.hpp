@@ -10,7 +10,7 @@ class Client
 	private:
 	
 	static int _idCounter;
-	
+
 	protected:
 
 	int _fd;
