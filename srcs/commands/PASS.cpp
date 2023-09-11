@@ -2,6 +2,8 @@
 
 std::string pass(CommandArgs cArgs)
 {
-	(void)cArgs;
-	return("");
+	std::string pass = cArgs.msg.args[0];
+	if (pass != Server::getPasswd())
+		return (ERR_PASSWDMISMATCH);
+	return ("");
 }
