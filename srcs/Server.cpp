@@ -87,11 +87,11 @@ void	Server::mainLoop(void)
 					std::string response = processMessage(msg, clients[i - 1], clients);
 					clients[i - 1].sendMessage(response);
 				}
-				// if ("campoficouvazio")
-				// {
-				// 	clients.pop_back();
-				// 	Client::decrementIdCounter();
-				// }
+				if (clients[i - 1].getShouldEraseClient())
+				{
+					clients.pop_back();
+					Client::decrementIdCounter();
+				}
 
 			}
 		}

@@ -6,9 +6,14 @@ std::string user(CommandArgs cArgs)
 	for (std::size_t i = 0; i < cArgs.clients.size(); i++)
 	{
 		if (cArgs.clients[i].getUser() == username)
+		{
+			cArgs.client.setShouldEraseClient(1);
 			return (ERR_ALREADYREGISTERED(username));
+		}
 	}
 	cArgs.client.setUser(username);
 	cArgs.client.setRealName(cArgs.msg.args[3]);
+	if (cArgs.client.getShouldEraseClient())
+		return (":DEU RUIM MEU PATRAAUM\r\n");
 	return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
 }

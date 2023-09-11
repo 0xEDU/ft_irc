@@ -2,7 +2,7 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void) : _fd(0), _id(0), _realName(""), _nick("") {
+Client::Client(void) : _shouldEraseClient(0), _retriesNick(0), _fd(0), _id(0), _realName(""), _nick("") {
 }
 
 Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
@@ -94,6 +94,27 @@ int Client::getIdCounter(void) const
 {
 	return (this->_idCounter);
 }
+
+void Client::setShouldEraseClient(int state)
+{
+	this->_shouldEraseClient = state;
+}
+
+int Client::getShouldEraseClient(void)
+{
+	return(this->_shouldEraseClient);
+}
+
+void Client::incrementRetriesNick(void)
+{
+	this->_retriesNick += 1;
+}
+
+int Client::getRetriesNick(void)
+{
+	return(this->_retriesNick);
+}
+
 
 void Client::decrementIdCounter(void)
 {

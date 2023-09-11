@@ -9,6 +9,8 @@ class Client
 {
 	private:
 	
+	int _shouldEraseClient;
+	int _retriesNick;
 	static int _idCounter;
 
 	protected:
@@ -38,9 +40,13 @@ class Client
 	std::string const getNick(void) const;
 	void setNick(const std::string &nick);
 	int getIdCounter(void) const;
-	
+	void setShouldEraseClient(int state);
+	int getShouldEraseClient(void);
+	int getRetriesNick(void);
+
 	static void decrementIdCounter(void);
 	void sendMessage(std::string &msg);
+	void incrementRetriesNick(void);
 };
 
 #endif
