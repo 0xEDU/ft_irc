@@ -11,9 +11,6 @@ PATH_TESTS = ./tests/
 PATH_OBJS = ./objs/
 
 SRCS =	main.cpp \
-		getPort.cpp \
-		setupTCP.cpp \
-		mainLoop.cpp \
 		receiveData.cpp \
 		Channel.cpp \
 		Client.cpp \
@@ -22,6 +19,7 @@ SRCS =	main.cpp \
 		parseMsg.cpp \
 		split.cpp \
 		processMessage.cpp \
+		Server.cpp
 
 COMMANDS_SRCS =	Commands.cpp \
 				CAP.cpp \
@@ -40,8 +38,7 @@ TESTS =	main_tests.cpp \
 		Client.cpp
 
 CLIENT_TESTS =	client_tests.cpp \
-				getPort.cpp \
-				setupTCP.cpp \
+				Server.cpp \
 				Client.cpp \
 				Message.cpp \
 				Commands.cpp \
