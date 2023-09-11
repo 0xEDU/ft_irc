@@ -31,19 +31,18 @@
 #include "Message.hpp"
 #include "Commands.hpp"
 #include "Channel.hpp"
+#include "Server.hpp"
 
 #include "replies.hpp"
 
 struct CommandArgs;
 class Client;
+class Server;
 
 typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
 typedef struct pollfd pollfd;
 
-int							getPort(char *input);
-int							setupTCP(int port);
-void						mainLoop(int sockfd);
 std::string					receiveData(const Client client);
 bool						validateClient(Client &client);
 Message 					parseMsg(std::string msg);
