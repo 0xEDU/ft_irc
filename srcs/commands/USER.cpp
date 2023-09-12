@@ -11,9 +11,11 @@ std::string user(CommandArgs cArgs)
 			return (ERR_ALREADYREGISTERED(username));
 		}
 	}
-	cArgs.client.setUser(username);
-	cArgs.client.setRealName(cArgs.msg.args[3]);
 	if (cArgs.client.getShouldEraseClient())
 		return ("");
+	cArgs.client.setUser(username);
+	cArgs.client.setRealName(cArgs.msg.args[3]);
+	if (cArgs.client.getRetriesNick())
+		return("");
 	return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
 }

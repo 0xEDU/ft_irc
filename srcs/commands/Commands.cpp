@@ -8,6 +8,7 @@ void Commands::populateMap(void)
 	_messageFunctions["NICK"] = nick;
 	_messageFunctions["PASS"] = pass;
 	_messageFunctions["CAP"] = cap;
+	_messageFunctions["QUIT"] = quit;
 }
 
 std::string Commands::callFunction(const std::string cmdName, CommandArgs args)
