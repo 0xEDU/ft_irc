@@ -5,7 +5,7 @@ int Client::_idCounter = 0;
 Client::Client(void) : _shouldEraseClient(0), _retriesNick(0), _fd(0), _id(0), _realName(""), _nick("") {
 }
 
-Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
+Client::Client(int serverfd)
 {
 	sockAddrIn cliAddr;
 	socklen_t cliLen = sizeof(cliAddr);
@@ -18,10 +18,11 @@ Client::Client(int serverfd, pollfd pollfds[CLIENT_LIMIT])
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
 	this->_idCounter++;
 	this->_id = this->_idCounter;
-	pollfds[this->_id].fd = this->_fd;
 	this->_nick = "";
 	this->_realName = "";
 	this->_user = "";
+	this->_retriesNick = 0;
+	this->_shouldEraseClient = 0;
 	return ;
 }
 

@@ -26,7 +26,7 @@ class Client
 	Client(void);
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
-	Client(int serverfd, pollfd pollfds[CLIENT_LIMIT]);
+	Client(int serverfd);
 	~Client(void);
 	
 	int getId(void) const;

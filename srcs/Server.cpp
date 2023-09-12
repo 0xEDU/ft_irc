@@ -69,7 +69,7 @@ void	Server::mainLoop(void)
 		}
 		if (fds.data()[0].revents & POLLIN)
 		{
-			Client newClient(this->_serverFd, fds.data());
+			Client newClient(this->_serverFd);
 			fds.push_back((pollfd) { .fd = newClient.getFd(), .events = POLLIN});
 			clients.push_back(newClient);
 		}
