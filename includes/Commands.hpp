@@ -5,12 +5,7 @@
 #include "ft_irc.hpp"
 #include <map>
 
-typedef struct CommandArgs
-{
-	Client &client;
-	Message msg;
-	std::vector<Client> &clients;
-}CommandArgs;
+struct CommandArgs;
 
 class Commands
 {
@@ -32,5 +27,6 @@ std::string nick(CommandArgs cArgs);
 std::string user(CommandArgs cArgs);
 std::string pass(CommandArgs cArgs);
 std::string cap(CommandArgs cArgs);
+std::string quit(CommandArgs cArgs);
 
 #endif
