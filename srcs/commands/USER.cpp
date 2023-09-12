@@ -14,6 +14,6 @@ std::string user(CommandArgs cArgs)
 	cArgs.client.setUser(username);
 	cArgs.client.setRealName(cArgs.msg.args[3]);
 	if (cArgs.client.getShouldEraseClient())
-		return (":DEU RUIM MEU PATRAAUM\r\n");
+		return ("");
 	return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
 }
