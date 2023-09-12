@@ -30,6 +30,7 @@
 #include "Client.hpp"
 #include "Message.hpp"
 #include "Commands.hpp"
+#include "CommandArgs.hpp"
 #include "Channel.hpp"
 #include "Server.hpp"
 
