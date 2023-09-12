@@ -22,10 +22,12 @@ SRCS =	main.cpp \
 		Server.cpp
 
 COMMANDS_SRCS =	Commands.cpp \
+				CommandArgs.cpp \
 				CAP.cpp \
 				PASS.cpp \
 				USER.cpp \
-				NICK.cpp
+				NICK.cpp \
+				QUIT.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 COMMANDS_OBJS = ${COMMANDS_SRCS:%.cpp=$(PATH_OBJS)%.o}
@@ -45,7 +47,8 @@ CLIENT_TESTS =	client_tests.cpp \
 				NICK.cpp \
 				PASS.cpp \
 				USER.cpp \
-				CAP.cpp
+				CAP.cpp \
+				QUIT.CPP
 
 TESTS_OBJS = ${TESTS:%.cpp=$(PATH_OBJS)%.o}
 CLIENT_TESTS_OBJS = ${CLIENT_TESTS:%.cpp=$(PATH_OBJS)%.o}
