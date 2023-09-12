@@ -2,10 +2,16 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void) : _shouldEraseClient(0), _retriesNick(0), _fd(0), _id(0), _realName(""), _nick("") {
+Client::Client(void) : _shouldEraseClient(0), _retry(0), _fd(0), _id(0), _realName(""), _nick("") {
 }
 
-Client::Client(int serverfd)
+Client::Client(int serverfd) :
+	_shouldEraseClient(0),
+	_retry(0),
+	_id(_idCounter),
+	_realName(""),
+	_nick(""),
+	_user("")
 {
 	sockAddrIn cliAddr;
 	socklen_t cliLen = sizeof(cliAddr);
@@ -18,11 +24,6 @@ Client::Client(int serverfd)
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
 	this->_idCounter++;
 	this->_id = this->_idCounter;
-	this->_nick = "";
-	this->_realName = "";
-	this->_user = "";
-	this->_retriesNick = 0;
-	this->_shouldEraseClient = 0;
 	return ;
 }
 
@@ -108,12 +109,12 @@ int Client::getShouldEraseClient(void)
 
 void Client::incrementRetriesNick(void)
 {
-	this->_retriesNick += 1;
+	this->_retry += 1;
 }
 
 int Client::getRetriesNick(void)
 {
-	return(this->_retriesNick);
+	return(this->_retry);
 }
 
 

@@ -2,11 +2,7 @@
 
 std::string processMessage(Message &msg, Client &client, std::vector<Client> &clients)
 {
-	CommandArgs cArgs = {
-		.client = client,
-		.msg = msg,
-		.clients = clients
-	};
+	CommandArgs cArgs = CommandArgs(client, msg, clients);
 
 	return (Commands::callFunction(msg.command, cArgs));
 }
