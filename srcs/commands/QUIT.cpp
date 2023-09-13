@@ -2,6 +2,6 @@
 
 std::string quit(CommandArgs cArgs)
 {
-	(void)cArgs;
+	cArgs.client.setShouldEraseClient(true);
 	return (": Bye bye\r\n");
 }

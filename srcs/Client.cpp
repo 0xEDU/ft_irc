@@ -2,11 +2,11 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void) : _shouldEraseClient(0), _retries(0), _fd(0), _id(0), _realName(""), _nick("") {
+Client::Client(void) : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _realName(""), _nick("") {
 }
 
 Client::Client(int serverfd) :
-	_shouldEraseClient(0),
+	_shouldEraseClient(false),
 	_retries(0),
 	_id(_idCounter),
 	_realName(""),
@@ -32,13 +32,14 @@ Client::Client(const Client &rhs) {
 }
 
 Client &Client::operator=(const Client &rhs) {
-	this->_realName = rhs._realName;
-	this->_nick = rhs._nick;
-	this->_id = rhs._id;
-	this->_fd = rhs._fd;
-	this->_shouldEraseClient = rhs._shouldEraseClient;
-	this->_retries = rhs._retries;
-
+	if (&rhs != this) {
+		this->_realName = rhs._realName;
+		this->_nick = rhs._nick;
+		this->_id = rhs._id;
+		this->_fd = rhs._fd;
+		this->_shouldEraseClient = rhs._shouldEraseClient;
+		this->_retries = rhs._retries;
+	}
 	return *this;
 }
 
@@ -99,14 +100,14 @@ int Client::getIdCounter(void) const
 	return (this->_idCounter);
 }
 
-void Client::setShouldEraseClient(int state)
+void Client::setShouldEraseClient(bool state)
 {
 	this->_shouldEraseClient = state;
 }
 
-int Client::getShouldEraseClient(void)
+bool Client::getShouldEraseClient(void)
 {
-	return(this->_shouldEraseClient);
+	return (this->_shouldEraseClient);
 }
 
 void Client::incrementRetries(void)
@@ -116,9 +117,13 @@ void Client::incrementRetries(void)
 
 int Client::getRetries(void)
 {
-	return(this->_retries);
+	return (this->_retries);
 }
 
+void Client::setRetries(int retries)
+{
+	this->_retries = retries;
+}
 
 void Client::decrementIdCounter(void)
 {

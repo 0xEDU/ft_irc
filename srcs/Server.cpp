@@ -89,7 +89,9 @@ void	Server::mainLoop(void)
 				}
 				if (clients[i - 1].getShouldEraseClient())
 				{
-					clients.pop_back();
+					close(clients[i - 1].getFd());
+					clients.erase(clients.begin() + i - 1);
+					fds.erase(fds.begin() + i);
 					Client::decrementIdCounter();
 				}
 

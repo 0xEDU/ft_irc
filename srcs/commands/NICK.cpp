@@ -5,8 +5,6 @@ std::string nick(CommandArgs cArgs)
 	std::string nickname = cArgs.msg.args[0];
 	if (nickname == "")
 	{
-		if (cArgs.client.getRetries() == 2)
-			cArgs.client.setShouldEraseClient(1);
 		cArgs.client.incrementRetries();
 		return (ERR_ERRONEUSNICKNAME(nickname));
 	}
@@ -14,8 +12,6 @@ std::string nick(CommandArgs cArgs)
 	{
 		if (cArgs.clients[i].getNick() == nickname)
 		{
-			if (cArgs.client.getRetries() == 2)
-				cArgs.client.setShouldEraseClient(1);
 			cArgs.client.incrementRetries();
 			return ERR_NICKNAMEINUSE(nickname);
 		}

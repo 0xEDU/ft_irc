@@ -9,7 +9,7 @@ class Client
 {
 	private:
 	
-	int _shouldEraseClient;
+	bool _shouldEraseClient;
 	int _retries;
 	static int _idCounter;
 
@@ -39,8 +39,8 @@ class Client
 	void setUser(const std::string &user);
 	std::string const getNick(void) const;
 	void setNick(const std::string &nick);
-	int getShouldEraseClient(void);
-	void setShouldEraseClient(int state);
+	bool getShouldEraseClient(void);
+	void setShouldEraseClient(bool state);
 	int getRetries(void);
 	void setRetries(int value);
 	int getIdCounter(void) const;
