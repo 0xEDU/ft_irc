@@ -2,12 +2,12 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void) : _shouldEraseClient(0), _retry(0), _fd(0), _id(0), _realName(""), _nick("") {
+Client::Client(void) : _shouldEraseClient(0), _retries(0), _fd(0), _id(0), _realName(""), _nick("") {
 }
 
 Client::Client(int serverfd) :
 	_shouldEraseClient(0),
-	_retry(0),
+	_retries(0),
 	_id(_idCounter),
 	_realName(""),
 	_nick(""),
@@ -36,6 +36,8 @@ Client &Client::operator=(const Client &rhs) {
 	this->_nick = rhs._nick;
 	this->_id = rhs._id;
 	this->_fd = rhs._fd;
+	this->_shouldEraseClient = rhs._shouldEraseClient;
+	this->_retries = rhs._retries;
 
 	return *this;
 }
@@ -107,14 +109,14 @@ int Client::getShouldEraseClient(void)
 	return(this->_shouldEraseClient);
 }
 
-void Client::incrementRetriesNick(void)
+void Client::incrementRetries(void)
 {
-	this->_retry += 1;
+	this->_retries += 1;
 }
 
-int Client::getRetriesNick(void)
+int Client::getRetries(void)
 {
-	return(this->_retry);
+	return(this->_retries);
 }
 
 

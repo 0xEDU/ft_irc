@@ -15,7 +15,7 @@ std::string user(CommandArgs cArgs)
 		return ("");
 	cArgs.client.setUser(username);
 	cArgs.client.setRealName(cArgs.msg.args[3]);
-	if (cArgs.client.getRetriesNick())
+	if (cArgs.client.getRetries())
 		return("");
 	return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
 }
