@@ -9,11 +9,12 @@ void Commands::populateMap(void)
 	_messageFunctions["PASS"] = pass;
 	_messageFunctions["CAP"] = cap;
 	_messageFunctions["QUIT"] = quit;
+	_messageFunctions["JOIN"] = join;
 }
 
 std::string Commands::callFunction(const std::string cmdName, CommandArgs args)
 {
 	if (_messageFunctions.find(cmdName) == _messageFunctions.end())
-		throw std::runtime_error("Invalid Command Name");
+		return (cmdName + " :Invalid command\r\n");
 	return (_messageFunctions[cmdName](args));
 }

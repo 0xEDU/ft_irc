@@ -28,5 +28,6 @@ std::string user(CommandArgs cArgs);
 std::string pass(CommandArgs cArgs);
 std::string cap(CommandArgs cArgs);
 std::string quit(CommandArgs cArgs);
+std::string join(CommandArgs cArgs);
 
 #endif
