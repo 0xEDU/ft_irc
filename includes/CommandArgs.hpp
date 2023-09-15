@@ -9,8 +9,9 @@ struct CommandArgs
 	Client &client;
 	Message msg;
 	std::vector<Client> &clients;
+	std::vector<Channel> &channels;
 	
-	CommandArgs(Client &c, Message m, std::vector<Client> &v);
+	CommandArgs(Client &client, Message msg, std::vector<Client> &clients, std::vector<Channel> &channels);
 	~CommandArgs();
 };
 
