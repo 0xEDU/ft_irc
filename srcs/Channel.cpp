@@ -1,15 +1,35 @@
 #include "ft_irc.hpp"
 
-Channel::Channel(void) : _topic(""), _name(""), _password(NULL), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(NULL) {}
+Channel::Channel(void) : _topic(""), _name(""), _password(""), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
-Channel::Channel(std::string name) : _name(name) {}
+Channel::Channel(std::string name) : _topic(""), _name(name), _password(""), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
-Channel::~Channel(void)
+Channel::~Channel(void) {}
+
+Channel::Channel(Channel const &src)
 {
-	if (this->_password)
-		delete this->_password;
-	if (this->_userLimit)
-		delete this->_userLimit;
+	*this = src;
+}
+
+Channel &Channel::operator=(Channel const &src)
+{
+	if (this != &src)
+	{
+		this->_topic = src._topic;
+		this->_name = src._name;
+		this->_password = src._password;
+		this->_isInviteOnly = src._isInviteOnly;
+		this->_clients = src._clients;
+		this->_userLimit = src._userLimit;
+	}
+	return (*this);
+}
+
+bool Channel::operator==(const std::string &name)
+{
+	if (name == this->_name)
+		return true;
+	return false;
 }
 
 std::string const Channel::getTopic(void) const
@@ -34,12 +54,12 @@ void Channel::setName(const std::string &name)
 
 std::string const Channel::getPassword(void) const
 {
-	return (*this->_password);
+	return (this->_password);
 }
 
 void Channel::setPassword(const std::string &password)
 {
-	this->_password = new std::string(password);
+	this->_password = password;
 }
 
 bool Channel::getIsInviteOnly(void) const
@@ -64,11 +84,15 @@ void Channel::setClients(const std::vector<Client> &clients)
 
 int Channel::getUserLimit(void) const
 {
-	return (*this->_userLimit);
+	return (this->_userLimit);
 }
 
 void Channel::setUserLimit(const int &userLimit)
 {
-	this->_userLimit = new int(userLimit);
+	this->_userLimit = userLimit;
 }
 
+void Channel::addClient(const Client &client)
+{
+	this->_clients.push_back(client);
+}

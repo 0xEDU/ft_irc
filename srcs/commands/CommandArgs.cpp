@@ -1,6 +1,6 @@
 #include "ft_irc.hpp"
 
-CommandArgs::CommandArgs(Client &c, Message m, std::vector<Client> &v)
-: client(c), msg(m), clients(v) {}
+CommandArgs::CommandArgs(Client &client, Message msg, std::vector<Client> &clients, std::vector<Channel> &channels)
+: client(client), msg(msg), clients(clients), channels(channels) {}
 
 CommandArgs::~CommandArgs() {}

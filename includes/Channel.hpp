@@ -11,16 +11,19 @@ class Channel
 
 	std::string 		_topic;
 	std::string 		_name;
-	std::string 		*_password;
+	std::string 		_password;
 	bool 				_isInviteOnly;
 	std::vector<Client>	_clients;
-	int 				*_userLimit;
+	int 				_userLimit;
 	
 	public:
 
 	Channel(void);
 	Channel(std::string name);
 	~Channel(void);
+	Channel(Channel const &src);
+	Channel &operator=(Channel const &src);
+	bool operator==(const std::string &name);
 
 	void validateClientName(std::string name);
 	
@@ -36,6 +39,7 @@ class Channel
 	void setClients(const std::vector<Client> &clients);
 	int getUserLimit(void) const;
 	void setUserLimit(const int &userLimit);
+	void addClient(const Client &clients);
 	
 };
 

@@ -30,12 +30,13 @@
 #include "Client.hpp"
 #include "Message.hpp"
 #include "Commands.hpp"
-#include "CommandArgs.hpp"
 #include "Channel.hpp"
+#include "CommandArgs.hpp"
 #include "Server.hpp"
 
 #include "replies.hpp"
 
+class Channel;
 struct CommandArgs;
 class Client;
 class Server;
@@ -48,6 +49,6 @@ std::string					receiveData(const Client client);
 bool						validateClient(Client &client);
 Message 					parseMsg(std::string msg);
 std::vector<std::string> split(const std::string &s, std::string delimiter = " ");
-std::string	processMessage(Message &msg, Client &client, std::vector<Client> &clients);
+std::string	processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels);
 
 #endif

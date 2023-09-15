@@ -55,6 +55,7 @@ void	Server::mainLoop(void)
 {
 	std::vector<pollfd> fds;
 	std::vector<Client> clients;
+	std::vector<Channel> channels;
 
 	signal(SIGINT, &Server::sigHandler);
 	fds.push_back((pollfd) {.fd = this->_serverFd, .events = POLLIN});
@@ -84,7 +85,7 @@ void	Server::mainLoop(void)
 					if (*line == "")
 						continue ;
 					Message msg = parseMsg(*line);
-					std::string response = processMessage(msg, clients[i - 1], clients);
+					std::string response = processMessage(msg, clients[i - 1], clients, channels);
 					clients[i - 1].sendMessage(response);
 				}
 				if (clients[i - 1].getShouldEraseClient())
