@@ -2,7 +2,12 @@
 #ifndef REPLIES_HPP
 #define REPLIES_HPP
 
+#define JOIN(user, channel) ":" + cArgs.client.getUser() + " JOIN " + cArgs.msg.args[0] + "\r\n"
+
 #define RPL_WELCOME(nick, user) ":* 001 "+ user + " :Welcome to the Internet Relay Chat " + nick +"!" + user + "@*\r\n"
+#define RPL_TOPIC(nick, channel, topic) ":* 332 " + nick + " " + channel + " :" + topic + "\r\n"
+#define RPL_NAMREPLY(nick, channel, names) ":* 353 " + nick + " = " + channel + " : " + names + "\r\n"
+#define RPL_ENDOFNAMES(nick, channel) ":* 366 " + nick + " " + channel + " : End of names list\r\n"
 
 #define ERR_ERRONEUSNICKNAME(nick) ":* 432 * " + nick + " :Nickname is invalid\r\n"
 #define ERR_NICKNAMEINUSE(nick) ":* 433 * " + nick + " :Nickname is alredy in use\r\n"

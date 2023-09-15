@@ -1,11 +1,13 @@
 #include "ft_irc.hpp"
 
 std::string join(CommandArgs cArgs) {
-	std::string nicks = "";
-	for (size_t i = 0; i < cArgs.clients.size(); i++) {
-		nicks = nicks + cArgs.clients[i].getNick() + " ";
-	}
-	return (":* 332 " + cArgs.client.getNick() + " " + cArgs.msg.args[0] + " :topico\r\n"
-	+ ":* 353 " + cArgs.client.getNick() + " = " + cArgs.msg.args[0] + " :@" + nicks + "\r\n"
-	+ ":* 366 " + cArgs.client.getNick() + " " + cArgs.msg.args[0] + "\r\n");
+	std::string nick = cArgs.client.getNick();
+	std::string user = cArgs.client.getUser();
+	std::string channel = cArgs.msg.args[0];
+	std::string channelUsers = " gui edu rods";
+
+	return (JOIN(user,channel)
+	+ RPL_TOPIC(nick, channel, "topic")
+	+ RPL_NAMREPLY(nick, channel, "@" + user + channelUsers)
+	+ RPL_ENDOFNAMES(nick, channel));
 }
