@@ -98,7 +98,7 @@ void	Server::mainLoop(void)
 
 			}
 		}
-			std::cout << "clients: " << clients.size() << std::endl;
+		std::cout << "clients: " << clients.size() << std::endl;
 		sleep(1); // Will be removed
 	}
 	return ;
