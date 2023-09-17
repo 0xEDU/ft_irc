@@ -3,8 +3,7 @@
 std::string receiveData(const Client client)
 {
 	std::string data;
-	int retryCounter = 0;
-	const int maxRetries = 5; // Maximum retries
+	// const int maxRetries = 5; // Maximum retries
 
 	while (true)
 	{
@@ -16,12 +15,13 @@ std::string receiveData(const Client client)
 		{
 			if (errno == EAGAIN || errno == EWOULDBLOCK)
 			{
-				if (++retryCounter >= maxRetries)
-				{
-					std::cout << "Max retries reached, breaking..." << std::endl;
+				// if (++retryCounter >= maxRetries)
+				// {
+				// 	std::cout << "Max retries reached, breaking..." << std::endl;
+				// 	break;
+				// }
+				if (data.find("\r\n") != std::string::npos) 
 					break;
-				}
-				usleep(10000); // Sleep for 10 ms before retrying
 				continue;
 			}
 			else
@@ -37,10 +37,7 @@ std::string receiveData(const Client client)
 		}
 		else
 		{
-			retryCounter = 0; // Reset the retry counter on a successful recv
 			data.append(buff, nbytes);
-			if (data.find("\n") != std::string::npos) // Assuming '\n' as the end of message
-				break;
 		}
 	}
 	std::cout << std::endl << data << std::endl;
