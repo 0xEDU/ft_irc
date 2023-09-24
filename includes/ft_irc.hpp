@@ -45,8 +45,7 @@ typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
 typedef struct pollfd pollfd;
 
-std::string					receiveData(const Client client);
-bool						validateClient(Client &client);
+std::string					receiveData(Client &client);
 Message 					parseMsg(std::string msg);
 std::vector<std::string> split(const std::string &s, std::string delimiter = " ");
 std::string	processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels);

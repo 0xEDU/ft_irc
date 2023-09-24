@@ -1,6 +1,7 @@
 #include "ft_irc.hpp"
 
-std::string receiveData(const Client client)
+
+std::string receiveData(Client &client)
 {
 	std::string data;
 	// const int maxRetries = 5; // Maximum retries
@@ -15,12 +16,7 @@ std::string receiveData(const Client client)
 		{
 			if (errno == EAGAIN || errno == EWOULDBLOCK)
 			{
-				// if (++retryCounter >= maxRetries)
-				// {
-				// 	std::cout << "Max retries reached, breaking..." << std::endl;
-				// 	break;
-				// }
-				if (data.find("\r\n") != std::string::npos) 
+				if (data.find("\r\n") != std::string::npos)
 					break;
 				continue;
 			}
@@ -32,14 +28,13 @@ std::string receiveData(const Client client)
 		}
 		else if (nbytes == 0)
 		{
-			std::cout << "Connection closed by client." << std::endl;
-			break;
+            client.setShouldEraseClient(true);
+            break;
 		}
 		else
 		{
 			data.append(buff, nbytes);
 		}
 	}
-	std::cout << std::endl << data << std::endl;
 	return data;
 }
