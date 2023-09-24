@@ -14,7 +14,6 @@ SRCS =	main.cpp \
 		receiveData.cpp \
 		Channel.cpp \
 		Client.cpp \
-		validateClient.cpp \
 		Message.cpp \
 		parseMsg.cpp \
 		split.cpp \
