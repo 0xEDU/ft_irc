@@ -1,12 +1,12 @@
 #include "ft_irc.hpp"
 
-Channel::Channel(void) : _topic(""), _name(""), _password(""), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
+Channel::Channel() : _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
-Channel::Channel(std::string name) : _topic(""), _name(name), _password(""), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
+Channel::Channel(const std::string& name) : _name(name), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
-Channel::~Channel(void) {}
+Channel::~Channel() {}
 
-Channel::Channel(Channel const &src)
+Channel::Channel(Channel const &src) : _isInviteOnly(), _userLimit()
 {
 	*this = src;
 }
@@ -32,7 +32,7 @@ bool Channel::operator==(const std::string &name)
 	return false;
 }
 
-std::string const Channel::getTopic(void) const
+std::string Channel::getTopic() const
 {
 	return (this->_topic);
 }
@@ -42,7 +42,7 @@ void Channel::setTopic(const std::string &topic)
 	this->_topic = topic;
 }
 
-std::string const Channel::getName(void) const
+std::string Channel::getName() const
 {
 	return (this->_name);
 }
@@ -52,7 +52,7 @@ void Channel::setName(const std::string &name)
 	this->_name = name;
 }
 
-std::string const Channel::getPassword(void) const
+std::string Channel::getPassword() const
 {
 	return (this->_password);
 }
@@ -62,7 +62,7 @@ void Channel::setPassword(const std::string &password)
 	this->_password = password;
 }
 
-bool Channel::getIsInviteOnly(void) const
+bool Channel::getIsInviteOnly() const
 {
 	return (this->_isInviteOnly);
 }
@@ -72,7 +72,7 @@ void Channel::setIsInviteOnly(const bool &isInviteOnly)
 	this->_isInviteOnly = isInviteOnly;
 }
 
-std::vector<Client> const Channel::getClients(void) const
+std::vector<Client> Channel::getClients() const
 {
 	return (this->_clients);
 }
@@ -82,7 +82,7 @@ void Channel::setClients(const std::vector<Client> &clients)
 	this->_clients = clients;
 }
 
-int Channel::getUserLimit(void) const
+int Channel::getUserLimit() const
 {
 	return (this->_userLimit);
 }

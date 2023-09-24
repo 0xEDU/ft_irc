@@ -7,7 +7,7 @@ std::string user(CommandArgs cArgs)
 	{
 		if (cArgs.clients[i].getUser() == username)
 		{
-			cArgs.client.setShouldEraseClient(1);
+			cArgs.client.setShouldEraseClient(true);
 			return (ERR_ALREADYREGISTERED(username));
 		}
 	}

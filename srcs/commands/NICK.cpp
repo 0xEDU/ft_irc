@@ -3,7 +3,7 @@
 std::string nick(CommandArgs cArgs)
 {
 	std::string nickname = cArgs.msg.args[0];
-	if (nickname == "")
+	if (nickname.empty())
 	{
 		cArgs.client.incrementRetries();
 		return (ERR_ERRONEUSNICKNAME(nickname));

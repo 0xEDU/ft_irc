@@ -23,31 +23,31 @@ class Client
 	
 	public:
 
-	Client(void);
+	Client();
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
-	Client(int serverfd);
-	~Client(void);
+	explicit Client(int serverfd);
+	~Client();
 	
-	int getId(void) const;
+	int getId() const;
 	void setId(const int &id);
-	int getFd(void) const;
+	int getFd() const;
 	void setFd(const int &fd);
-	std::string const getRealName(void) const;
+	std::string getRealName() const;
 	void setRealName(const std::string &name);
-	std::string const getUser(void) const;
+	std::string getUser() const;
 	void setUser(const std::string &user);
-	std::string const getNick(void) const;
+	std::string getNick() const;
 	void setNick(const std::string &nick);
-	bool getShouldEraseClient(void);
+	bool getShouldEraseClient() const;
 	void setShouldEraseClient(bool state);
-	int getRetries(void);
+	int getRetries() const;
 	void setRetries(int value);
-	int getIdCounter(void) const;
+	static int getIdCounter() ;
 
-	static void decrementIdCounter(void);
-	void sendMessage(std::string &msg);
-	void incrementRetries(void);
+	static void decrementIdCounter();
+	void sendMessage(std::string &msg) const;
+	void incrementRetries();
 };
 
 #endif

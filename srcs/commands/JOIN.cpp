@@ -6,9 +6,9 @@ std::string join(CommandArgs cArgs) {
 	std::string channel = cArgs.msg.args[0];
 	std::string channelUsers = " gui edu rods";
 
-	std::string nicks = "";
+	std::string nicks;
 	for (size_t i = 0; i < cArgs.clients.size(); i++) {
-		nicks = nicks + nick + " ";
+		nicks += nick + " ";
 	}
 	if (channel[0] != '#')
 		return (" : ERROR"); // Reply

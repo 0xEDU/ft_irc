@@ -4,7 +4,7 @@ Message::Message() {}
 
 Message::~Message() {}
 
-Message::Message(std::string prefix, std::string command, std::vector<std::string> args)
+Message::Message(const std::string& prefix, const std::string& command, const std::vector<std::string>& args)
 	: prefix(prefix), command(command), args(args) {}
 
 Message::Message(const Message &other)

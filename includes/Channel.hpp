@@ -19,7 +19,7 @@ class Channel
 	public:
 
 	Channel(void);
-	Channel(std::string name);
+	Channel(const std::string& name);
 	~Channel(void);
 	Channel(Channel const &src);
 	Channel &operator=(Channel const &src);
@@ -27,15 +27,15 @@ class Channel
 
 	void validateClientName(std::string name);
 	
-	std::string const getTopic(void) const;
+	std::string getTopic(void) const;
 	void setTopic(const std::string &topic);
-	std::string const getName(void) const;
+	std::string getName(void) const;
 	void setName(const std::string &name);
-	std::string const getPassword(void) const;
+	std::string getPassword(void) const;
 	void setPassword(const std::string &password);
 	bool getIsInviteOnly(void) const;
 	void setIsInviteOnly(const bool &isInviteOnly);
-	std::vector<Client> const getClients(void) const;
+	std::vector<Client> getClients(void) const;
 	void setClients(const std::vector<Client> &clients);
 	int getUserLimit(void) const;
 	void setUserLimit(const int &userLimit);

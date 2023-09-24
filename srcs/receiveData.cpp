@@ -11,7 +11,7 @@ std::string receiveData(Client &client)
 		char buff[BUFFER_SIZE];
 		std::memset(buff, 0, BUFFER_SIZE);
 
-		int nbytes = recv(client.getFd(), buff, BUFFER_SIZE, 0);
+		long nbytes = recv(client.getFd(), buff, BUFFER_SIZE, 0);
 		if (nbytes < 0)
 		{
 			if (errno == EAGAIN || errno == EWOULDBLOCK)

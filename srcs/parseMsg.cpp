@@ -2,7 +2,7 @@
 
 Message parseMsg(std::string msg)
 {
-	std::string prefix = "";
+	std::string prefix;
 	std::vector<std::string> args;
 
 	if (msg.empty())

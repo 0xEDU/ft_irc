@@ -19,11 +19,11 @@ class Server
 	Server();
 	~Server();
 
-	void setupTCP(void);
-	void mainLoop(void);
+	void setupTCP() const;
+	static void mainLoop();
 
 	void setPort(char *input);
-	static const std::string getPasswd(void);
+	static std::string getPasswd();
 	static void setPasswd(char *passwd);
 };
 

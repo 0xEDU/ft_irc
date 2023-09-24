@@ -2,16 +2,12 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(void) : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _realName(""), _nick("") {
-}
+Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0) {}
 
 Client::Client(int serverfd) :
 	_shouldEraseClient(false),
 	_retries(0),
-	_id(_idCounter),
-	_realName(""),
-	_nick(""),
-	_user("")
+	_id(_idCounter)
 {
 	sockAddrIn cliAddr;
 	socklen_t cliLen = sizeof(cliAddr);
@@ -22,12 +18,11 @@ Client::Client(int serverfd) :
 	int flags = fcntl(this->_fd, F_GETFL, 0);
 	if (fcntl(this->_fd, F_SETFL, flags | O_NONBLOCK) == -1)
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
-	this->_idCounter++;
-	this->_id = this->_idCounter;
-	return ;
+	Client::_idCounter++;
+	this->_id = Client::_idCounter;
 }
 
-Client::Client(const Client &rhs) {
+Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id() {
 	*this = rhs;
 }
 
@@ -43,9 +38,9 @@ Client &Client::operator=(const Client &rhs) {
 	return *this;
 }
 
-Client::~Client(void) {}
+Client::~Client() {}
 
-std::string const Client::getRealName(void) const
+std::string Client::getRealName() const
 {
 	return (this->_realName);
 }
@@ -55,7 +50,7 @@ void Client::setRealName(const std::string &clientRealName)
 	this->_realName = clientRealName;
 }
 
-std::string const Client::getNick(void) const
+std::string Client::getNick() const
 {
 	return (this->_nick);
 }
@@ -65,7 +60,7 @@ void Client::setNick(const std::string &clientNick)
 	this->_nick = clientNick;
 }
 
-std::string const Client::getUser(void) const
+std::string Client::getUser() const
 {
 	return (this->_user);
 }
@@ -75,7 +70,7 @@ void Client::setUser(const std::string &clientUser)
 	this->_user = clientUser;
 }
 
-int Client::getId(void) const
+int Client::getId() const
 {
 	return (this->_id);
 }
@@ -85,7 +80,7 @@ void Client::setId(const int &id)
 	this->_id = id;
 }
 
-int Client::getFd(void) const
+int Client::getFd() const
 {
 	return (this->_fd);
 }
@@ -95,9 +90,9 @@ void Client::setFd(const int &fd)
 	this->_fd = fd;
 }
 
-int Client::getIdCounter(void) const
+int Client::getIdCounter()
 {
-	return (this->_idCounter);
+	return (Client::_idCounter);
 }
 
 void Client::setShouldEraseClient(bool state)
@@ -105,17 +100,17 @@ void Client::setShouldEraseClient(bool state)
 	this->_shouldEraseClient = state;
 }
 
-bool Client::getShouldEraseClient(void)
+bool Client::getShouldEraseClient() const
 {
 	return (this->_shouldEraseClient);
 }
 
-void Client::incrementRetries(void)
+void Client::incrementRetries()
 {
 	this->_retries += 1;
 }
 
-int Client::getRetries(void)
+int Client::getRetries() const
 {
 	return (this->_retries);
 }
@@ -125,14 +120,14 @@ void Client::setRetries(int retries)
 	this->_retries = retries;
 }
 
-void Client::decrementIdCounter(void)
+void Client::decrementIdCounter()
 {
 	_idCounter -= 1;
 }
 
-void Client::sendMessage(std::string &msg)
+void Client::sendMessage(std::string &msg) const
 {
-	if (msg != "")
+	if (!msg.empty())
 	{
 		if (send(this->_fd, msg.c_str(), msg.length(), 0) == -1)
 			ERROR("Failed to send message to client")

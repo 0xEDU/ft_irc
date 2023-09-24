@@ -15,7 +15,7 @@ class Commands
 	typedef std::string (*funcPtr)(CommandArgs);
 
 	static void 			populateMap(void);
-	static std::string 		callFunction(const std::string cmdName, CommandArgs args);
+	static std::string 		callFunction(const std::string& cmdName, const CommandArgs& args);
 	static std::string		getResponseMessage(const std::string cmdName);
 
 	private:

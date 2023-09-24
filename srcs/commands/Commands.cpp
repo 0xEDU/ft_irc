@@ -2,7 +2,7 @@
 
 std::map<std::string, Commands::funcPtr> Commands::_messageFunctions;
 
-void Commands::populateMap(void)
+void Commands::populateMap()
 {
 	_messageFunctions["USER"] = user;
 	_messageFunctions["NICK"] = nick;
@@ -12,7 +12,7 @@ void Commands::populateMap(void)
 	_messageFunctions["JOIN"] = join;
 }
 
-std::string Commands::callFunction(const std::string cmdName, CommandArgs args)
+std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)
 {
 	if (_messageFunctions.find(cmdName) == _messageFunctions.end())
 		return (cmdName + " :Invalid command\r\n");

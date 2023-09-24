@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 		Commands::populateMap();
 		server.setPort(argv[1]);
 		server.setPasswd(argv[2]);
-		server.setupTCP();
+        server.setupTCP();
 		server.mainLoop();
 	}
 	catch(const std::exception& e)

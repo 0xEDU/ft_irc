@@ -11,7 +11,7 @@ struct Message
 	std::vector<std::string>	args;
 
 	Message();
-	Message(std::string, std::string, std::vector<std::string>);
+	Message(const std::string&, const std::string&, const std::vector<std::string>&);
 	~Message();
 	Message(const Message &other);
 	Message &operator=(const Message &other);
