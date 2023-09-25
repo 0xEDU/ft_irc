@@ -77,7 +77,7 @@ void	Server::mainLoop()
 					if ((*line).empty())
 						continue ;
 					Message msg = parseMsg(*line);
-					std::string response = processMessage(msg, clients[i - 1], clients, channels);
+					std::pair<std::string, std::vector<Client> > response = processMessage(msg, clients[i - 1], clients, channels);
 					clients[i - 1].sendMessage(response);
 				}
 				if (clients[i - 1].getShouldEraseClient())

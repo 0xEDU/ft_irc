@@ -1,8 +1,10 @@
 #include "ft_irc.hpp"
 
-std::string processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels)
+std::pair<std::string, std::vector<Client> >
+processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels)
 {
-	CommandArgs cArgs = CommandArgs(client, msg, clients, channels);
+    std::vector<Client> broadcastList;
+	CommandArgs cArgs = CommandArgs(client, msg, clients, channels, broadcastList);
 
-	return (Commands::callFunction(msg.command, cArgs));
+	return (std::make_pair(Commands::callFunction(msg.command, cArgs), broadcastList));
 }

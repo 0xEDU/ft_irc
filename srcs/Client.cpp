@@ -1,4 +1,6 @@
 #include "ft_irc.hpp"
+#include "Client.hpp"
+
 
 int Client::_idCounter = 0;
 
@@ -30,6 +32,7 @@ Client &Client::operator=(const Client &rhs) {
 	if (&rhs != this) {
 		this->_realName = rhs._realName;
 		this->_nick = rhs._nick;
+        this->_user = rhs._user;
 		this->_id = rhs._id;
 		this->_fd = rhs._fd;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
@@ -37,6 +40,7 @@ Client &Client::operator=(const Client &rhs) {
 	}
 	return *this;
 }
+
 
 Client::~Client() {}
 
@@ -125,11 +129,22 @@ void Client::decrementIdCounter()
 	_idCounter -= 1;
 }
 
-void Client::sendMessage(std::string &msg) const
+void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
 {
-	if (!msg.empty())
-	{
-		if (send(this->_fd, msg.c_str(), msg.length(), 0) == -1)
-			ERROR("Failed to send message to client")
-	}
+	if (msg.first.empty())
+        return;
+    std::vector<Client>::iterator it = msg.second.begin();
+    if (msg.second.empty()) {
+        if (send(this->_fd, msg.first.c_str(), msg.first.length(), 0) == -1)
+            ERROR("Failed to send message to client")
+        return ;
+    }
+    for (; it != msg.second.end(); it++) {
+        if (send((*it)._fd, msg.first.c_str(), msg.first.length(), 0) == -1)
+            ERROR("Failed to send message to client")
+    }
+}
+
+bool Client::operator==(const Client &rhs) {
+    return this->_user == rhs._user;
 }

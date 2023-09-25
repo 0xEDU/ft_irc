@@ -14,6 +14,7 @@ class Channel
 	std::string 		_password;
 	bool 				_isInviteOnly;
 	std::vector<Client>	_clients;
+    std::vector<Client>	_operators;
 	int 				_userLimit;
 	
 	public:
@@ -39,8 +40,9 @@ class Channel
 	void setClients(const std::vector<Client> &clients);
 	int getUserLimit(void) const;
 	void setUserLimit(const int &userLimit);
-	void addClient(const Client &clients);
-	
+    std::string getChannelUsers();
+    void addClient(const Client &client);
+    void addOperator(const Client &client);
 };
 
 #endif

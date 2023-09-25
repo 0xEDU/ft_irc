@@ -46,8 +46,10 @@ class Client
 	static int getIdCounter() ;
 
 	static void decrementIdCounter();
-	void sendMessage(std::string &msg) const;
+	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;
 	void incrementRetries();
+
+    bool operator==(const Client &rhs);
 };
 
 #endif

@@ -1,4 +1,6 @@
 #include "ft_irc.hpp"
+#include "Channel.hpp"
+
 
 Channel::Channel() : _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
@@ -20,6 +22,7 @@ Channel &Channel::operator=(Channel const &src)
 		this->_password = src._password;
 		this->_isInviteOnly = src._isInviteOnly;
 		this->_clients = src._clients;
+        this->_operators = src._operators;
 		this->_userLimit = src._userLimit;
 	}
 	return (*this);
@@ -92,7 +95,24 @@ void Channel::setUserLimit(const int &userLimit)
 	this->_userLimit = userLimit;
 }
 
+// Const talvez dê merda
 void Channel::addClient(const Client &client)
 {
 	this->_clients.push_back(client);
+}
+
+std::string Channel::getChannelUsers() {
+    std::string channelUsers;
+
+    for (size_t i = 0; i < this->_clients.size(); i++) {
+        if (std::find(this->_operators.begin(), this->_operators.end(), this->_clients[i]) != this->_operators.end())
+            channelUsers += "@";
+        channelUsers += this->_clients[i].getUser();
+        channelUsers += " ";
+    }
+    return channelUsers;
+}
+
+void Channel::addOperator(const Client &client) {
+    this->_operators.push_back(client);
 }
