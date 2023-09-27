@@ -70,21 +70,25 @@ void	Server::mainLoop()
 		{
 			if (fds[i].revents & POLLIN)
 			{
-				std::string data = receiveData(clients[i - 1]);
+                Client &client = clients[i - 1];
+
+				std::string data = receiveData(client);
 				std::vector<std::string> lines = split(data, "\r\n");
 				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
 				{
 					if ((*line).empty())
 						continue ;
 					Message msg = parseMsg(*line);
-					std::pair<std::string, std::vector<Client> > response = processMessage(msg, clients[i - 1], clients, channels);
-					clients[i - 1].sendMessage(response);
+					std::pair<std::string, std::vector<Client> > response = processMessage(msg, client, clients, channels);
+					client.sendMessage(response);
 				}
-				if (clients[i - 1].getShouldEraseClient())
+				if (client.getShouldEraseClient())
 				{
-					close(clients[i - 1].getFd());
+					close(client.getFd());
 					clients.erase(clients.begin() + (long)i - 1);
 					fds.erase(fds.begin() + (long)i);
+                    for (size_t c = 0; c < channels.size(); c++)
+                        channels[c].disconnectClient(client);
 					Client::decrementIdCounter();
 				}
 

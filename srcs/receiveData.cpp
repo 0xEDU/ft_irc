@@ -36,5 +36,6 @@ std::string receiveData(Client &client)
 			data.append(buff, nbytes);
 		}
 	}
+    std::cout << "RECEIVED: " << data << std::endl;
 	return data;
 }

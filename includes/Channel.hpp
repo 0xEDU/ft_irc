@@ -43,6 +43,8 @@ class Channel
     std::string getChannelUsers();
     void addClient(const Client &client);
     void addOperator(const Client &client);
+
+    void disconnectClient(const Client &client);
 };
 
 #endif

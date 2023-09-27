@@ -116,3 +116,23 @@ std::string Channel::getChannelUsers() {
 void Channel::addOperator(const Client &client) {
     this->_operators.push_back(client);
 }
+
+void Channel::disconnectClient(const Client &client) {
+    std::vector<Client>::iterator
+    clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
+    std::vector<Client>::iterator
+    operatorsIt = std::find(this->_operators.begin(), this->_operators.end(), client);
+    std::vector<Client> broadcastList;
+
+    if (clientsIt != this->_clients.end()) {
+        this->_clients.erase(clientsIt);
+        broadcastList = this->_clients;
+        std::string reply;
+        reply = RPL_NAMREPLY(client.getNick(), this->_name, this->getChannelUsers()) +
+                RPL_ENDOFNAMES(client.getNick(), this->_name);
+        std::pair<std::string, std::vector<Client> > message = std::make_pair(reply, broadcastList);
+        client.sendMessage(message);
+    }
+    if (operatorsIt != this->_operators.end())
+        this->_operators.erase(operatorsIt);
+}
