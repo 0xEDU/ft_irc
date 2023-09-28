@@ -50,6 +50,7 @@ class Client
 	void incrementRetries();
 
     bool operator==(const Client &rhs);
+    bool operator==(const std::string &rhs);
 };
 
 #endif

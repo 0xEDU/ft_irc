@@ -27,6 +27,7 @@ COMMANDS_SRCS =	Commands.cpp \
 				USER.cpp \
 				NICK.cpp \
 				JOIN.cpp \
+				PRIVMSG.cpp \
 				QUIT.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}

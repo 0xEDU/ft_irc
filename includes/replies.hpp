@@ -8,6 +8,7 @@
 #define RPL_TOPIC(nick, channel, topic) (":* 332 " + nick + " " + channel + " :" + topic + "\r\n")
 #define RPL_NAMREPLY(nick, channel, names) (":* 353 " + nick + " = " + channel + " : " + names + "\r\n")
 #define RPL_ENDOFNAMES(nick, channel) (":* 366 " + nick + " " + channel + " : End of names list\r\n")
+#define RPL_PRIVMSG(nick, user, dest, message) (":" + nick + "!~" + user + "@* PRIVMSG " + dest + " :" + message + "\r\n")
 
 #define ERR_ERRONEUSNICKNAME(nick) (":* 432 * " + nick + " :Nickname is invalid\r\n")
 #define ERR_NICKNAMEINUSE(nick) (":* 433 * " + nick + " :Nickname is already in use\r\n")

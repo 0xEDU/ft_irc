@@ -10,6 +10,7 @@ void Commands::populateMap()
 	_messageFunctions["CAP"] = cap;
 	_messageFunctions["QUIT"] = quit;
 	_messageFunctions["JOIN"] = join;
+    _messageFunctions["PRIVMSG"] = privmsg;
 }
 
 std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)
