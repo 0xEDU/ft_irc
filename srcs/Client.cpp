@@ -17,8 +17,7 @@ Client::Client(int serverfd) :
 	this->_fd = accept(serverfd, (sockAddr *)&cliAddr, &cliLen);
 	if (this->_fd < 0)
 		throw std::runtime_error("Failed to accept client");
-	int flags = fcntl(this->_fd, F_GETFL, 0);
-	if (fcntl(this->_fd, F_SETFL, flags | O_NONBLOCK) == -1)
+	if (fcntl(this->_fd, F_SETFL, O_NONBLOCK) == -1)
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
 	Client::_idCounter++;
 	this->_id = Client::_idCounter;
@@ -131,7 +130,7 @@ void Client::decrementIdCounter()
 
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
 {
-	if (msg.first.empty())
+	if (msg.first.empty() && msg.second.empty())
         return;
     std::vector<Client>::iterator it = msg.second.begin();
     if (msg.second.empty()) {
@@ -147,4 +146,8 @@ void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) cons
 
 bool Client::operator==(const Client &rhs) {
     return this->_user == rhs._user;
+}
+
+bool Client::operator==(const std::string &rhs) {
+    return this->_user == rhs;
 }
