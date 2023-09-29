@@ -20,6 +20,8 @@ class Client
 	std::string _realName;
 	std::string _nick;
 	std::string _user;
+	std::string _currCommand;
+	bool _isCommandComplete;
 	
 	public:
 
@@ -43,7 +45,12 @@ class Client
 	void setShouldEraseClient(bool state);
 	int getRetries() const;
 	void setRetries(int value);
-	static int getIdCounter() ;
+	static int getIdCounter();
+	void IncrementalSetCurrCommand(const std::string &cmd);
+	void setCurrCommand(const std::string &cmd);
+	std::string getCurrCommand() const;
+	bool getIsCommandComplete() const;
+	void setIsCommandComplete(const bool &state);
 
 	static void decrementIdCounter();
 	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;

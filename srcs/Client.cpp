@@ -4,12 +4,14 @@
 
 int Client::_idCounter = 0;
 
-Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0) {}
+Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _currCommand(""), _isCommandComplete(false) {}
 
 Client::Client(int serverfd) :
 	_shouldEraseClient(false),
 	_retries(0),
-	_id(_idCounter)
+	_id(_idCounter),
+	_currCommand(""),
+	_isCommandComplete(false)
 {
 	sockAddrIn cliAddr;
 	socklen_t cliLen = sizeof(cliAddr);
@@ -34,6 +36,8 @@ Client &Client::operator=(const Client &rhs) {
         this->_user = rhs._user;
 		this->_id = rhs._id;
 		this->_fd = rhs._fd;
+		this->_currCommand = rhs._currCommand;
+		this->_isCommandComplete = rhs._isCommandComplete;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
 		this->_retries = rhs._retries;
 	}
@@ -150,4 +154,32 @@ bool Client::operator==(const Client &rhs) {
 
 bool Client::operator==(const std::string &rhs) {
     return this->_user == rhs;
+}
+
+void Client::IncrementalSetCurrCommand(const std::string &cmd)
+{
+	this->_currCommand += cmd;
+	std::size_t found = this->_currCommand.find("\r\n");
+	if (found != std::string::npos)
+		this->_isCommandComplete = true;
+}
+
+void Client::setCurrCommand(const std::string &cmd)
+{
+	this->_currCommand = cmd;
+}
+
+std::string Client::getCurrCommand() const
+{
+	return (this->_currCommand);
+}
+
+bool Client::getIsCommandComplete() const
+{
+	return (this->_isCommandComplete);
+}
+
+void Client::setIsCommandComplete(const bool &state)
+{
+	this->_isCommandComplete = state;
 }
