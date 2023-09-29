@@ -72,15 +72,20 @@ void	Server::mainLoop()
 			{
                 Client &client = clients[i - 1];
 
-				std::string data = receiveData(client);
-				std::vector<std::string> lines = split(data, "\r\n");
-				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
+				client.IncrementalSetCurrCommand(receiveData(client));
+				if (client.getIsCommandComplete())
 				{
-					if ((*line).empty())
-						continue ;
-					Message msg = parseMsg(*line);
-					std::pair<std::string, std::vector<Client> > response = processMessage(msg, client, clients, channels);
-					client.sendMessage(response);
+					std::vector<std::string> lines = split(client.getCurrCommand(), "\r\n");
+					for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
+					{
+						if ((*line).empty())
+							continue ;
+						Message msg = parseMsg(*line);
+						std::pair<std::string, std::vector<Client> > response = processMessage(msg, client, clients, channels);
+						client.sendMessage(response);
+						client.setIsCommandComplete(false);//talvez esse fluxo não esteja correto
+						client.setCurrCommand("");
+					}
 				}
 				if (client.getShouldEraseClient())
 				{
