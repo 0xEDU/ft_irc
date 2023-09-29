@@ -1,16 +1,13 @@
 #include "ft_irc.hpp"
-#include "Client.hpp"
-
 
 int Client::_idCounter = 0;
 
-Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _currCommand(""), _isCommandComplete(false) {}
+Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _isCommandComplete(false) {}
 
 Client::Client(int serverfd) :
 	_shouldEraseClient(false),
 	_retries(0),
 	_id(_idCounter),
-	_currCommand(""),
 	_isCommandComplete(false)
 {
 	sockAddrIn cliAddr;
@@ -25,7 +22,7 @@ Client::Client(int serverfd) :
 	this->_id = Client::_idCounter;
 }
 
-Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id() {
+Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id(), _isCommandComplete() {
 	*this = rhs;
 }
 
@@ -134,7 +131,8 @@ void Client::decrementIdCounter()
 
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
 {
-	if (msg.first.empty() && msg.second.empty())
+	if ((msg.first.empty() && msg.second.empty())
+        || (_currCommand.find("PRIVMSG") == 0 && msg.second.empty()))
         return;
     std::vector<Client>::iterator it = msg.second.begin();
     if (msg.second.empty()) {
@@ -156,7 +154,7 @@ bool Client::operator==(const std::string &rhs) {
     return this->_user == rhs;
 }
 
-void Client::IncrementalSetCurrCommand(const std::string &cmd)
+void Client::incrementCurrCommand(const std::string &cmd)
 {
 	this->_currCommand += cmd;
 	std::size_t found = this->_currCommand.find("\r\n");

@@ -46,7 +46,7 @@ class Client
 	int getRetries() const;
 	void setRetries(int value);
 	static int getIdCounter();
-	void IncrementalSetCurrCommand(const std::string &cmd);
+	void incrementCurrCommand(const std::string &cmd);
 	void setCurrCommand(const std::string &cmd);
 	std::string getCurrCommand() const;
 	bool getIsCommandComplete() const;

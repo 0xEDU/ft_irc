@@ -67,12 +67,12 @@ void	Server::mainLoop()
 			clients.push_back(newClient);
 		}
 		for (std::size_t i = 1; i < fds.size(); i++)
-		{
+        {
 			if (fds[i].revents & POLLIN)
 			{
                 Client &client = clients[i - 1];
 
-				client.IncrementalSetCurrCommand(receiveData(client));
+                client.incrementCurrCommand(receiveData(client));
 				if (client.getIsCommandComplete())
 				{
 					std::vector<std::string> lines = split(client.getCurrCommand(), "\r\n");
