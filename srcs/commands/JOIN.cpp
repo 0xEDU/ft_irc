@@ -10,6 +10,14 @@ std::string join(CommandArgs cArgs) {
 	for (size_t i = 0; i < cArgs.clients.size(); i++) {
 		nicks += nick + " ";
 	}
+	if (channel == "0")
+	{
+		std::string argument = "";
+		for (size_t i = 0; i < cArgs.channels.size(); i++)
+			argument += cArgs.channels[i].getName() + " ";
+		cArgs.msg.args = split(argument);
+		part(cArgs);
+	}
 	if (channel[0] != '#')
 		return (ERR_NOSUCHCHANNEL(channel));
 	std::vector<Channel>::iterator it;
