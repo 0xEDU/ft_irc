@@ -31,7 +31,8 @@ COMMANDS_SRCS =	Commands.cpp \
 				QUIT.cpp \
 				KICK.cpp \
 				PART.cpp \
-				WHO.cpp
+				WHO.cpp \
+				MODE.cpp
 
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 COMMANDS_OBJS = ${COMMANDS_SRCS:%.cpp=$(PATH_OBJS)%.o}

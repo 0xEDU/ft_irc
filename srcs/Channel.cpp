@@ -2,13 +2,13 @@
 #include "Channel.hpp"
 
 
-Channel::Channel() : _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
+Channel::Channel() : _i(false), _t(true), _k(false), _l(false), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
-Channel::Channel(const std::string& name) : _name(name), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
+Channel::Channel(const std::string& name) : _name(name), _i(false), _t(true), _k(false), _l(false), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
 Channel::~Channel() {}
 
-Channel::Channel(Channel const &src) : _isInviteOnly(), _userLimit()
+Channel::Channel(Channel const &src) : _i(), _t(), _k(), _l(), _isInviteOnly(), _userLimit()
 {
 	*this = src;
 }
@@ -24,6 +24,10 @@ Channel &Channel::operator=(Channel const &src)
 		this->_clients = src._clients;
         this->_operators = src._operators;
 		this->_userLimit = src._userLimit;
+        this->_i = src._i;
+        this->_t = src._t;
+        this->_k = src._k;
+        this->_l = src._l;
 	}
 	return (*this);
 }
@@ -149,7 +153,27 @@ void Channel::disconnectClient(const Client &client) {
 bool Channel::isOperator(Client &client) {
     std::vector<Client>::iterator
     it = std::find(this->_operators.begin(), this->_operators.end(), client);
-    if (it == this->_clients.end())
+    if (it == this->_operators.end())
         return false;
     return true;
+}
+
+std::pair<std::string, std::string> Channel::getModes() const {
+    std::string modes;
+    std::string modeParams;
+    if (this->_i)
+        modes += 'i';
+    if (this->_t)
+        modes += 't';
+    if (this->_k) {
+        modes += 'k';
+        modeParams += this->_password + " ";
+    }
+    if (this->_l) {
+        modes += 'l';
+        std::ostringstream oss;
+        oss << this->_userLimit;
+        modeParams += oss.str() + " ";
+    }
+    return std::make_pair(modes, modeParams);
 }

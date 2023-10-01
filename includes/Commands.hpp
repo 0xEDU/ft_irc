@@ -33,5 +33,6 @@ std::string privmsg(CommandArgs cArgs);
 std::string kick(CommandArgs cArgs);
 std::string part(CommandArgs cArgs);
 std::string who(CommandArgs cArgs);
+std::string mode(CommandArgs cArgs);
 
 #endif

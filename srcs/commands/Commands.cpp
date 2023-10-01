@@ -14,6 +14,7 @@ void Commands::populateMap()
     _messageFunctions["KICK"] = kick;
     _messageFunctions["PART"] = part;
     _messageFunctions["WHO"] = who;
+    _messageFunctions["MODE"] = mode;
 }
 
 std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)

@@ -9,9 +9,14 @@ class Channel
 {
 	private:
 
-	std::string 		_topic;
-	std::string 		_name;
-	std::string 		_password;
+	std::string _topic;
+	std::string _name;
+	std::string _password;
+    bool        _i;
+    bool        _t;
+    bool        _k;
+    bool        _l;
+
 	bool 				_isInviteOnly;
 	std::vector<Client>	_clients;
     std::vector<Client>	_operators;
@@ -19,26 +24,26 @@ class Channel
 	
 	public:
 
-	Channel(void);
-	Channel(const std::string& name);
-	~Channel(void);
+	Channel();
+	explicit Channel(const std::string& name);
+	~Channel();
 	Channel(Channel const &src);
 	Channel &operator=(Channel const &src);
 	bool operator==(const std::string &name);
 
 	void validateClientName(std::string name);
 	
-	std::string getTopic(void) const;
+	std::string getTopic() const;
 	void setTopic(const std::string &topic);
-	std::string getName(void) const;
+	std::string getName() const;
 	void setName(const std::string &name);
-	std::string getPassword(void) const;
+	std::string getPassword() const;
 	void setPassword(const std::string &password);
-	bool getIsInviteOnly(void) const;
+	bool getIsInviteOnly() const;
 	void setIsInviteOnly(const bool &isInviteOnly);
-	std::vector<Client> getClients(void) const;
+	std::vector<Client> getClients() const;
 	void setClients(const std::vector<Client> &clients);
-	int getUserLimit(void) const;
+	int getUserLimit() const;
 	void setUserLimit(const int &userLimit);
     std::string getChannelUsers();
     void addClient(const Client &client);
@@ -49,6 +54,8 @@ class Channel
     bool isClientOnChannel(const Client &client);
 
     bool isOperator(Client &client);
+
+    std::pair<std::string, std::string> getModes() const;
 };
 
 #endif
