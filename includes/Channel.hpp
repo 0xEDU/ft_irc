@@ -45,6 +45,8 @@ class Channel
     void addOperator(const Client &client);
 
     void disconnectClient(const Client &client);
+
+    bool isClientOnChannel(const Client &client);
 };
 
 #endif

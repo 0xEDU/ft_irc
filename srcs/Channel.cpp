@@ -117,6 +117,15 @@ void Channel::addOperator(const Client &client) {
     this->_operators.push_back(client);
 }
 
+bool Channel::isClientOnChannel(const Client &client) {
+    std::vector<Client>::iterator
+    it = std::find(this->_clients.begin(), this->_clients.end(), client);
+
+    if (it == this->_clients.end())
+        return false;
+    return true;
+}
+
 void Channel::disconnectClient(const Client &client) {
     std::vector<Client>::iterator
     clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
