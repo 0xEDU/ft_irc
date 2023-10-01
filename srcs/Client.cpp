@@ -33,6 +33,7 @@ Client &Client::operator=(const Client &rhs) {
         this->_user = rhs._user;
 		this->_id = rhs._id;
 		this->_fd = rhs._fd;
+		this->_pass = rhs._pass;
 		this->_currCommand = rhs._currCommand;
 		this->_isCommandComplete = rhs._isCommandComplete;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
@@ -97,6 +98,16 @@ void Client::setFd(const int &fd)
 int Client::getIdCounter()
 {
 	return (Client::_idCounter);
+}
+
+std::string Client::getPass() const
+{
+	return (this->_pass);
+}
+
+void Client::setPass(const std::string &clientpass)
+{
+	this->_pass = clientpass;
 }
 
 void Client::setShouldEraseClient(bool state)

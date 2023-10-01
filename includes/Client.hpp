@@ -21,6 +21,7 @@ class Client
 	std::string _nick;
 	std::string _user;
 	std::string _currCommand;
+	std::string _pass;
 	bool _isCommandComplete;
 	
 	public:
@@ -41,6 +42,8 @@ class Client
 	void setUser(const std::string &user);
 	std::string getNick() const;
 	void setNick(const std::string &nick);
+	std::string getPass() const;
+	void setPass(const std::string &clientpass);
 	bool getShouldEraseClient() const;
 	void setShouldEraseClient(bool state);
 	int getRetries() const;
