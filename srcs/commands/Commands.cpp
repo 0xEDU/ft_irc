@@ -13,6 +13,7 @@ void Commands::populateMap()
     _messageFunctions["PRIVMSG"] = privmsg;
     _messageFunctions["KICK"] = kick;
     _messageFunctions["PART"] = part;
+    _messageFunctions["WHO"] = who;
 }
 
 std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)

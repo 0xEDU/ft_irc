@@ -145,3 +145,11 @@ void Channel::disconnectClient(const Client &client) {
     if (operatorsIt != this->_operators.end())
         this->_operators.erase(operatorsIt);
 }
+
+bool Channel::isOperator(Client &client) {
+    std::vector<Client>::iterator
+    it = std::find(this->_operators.begin(), this->_operators.end(), client);
+    if (it == this->_clients.end())
+        return false;
+    return true;
+}

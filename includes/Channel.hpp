@@ -47,6 +47,8 @@ class Channel
     void disconnectClient(const Client &client);
 
     bool isClientOnChannel(const Client &client);
+
+    bool isOperator(Client &client);
 };
 
 #endif

@@ -12,8 +12,8 @@ std::string part(CommandArgs cArgs) {
     std::vector<std::string> channels = split(cArgs.msg.args[0], ",");
 
     for (size_t i = 0; i < channels.size(); i++) {
-        std::vector<Channel>::iterator it;
         std::string channel = channels[i];
+        std::vector<Channel>::iterator it;
         it = std::find(cArgs.channels.begin(), cArgs.channels.end(), channel);
         if (it == cArgs.channels.end())
             return ERR_NOSUCHCHANNEL(channel);

@@ -32,5 +32,6 @@ std::string join(CommandArgs cArgs);
 std::string privmsg(CommandArgs cArgs);
 std::string kick(CommandArgs cArgs);
 std::string part(CommandArgs cArgs);
+std::string who(CommandArgs cArgs);
 
 #endif
