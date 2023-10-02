@@ -167,7 +167,8 @@ std::pair<std::string, std::string> Channel::getModes() const {
         modes += 't';
     if (this->_k) {
         modes += 'k';
-        modeParams += this->_password + " ";
+        if (!this->_password.empty())
+            modeParams += this->_password + " ";
     }
     if (this->_l) {
         modes += 'l';

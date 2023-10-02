@@ -26,7 +26,7 @@ std::string mode(CommandArgs cArgs) {
         switch (c) {
             case 'o':
             {
-
+                
             }
             case 'i':
                 LOG('daal')
