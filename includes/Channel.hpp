@@ -31,8 +31,6 @@ class Channel
 	Channel &operator=(Channel const &src);
 	bool operator==(const std::string &name);
 
-	void validateClientName(std::string name);
-	
 	std::string getTopic() const;
 	void setTopic(const std::string &topic);
 	std::string getName() const;

@@ -1,6 +1,4 @@
 #include "ft_irc.hpp"
-#include "Channel.hpp"
-
 
 Channel::Channel() : _i(false), _t(true), _k(false), _l(false), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
@@ -99,7 +97,6 @@ void Channel::setUserLimit(const int &userLimit)
 	this->_userLimit = userLimit;
 }
 
-// Const talvez dê merda
 void Channel::addClient(const Client &client)
 {
 	this->_clients.push_back(client);

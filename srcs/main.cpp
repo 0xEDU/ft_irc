@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	}
 	catch(const std::exception& e)
 	{
-		ERROR(e.what());
+		ERROR(e.what())
 	}
 	
 	return (0);
