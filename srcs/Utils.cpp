@@ -12,3 +12,6 @@ std::vector<std::string> Utils::split(const std::string &s, const std::string& d
     tokens.push_back(s.substr(pos_start));
     return tokens;
 }
+
+Utils::Utils() {}
+Utils::~Utils() {}

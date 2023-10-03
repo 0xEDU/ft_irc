@@ -14,4 +14,4 @@ public:
 };
 
 
-#endif //FT_IRC_UTILS_HPP
+#endif
