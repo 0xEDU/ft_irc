@@ -32,6 +32,7 @@
 #include "Channel.hpp"
 #include "CommandArgs.hpp"
 #include "Server.hpp"
+#include "Utils.hpp"
 
 #include "replies.hpp"
 
@@ -43,7 +44,5 @@ class Server;
 typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
 typedef struct pollfd pollfd;
-
-std::vector<std::string> split(const std::string &s, const std::string& delimiter = " ");
 
 #endif

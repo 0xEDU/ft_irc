@@ -39,11 +39,11 @@ Message Message::parseMsg(std::string msg)
     {
         std::string trailing = msg.substr(found + 2, msg.size() - 1);
         msg = msg.substr(0, found);
-        args = split(msg);
+        args = Utils::split(msg);
         args.push_back(trailing);
     }
     else
-        args = split(msg);
+        args = Utils::split(msg);
     std::string command = args[0];
     args.erase(args.begin());
     return (Message(prefix, command, args));

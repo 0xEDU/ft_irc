@@ -75,7 +75,7 @@ void	Server::mainLoop()
                 client.incrementCurrCommand(Client::receiveData(client));
 				if (client.getIsCommandComplete())
 				{
-					std::vector<std::string> lines = split(client.getCurrCommand(), "\r\n");
+					std::vector<std::string> lines = Utils::split(client.getCurrCommand(), "\r\n");
 					for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
 					{
 						if ((*line).empty())
