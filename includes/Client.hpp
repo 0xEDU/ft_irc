@@ -61,6 +61,8 @@ class Client
 
     bool operator==(const Client &rhs);
     bool operator==(const std::string &rhs);
+
+    static std::string receiveData(Client &client);
 };
 
 #endif

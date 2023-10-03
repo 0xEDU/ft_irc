@@ -11,13 +11,10 @@ PATH_TESTS = ./tests/
 PATH_OBJS = ./objs/
 
 SRCS =	main.cpp \
-		receiveData.cpp \
 		Channel.cpp \
 		Client.cpp \
 		Message.cpp \
-		parseMsg.cpp \
 		split.cpp \
-		processMessage.cpp \
 		Server.cpp
 
 COMMANDS_SRCS =	Commands.cpp \

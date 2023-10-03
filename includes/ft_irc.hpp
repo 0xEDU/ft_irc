@@ -12,11 +12,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <signal.h>
 #include <fcntl.h>
-#include <errno.h>
 #include <poll.h>
 
+#include <csignal>
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -45,10 +44,6 @@ typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;
 typedef struct pollfd pollfd;
 
-std::string					receiveData(Client &client);
-Message 					parseMsg(std::string msg);
 std::vector<std::string> split(const std::string &s, const std::string& delimiter = " ");
-std::pair<std::string, std::vector<Client> >
-processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels);
 
 #endif

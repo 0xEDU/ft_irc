@@ -72,7 +72,7 @@ void	Server::mainLoop()
 			{
                 Client &client = clients[i - 1];
 
-                client.incrementCurrCommand(receiveData(client));
+                client.incrementCurrCommand(Client::receiveData(client));
 				if (client.getIsCommandComplete())
 				{
 					std::vector<std::string> lines = split(client.getCurrCommand(), "\r\n");
@@ -80,8 +80,8 @@ void	Server::mainLoop()
 					{
 						if ((*line).empty())
 							continue ;
-						Message msg = parseMsg(*line);
-						std::pair<std::string, std::vector<Client> > response = processMessage(msg, client, clients, channels);
+						Message msg = Message::parseMsg(*line);
+						std::pair<std::string, std::vector<Client> > response = Message::processMessage(msg, client, clients, channels);
 						client.sendMessage(response);
 						client.setIsCommandComplete(false);//talvez esse fluxo não esteja correto
 						client.setCurrCommand("");

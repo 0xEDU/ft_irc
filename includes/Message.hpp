@@ -3,6 +3,7 @@
 #define MESSAGE_HPP
 
 #include "ft_irc.hpp"
+#include "Channel.hpp"
 
 struct Message
 {
@@ -15,6 +16,11 @@ struct Message
 	~Message();
 	Message(const Message &other);
 	Message &operator=(const Message &other);
+
+    static Message parseMsg(std::string msg);
+
+    static std::pair<std::string, std::vector<Client> >
+    processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels);
 };
 
 

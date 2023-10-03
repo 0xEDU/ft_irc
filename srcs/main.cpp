@@ -9,9 +9,9 @@ int main(int argc, char **argv)
 		Server server;
 		Commands::populateMap();
 		server.setPort(argv[1]);
-		server.setPasswd(argv[2]);
+		Server::setPasswd(argv[2]);
         server.setupTCP();
-		server.mainLoop();
+		Server::mainLoop();
 	}
 	catch(const std::exception& e)
 	{
