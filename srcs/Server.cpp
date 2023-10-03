@@ -83,7 +83,7 @@ void	Server::mainLoop()
 						Message msg = Message::parseMsg(*line);
 						std::pair<std::string, std::vector<Client> > response = Message::processMessage(msg, client, clients, channels);
 						client.sendMessage(response);
-						client.setIsCommandComplete(false);//talvez esse fluxo não esteja correto
+						client.setIsCommandComplete(false);
 						client.setCurrCommand("");
 					}
 				}
@@ -96,7 +96,6 @@ void	Server::mainLoop()
                         channels[c].disconnectClient(client);
 					Client::decrementIdCounter();
 				}
-
 			}
 		}
 		std::cout << "clients: " << clients.size() << std::endl;

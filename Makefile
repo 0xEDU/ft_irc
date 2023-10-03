@@ -15,7 +15,6 @@ SRCS =	main.cpp \
 		Client.cpp \
 		Message.cpp \
 		Utils.cpp \
-		split.cpp \
 		Server.cpp
 
 COMMANDS_SRCS =	Commands.cpp \
