@@ -13,7 +13,7 @@
 #define RPL_PARTNOMSG(nick, user, dest) (":" + nick + "!" + user + "@* PART " + dest + "\r\n")
 #define RPL_WHOREPLY(channel, user, nick, flags, realname) (":* 352 * " + channel + " " + user + " * * " + nick + " " + flags + ":0 " + realname + "\r\n")
 #define RPL_ENDOFWHO(channel) (":* 315 * " + channel + " :End of /WHO list\r\n")
-#define RPL_CHANNELMODEIS(user, channel, mode, modeParams) (":* 324 * " + user + " " + channel + " " + mode + modeParams + "\r\n")
+#define RPL_CHANNELMODEIS(channel, mode) (":ft.irc 324 *  " + channel + " " + mode + "\r\n")
 
 #define ERR_ERRONEUSNICKNAME(nick) (":* 432 * " + nick + " :Nickname is invalid\r\n")
 #define ERR_NICKNAMEINUSE(nick) (":* 433 * " + nick + " :Nickname is already in use\r\n")
