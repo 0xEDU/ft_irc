@@ -11,7 +11,7 @@ std::string mode(CommandArgs cArgs) {
         return ERR_NOTONCHANNEL(channel);
     if (cArgs.msg.args.size() == 1 && cArgs.msg.args[0][0] == '#') {
         std::pair<std::string, std::string> modes = (*it).getModes();
-        return RPL_CHANNELMODEIS(channel, modes.first); // broken
+        return ":ft.irc 324 " + cArgs.client.getNick() + " " + channel.substr(1, channel.size() - 1) + " " + modes.first + " " + modes.second + "\r\n";
     }
     if (!(*it).isOperator(cArgs.client))
         return ERR_CHANOPRIVSNEEDED(cArgs.client.getUser(), channel);
