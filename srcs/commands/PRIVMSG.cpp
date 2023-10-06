@@ -1,4 +1,4 @@
-#include "Commands.hpp"
+#include "ft_irc.hpp"
 
 std::string privmsg(CommandArgs cArgs) {
     std::string nick = cArgs.client.getNick();

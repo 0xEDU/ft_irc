@@ -26,13 +26,13 @@
 #include <vector>
 #include <utility>
 
-#include "Client.hpp"
-#include "Message.hpp"
-#include "Commands.hpp"
-#include "Channel.hpp"
-#include "CommandArgs.hpp"
-#include "Server.hpp"
-#include "Utils.hpp"
+#include "classes/Client.hpp"
+#include "classes/Message.hpp"
+#include "classes/Commands.hpp"
+#include "classes/Channel.hpp"
+#include "classes/CommandArgs.hpp"
+#include "classes/Server.hpp"
+#include "classes/Utils.hpp"
 
 #include "replies.hpp"
 

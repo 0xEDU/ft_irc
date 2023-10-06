@@ -7,19 +7,13 @@ FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 PATH_SRCS = ./srcs/
 PATH_COMMANDS = ./srcs/commands/
+PATH_CLASSES = ./srcs/classes/
 PATH_TESTS = ./tests/
 PATH_OBJS = ./objs/
 
-SRCS =	main.cpp \
-		Channel.cpp \
-		Client.cpp \
-		Message.cpp \
-		Utils.cpp \
-		Server.cpp
+SRCS =	main.cpp
 
-COMMANDS_SRCS =	Commands.cpp \
-				CommandArgs.cpp \
-				CAP.cpp \
+COMMANDS_SRCS =	CAP.cpp \
 				PASS.cpp \
 				USER.cpp \
 				NICK.cpp \
@@ -31,9 +25,18 @@ COMMANDS_SRCS =	Commands.cpp \
 				WHO.cpp \
 				MODE.cpp
 
+CLASSES_SRCS =	Channel.cpp \
+				Commands.cpp \
+				CommandArgs.cpp \
+				Client.cpp \
+				Message.cpp \
+				Utils.cpp \
+				Server.cpp
+
 OBJS = ${SRCS:%.cpp=$(PATH_OBJS)%.o}
 COMMANDS_OBJS = ${COMMANDS_SRCS:%.cpp=$(PATH_OBJS)%.o}
-	
+CLASSES_OBJS = ${CLASSES_SRCS:%.cpp=$(PATH_OBJS)%.o}
+
 TESTS =	main_tests.cpp \
 		Message.cpp \
 		parseMsg.cpp \
@@ -66,10 +69,15 @@ run: all
 v: all
 	@valgrind --track-fds=yes ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 
-$(NAME): $(OBJS) $(COMMANDS_OBJS)
-	@clang++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS)
+	@clang++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS) -o $(NAME)
 
 $(PATH_OBJS)%.o: $(PATH_COMMANDS)%.cpp
+	@mkdir -p $(PATH_OBJS)
+	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
+	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
+
+$(PATH_OBJS)%.o: $(PATH_CLASSES)%.cpp
 	@mkdir -p $(PATH_OBJS)
 	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
 	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"

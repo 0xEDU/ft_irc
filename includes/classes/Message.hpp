@@ -3,7 +3,7 @@
 #define MESSAGE_HPP
 
 #include "ft_irc.hpp"
-#include "Channel.hpp"
+#include "classes/Channel.hpp"
 
 struct Message
 {
