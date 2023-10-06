@@ -157,7 +157,7 @@ bool Channel::isOperator(Client &client) {
 
 std::pair<std::string, std::string> Channel::getModes() const {
     std::string modes = "+";
-    std::string modeParams = "TROLLDMSS";
+    std::string modeParams = "";
     if (this->_i)
         modes += 'i';
     if (this->_t)
