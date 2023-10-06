@@ -118,10 +118,21 @@ void Channel::addOperator(const Client &client) {
     this->_operators.push_back(client);
 }
 
+void Channel::removeOperator(const Client &client) {
+    this->_operators.erase(std::find(this->_operators.begin(), this->_operators.end(), client));
+}
+
 bool Channel::isClientOnChannel(const Client &client) {
     std::vector<Client>::iterator
     it = std::find(this->_clients.begin(), this->_clients.end(), client);
+    if (it == this->_clients.end())
+        return false;
+    return true;
+}
 
+bool Channel::isClientOnChannel(const std::string &client) {
+    std::vector<Client>::iterator
+    it = std::find(this->_clients.begin(), this->_clients.end(), client);
     if (it == this->_clients.end())
         return false;
     return true;
