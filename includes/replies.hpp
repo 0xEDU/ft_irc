@@ -21,7 +21,7 @@
 #define ERR_ALREADYREGISTERED(user) (":ft.irc 462 " + user + " :User already registered\r\n")
 #define ERR_PASSWDMISMATCH ":ft.irc 464 * :Password was either not given or was incorrect\r\n"
 #define ERR_NOSUCHCHANNEL(channel) (":ft.irc 403 * " + channel + " :Invalid channel name!\r\n")
-#define ERR_NEEDMOREPARAMS(command, reason) (":ft.irc 461 " + command + " :" + reason + "\r\n")
+#define ERR_NEEDMOREPARAMS(command, reason) (":ft.irc 461 * " + command + " :" + reason + "\r\n")
 #define ERR_NOTONCHANNEL(channel) (":ft.irc 442 * " + channel + " :Client not on channel!\r\n")
 #define ERR_CHANOPRIVSNEEDED(user, channel) (":ft.irc 482 " + user + " " + channel + " :You're not a channel operator!\r\n")
 

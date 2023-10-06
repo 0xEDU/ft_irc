@@ -16,6 +16,8 @@ std::string mode(CommandArgs cArgs) {
     if (!(*it).isOperator(cArgs.client))
         return ERR_CHANOPRIVSNEEDED(cArgs.client.getUser(), channel);
     std::string modes = cArgs.msg.args[1];
+    if (cArgs.msg.args.size() > 4)
+        return (ERR_NEEDMOREPARAMS(cArgs.msg.command, "Need less params"));
     bool action = true;
     for (size_t i = 0; i < modes.size(); i++) {
         if (modes[i] == '+')
