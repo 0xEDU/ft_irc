@@ -7,6 +7,7 @@
 #define CLIENT_LIMIT 1024
 #define TIMEOUT 1000
 #define BUFFER_SIZE 512
+#define MAX_PORT_NUMBER 65535 
 
 #include <sys/socket.h>
 #include <netinet/in.h>
