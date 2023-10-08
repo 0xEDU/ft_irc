@@ -17,13 +17,13 @@ void	Server::setPort(char *input)
 }
 
 void Server::setupTCP() const {
-	const int	enable = 1;
+	const int	ENABLE = 1;
 	sockAddrIn	serverAddr;
 	
 	Server::_serverFd = socket(AF_INET, SOCK_STREAM, 0);
 	if (Server::_serverFd < 0)
 		throw std::runtime_error("Failed to create socket");
-	if (setsockopt(Server::_serverFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+	if (setsockopt(Server::_serverFd, SOL_SOCKET, SO_REUSEADDR, &ENABLE, sizeof(int)) < 0)
 		throw std::runtime_error("setsockopt failed");
 	std::memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET; 
