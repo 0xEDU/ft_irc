@@ -11,7 +11,7 @@ void	Server::setPort(char *input)
 {
 	int port = std::atoi(input);
 	
-	if (port < 0 || port > 65535)
+	if (port <= 0 || port > 65535)
 		throw std::logic_error("Invalid port number");
 	this->_port = port;
 }
