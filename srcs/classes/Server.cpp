@@ -104,7 +104,18 @@ std::string Server::getPasswd()
 	return (Server::_passwd);
 }
 
+static bool isPrintable(const std::string &s) {
+    for (std::string::const_iterator it = s.begin(); it != s.end(); ++it) {
+        if (!std::isprint(static_cast<unsigned char>(*it))) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void Server::setPasswd(char *passwd)
 {
+	if (!isPrintable(passwd))
+		throw std::logic_error("Invalid password provided");
 	Server::_passwd = std::string(passwd);
 }
