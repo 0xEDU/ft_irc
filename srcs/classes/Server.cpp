@@ -56,10 +56,7 @@ void	Server::mainLoop()
 	{
 		int activity = poll(fds.data(), fds.size(), TIMEOUT);
 		if (activity < 0)
-		{
-			ERROR("Poll error")
-			continue;
-		}
+			throw std::logic_error("Poll error");
 		if (fds[0].revents & POLLIN)
 		{
 			Client newClient(Server::_serverFd);
