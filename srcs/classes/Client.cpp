@@ -19,6 +19,7 @@ Client::Client(int serverfd) :
 	if (fcntl(this->_fd, F_SETFL, O_NONBLOCK) == -1)
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
 	Client::_idCounter++;
+	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl <<  std::endl;
 	this->_id = Client::_idCounter;
 }
 
@@ -138,6 +139,7 @@ void Client::setRetries(int retries)
 void Client::decrementIdCounter()
 {
 	_idCounter -= 1;
+	std::cout << "Number of clients connected: " << _idCounter << std::endl;
 }
 
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
