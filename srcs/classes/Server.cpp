@@ -24,7 +24,7 @@ void Server::setupTCP() const {
 	if (Server::_serverFd < 0)
 		throw std::runtime_error("Failed to create socket");
 	if (setsockopt(Server::_serverFd, SOL_SOCKET, SO_REUSEADDR, &ENABLE, sizeof(int)) < 0)
-		throw std::runtime_error("setsockopt failed");
+		throw std::runtime_error("Failed to set socket options");
 	std::memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET; 
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
@@ -34,7 +34,8 @@ void Server::setupTCP() const {
 	int flags = fcntl(Server::_serverFd, F_GETFL, 0);
 	if (fcntl(Server::_serverFd, F_SETFL, flags | O_NONBLOCK) == -1)
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
-	listen(Server::_serverFd, CLIENT_LIMIT);
+	if(listen(Server::_serverFd, CLIENT_LIMIT) == -1)
+		throw std::runtime_error("Failed to listen on socket");
 }
 
 void Server::sigHandler(int)
