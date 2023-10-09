@@ -90,8 +90,15 @@ void	Server::mainLoop()
 					close(client.getFd());
 					clients.erase(clients.begin() + (long)i - 1);
 					fds.erase(fds.begin() + (long)i);
-                    for (size_t c = 0; c < channels.size(); c++)
+                    for (size_t c = 0; c < channels.size(); c++) {
                         channels[c].disconnectClient(client);
+						std::vector<Client> broadcastList = channels[c].getClients();
+						std::string reply;
+						reply = RPL_NAMREPLY(client.getNick(), channels[c].getName(), channels[c].getChannelUsers()) +
+								RPL_ENDOFNAMES(client.getNick(), channels[c].getName());
+						std::pair<std::string, std::vector<Client> > message = std::make_pair(reply, broadcastList);
+						client.sendMessage(message);
+					}
 					Client::decrementIdCounter();
 				}
 			}

@@ -10,6 +10,7 @@ std::string part(CommandArgs cArgs) {
     std::string user = cArgs.client.getUser();
     std::string returnMessage;
     std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], ",");
+    std::vector<Client> broadcastList;
 
     for (size_t i = 0; i < channels.size(); i++) {
         std::string channel = channels[i];
@@ -26,6 +27,8 @@ std::string part(CommandArgs cArgs) {
             returnMessage.append(RPL_PARTMSG(nick, user, channel, message));
         else
             returnMessage.append(RPL_PARTNOMSG(nick, user, channel));
+        broadcastList.insert(broadcastList.end(), (*it).getClients().begin(), (*it).getClients().end());
     }
+    cArgs.broadcastList = broadcastList;
     return returnMessage;
 }
