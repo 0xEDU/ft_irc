@@ -51,7 +51,7 @@ void	Server::mainLoop()
 
 	signal(SIGINT, &Server::sigHandler);
 	fds.push_back((pollfd) {.fd = Server::_serverFd, .events = POLLIN});
-	
+	LOG("Server running...")
 	while (true)
 	{
 		int activity = poll(fds.data(), fds.size(), TIMEOUT);
@@ -98,8 +98,6 @@ void	Server::mainLoop()
 				}
 			}
 		}
-		std::cout << "clients: " << clients.size() << std::endl;
-		sleep(1); // Will be removed
 	}
 }
 
