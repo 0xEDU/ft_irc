@@ -11,6 +11,8 @@ std::string privmsg(CommandArgs cArgs) {
         std::vector<Client>::iterator itClient;
 
         itChannel = std::find(cArgs.channels.begin(), cArgs.channels.end(), recipient);
+		if (itChannel == cArgs.channels.end())
+			return (ERR_NOTONCHANNEL((recipient)));
         for (size_t i = 0; i < (*itChannel).getClients().size(); i++)
             cArgs.broadcastList.push_back((*itChannel).getClients()[i]);
         itClient = std::find(cArgs.broadcastList.begin(), cArgs.broadcastList.end(), cArgs.client);
