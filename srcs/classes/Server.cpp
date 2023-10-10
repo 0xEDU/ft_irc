@@ -29,11 +29,16 @@ void Server::setupTCP() const {
 	serverAddr.sin_family = AF_INET; 
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 	serverAddr.sin_port = htons(this->_port);
+
 	if (bind(Server::_serverFd, (sockAddr *) &serverAddr, sizeof(serverAddr)) < 0)
-		throw std::runtime_error("Failed to bind to socket"); 
+		throw std::runtime_error("Failed to bind server file descriptor to socket");
+
+	// Configure file descriptor to non-blocking 
 	int flags = fcntl(Server::_serverFd, F_GETFL, 0);
 	if (fcntl(Server::_serverFd, F_SETFL, flags | O_NONBLOCK) == -1)
-    	throw std::runtime_error("Failed to set socketFd to non-blocking");
+    	throw std::runtime_error("Failed to set the non-blocking mode on socket file descriptor");
+	
+	// Puts server to listen to port 8080 and sets a limit for the number of connections allowed to be held at 
 	if(listen(Server::_serverFd, CLIENT_LIMIT) == -1)
 		throw std::runtime_error("Failed to listen on socket");
 }
@@ -44,18 +49,24 @@ void Server::sigHandler(int)
 	throw std::runtime_error("\nServer stopped by SIGINT");
 }
 
-void	Server::mainLoop()
+void	Server::start()
 {
 	std::vector<pollfd> fds;
 	std::vector<Client> clients;
 	std::vector<Channel> channels;
 
+
+	// Overrides the behaviour of SIGINt (ctrl+C)
 	signal(SIGINT, &Server::sigHandler);
+
+	// initialises this vector with the first POLLIN event i guess?
+	//
 	fds.push_back((pollfd) {.fd = Server::_serverFd, .events = POLLIN});
 	LOG("Server running...")
 	while (true)
 	{
-		int activity = poll(fds.data(), fds.size(), TIMEOUT);
+		// Poll goes through all the fds in the vector and sees if there is any queeued event.
+		int activity = poll(fds.data(), fds.size(), TIMEOUT_MS);
 		if (activity < 0)
 			throw std::logic_error("Poll error");
 		if (fds[0].revents & POLLIN)
@@ -64,9 +75,10 @@ void	Server::mainLoop()
 			fds.push_back((pollfd) { .fd = newClient.getFd(), .events = POLLIN});
 			clients.push_back(newClient);
 		}
+
 		for (std::size_t i = 1; i < fds.size(); i++)
         {
-			if (fds[i].revents & POLLIN)
+			if ((fds[i].revents & POLLIN) == POLLIN)
 			{
                 Client &client = clients[i - 1];
 

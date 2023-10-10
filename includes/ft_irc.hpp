@@ -5,9 +5,10 @@
 #define LOG(x) std::cout << x << std::endl;
 #define ERROR(x) std::cerr << "Error: " << x << std::endl;
 #define CLIENT_LIMIT 1024
-#define TIMEOUT 1000
+#define TIMEOUT_MS 1000
 #define BUFFER_SIZE 512
 #define MAX_PORT_NUMBER 65535 
+#define SERVER 0
 
 #include <sys/socket.h>
 #include <netinet/in.h>

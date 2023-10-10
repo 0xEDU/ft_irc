@@ -18,6 +18,7 @@ Client::Client(int serverfd) :
 		throw std::runtime_error("Failed to accept client");
 	if (fcntl(this->_fd, F_SETFL, O_NONBLOCK) == -1)
     	throw std::runtime_error("Failed to set socketFd to non-blocking");
+
 	Client::_idCounter++;
 	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl;
 	this->_id = Client::_idCounter;

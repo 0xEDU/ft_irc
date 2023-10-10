@@ -16,7 +16,7 @@ Client *newClient(void) {
 	fakePoll[0].fd = fakeServer;
 	std::cout << GREEN << "Waiting for client connection" << END << std::endl;
 	while (true) {
-		poll(fakePoll, CLIENT_LIMIT, TIMEOUT);
+		poll(fakePoll, CLIENT_LIMIT, TIMEOUT_MS);
 		if (fakePoll[0].revents & POLLIN) {
 			Client *client = new Client(fakeServer, fakePoll);
 			return client;

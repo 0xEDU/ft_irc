@@ -20,7 +20,7 @@ class Server
 	~Server();
 
 	void setupTCP() const;
-	static void mainLoop();
+	static void start();
 
 	void setPort(char *input);
 	static std::string getPasswd();
