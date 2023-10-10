@@ -75,17 +75,17 @@ $(NAME): $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS)
 $(PATH_OBJS)%.o: $(PATH_COMMANDS)%.cpp
 	@mkdir -p $(PATH_OBJS)
 	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
-	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
+	@echo "\033[1;92m[SUCCESS] Object" $@ "created!\033[0m"
 
 $(PATH_OBJS)%.o: $(PATH_CLASSES)%.cpp
 	@mkdir -p $(PATH_OBJS)
 	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
-	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
+	@echo "\033[1;92m[SUCCESS] Object" $@ "created!\033[0m"
 
 $(PATH_OBJS)%.o: $(PATH_SRCS)%.cpp
 	@mkdir -p $(PATH_OBJS)
 	@clang++ $(FLAGS) $(INCLUDES) -c $< -o $@
-	@echo "\033[1;92m[SUCCESS] Object creation done!\033[0m"
+	@echo "\033[1;92m[SUCCESS] Object" $@ "created!\033[0m"
 	
 tests: $(TESTS_OBJS)
 	@echo "\033[1;92mRunning tests\033[0m"
@@ -100,11 +100,11 @@ client-tests: $(CLIENT_TESTS_OBJS)
 $(PATH_OBJS)%.o: $(PATH_TESTS)%.cpp
 	@mkdir -p $(PATH_OBJS)
 	@clang++ $(FLAGS) $(INCLUDES) $(TESTS_INCLUDES) -c $< -o $@
-	@echo "\033[1;92m[SUCCESS] Test object creation done!\033[0m"
+	@echo "\033[1;92m[SUCCESS] Test object" $@ "created!\033[0m"
 
 clean:
 	@rm -rf $(PATH_OBJS)
-	@echo "\033[1;92m[SUCCESS] Object removed!\033[0m"
+	@echo "\033[1;92m[SUCCESS] Object files removed!\033[0m"
 
 fclean: clean
 	@rm -rf $(NAME) $(TEST_NAME)
