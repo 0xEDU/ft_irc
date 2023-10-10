@@ -1,3 +1,5 @@
 .vscode
 ircserv
 objs/
+compile_commands.json
+.cache
