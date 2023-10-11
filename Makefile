@@ -16,6 +16,7 @@ SRCS =	main.cpp
 COMMANDS_SRCS =	CAP.cpp \
 				PASS.cpp \
 				USER.cpp \
+				LISTC.cpp \
 				NICK.cpp \
 				JOIN.cpp \
 				PRIVMSG.cpp \

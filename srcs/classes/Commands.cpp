@@ -10,6 +10,7 @@ void Commands::populateMap()
 	_messageFunctions["CAP"] = cap;
 	_messageFunctions["QUIT"] = quit;
 	_messageFunctions["JOIN"] = join;
+	_messageFunctions["LISTC"] = listc;
     _messageFunctions["PRIVMSG"] = privmsg;
     _messageFunctions["KICK"] = kick;
     _messageFunctions["PART"] = part;
