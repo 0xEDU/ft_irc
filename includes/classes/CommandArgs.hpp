@@ -7,12 +7,12 @@
 struct CommandArgs
 {
 	Client &client;
-	Message msg;
+	RawMessage msg;
 	std::vector<Client> &clients;
     std::vector<Client> &broadcastList;
 	std::vector<Channel> &channels;
 
-	CommandArgs(Client &client, Message &msg, std::vector<Client> &clients, std::vector<Channel> &channels,
+	CommandArgs(Client &client, RawMessage &msg, std::vector<Client> &clients, std::vector<Channel> &channels,
                 std::vector<Client> &broadcastList);
 	~CommandArgs();
 };

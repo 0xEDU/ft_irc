@@ -1,18 +1,18 @@
 #include "ft_irc.hpp"
 
-Message::Message() {}
+RawMessage::RawMessage() {}
 
-Message::~Message() {}
+RawMessage::~RawMessage() {}
 
-Message::Message(const std::string& prefix, const std::string& command, const std::vector<std::string>& args)
+RawMessage::RawMessage(const std::string& prefix, const std::string& command, const std::vector<std::string>& args)
 	: prefix(prefix), command(command), args(args) {}
 
-Message::Message(const Message &other)
+RawMessage::RawMessage(const RawMessage &other)
 {
 	*this = other;
 }
 
-Message &Message::operator=(const Message &other)
+RawMessage &RawMessage::operator=(const RawMessage &other)
 {
 	if (this != &other)
 	{
@@ -22,7 +22,7 @@ Message &Message::operator=(const Message &other)
 	}
 	return (*this);
 }
-Message Message::parseMsg(std::string msg)
+RawMessage RawMessage::parseMsg(std::string msg)
 {
     std::string prefix;
     std::vector<std::string> args;
@@ -46,10 +46,10 @@ Message Message::parseMsg(std::string msg)
         args = Utils::split(msg);
     std::string command = args[0];
     args.erase(args.begin());
-    return (Message(prefix, command, args));
+    return (RawMessage(prefix, command, args));
 }
 std::pair<std::string, std::vector<Client> >
-Message::processMessage(Message &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels)
+RawMessage::processMessage(RawMessage &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels)
 {
     std::vector<Client> broadcastList;
     CommandArgs cArgs = CommandArgs(client, msg, clients, channels, broadcastList);

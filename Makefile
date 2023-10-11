@@ -16,6 +16,7 @@ SRCS =	main.cpp
 COMMANDS_SRCS =	CAP.cpp \
 				PASS.cpp \
 				USER.cpp \
+				LISTC.cpp \
 				NICK.cpp \
 				JOIN.cpp \
 				PRIVMSG.cpp \
@@ -29,7 +30,7 @@ CLASSES_SRCS =	Channel.cpp \
 				Commands.cpp \
 				CommandArgs.cpp \
 				Client.cpp \
-				Message.cpp \
+				RawMessage.cpp \
 				Utils.cpp \
 				Server.cpp
 
@@ -38,7 +39,7 @@ COMMANDS_OBJS = ${COMMANDS_SRCS:%.cpp=$(PATH_OBJS)%.o}
 CLASSES_OBJS = ${CLASSES_SRCS:%.cpp=$(PATH_OBJS)%.o}
 
 TESTS =	main_tests.cpp \
-		Message.cpp \
+		RawMessage.cpp \
 		parseMsg.cpp \
 		split.cpp \
 		Commands.cpp \
@@ -47,7 +48,7 @@ TESTS =	main_tests.cpp \
 CLIENT_TESTS =	client_tests.cpp \
 				Server.cpp \
 				Client.cpp \
-				Message.cpp \
+				RawMessage.cpp \
 				Commands.cpp \
 				NICK.cpp \
 				PASS.cpp \

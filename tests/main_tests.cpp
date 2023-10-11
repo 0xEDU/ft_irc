@@ -2,7 +2,7 @@
 #include "minunit.h"
 
 MU_TEST(parseMsg) {
-	Message response;
+	RawMessage response;
 	std::string request;
 	{
 		std::vector<std::string> expectedArgs;
