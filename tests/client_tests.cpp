@@ -34,7 +34,7 @@ MU_TEST(callWrongCMD) {
 	// given:
 	std::vector<std::string> msgArgs;
 	msgArgs.push_back(std::string("test_name"));
-	Message mockMsg;
+	RawMessage mockMsg;
 	mockMsg.prefix = "";
 	mockMsg.command = "NAME";
 	mockMsg.args = msgArgs;
@@ -61,7 +61,7 @@ MU_TEST(callCmdUSER) {
 	msgArgs.push_back(std::string("0"));
 	msgArgs.push_back(std::string("*"));
 	msgArgs.push_back(std::string("real name"));
-	Message mockMsg;
+	RawMessage mockMsg;
 	mockMsg.prefix = "";
 	mockMsg.command = "USER";
 	mockMsg.args = msgArgs;

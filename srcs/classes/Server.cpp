@@ -90,8 +90,8 @@ void	Server::start()
 					{
 						if ((*line).empty())
 							continue ;
-						Message msg = Message::parseMsg(*line);
-						std::pair<std::string, std::vector<Client> > response = Message::processMessage(msg, client, clients, channels);
+						RawMessage msg = RawMessage::parseMsg(*line);
+						std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, client, clients, channels);
 						client.sendMessage(response);
 						client.setIsCommandComplete(false);
 						client.setCurrCommand("");

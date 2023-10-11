@@ -29,7 +29,7 @@
 #include <utility>
 
 #include "classes/Client.hpp"
-#include "classes/Message.hpp"
+#include "classes/RawMessage.hpp"
 #include "classes/Commands.hpp"
 #include "classes/Channel.hpp"
 #include "classes/CommandArgs.hpp"
