@@ -3,3 +3,4 @@ ircserv
 objs/
 compile_commands.json
 .cache
+.clang-tidy
