@@ -1,6 +1,8 @@
 #include "ft_irc.hpp"
 
 std::string who(CommandArgs cArgs) {
+    if (cArgs.msg.args.size() < 1)
+        return (ERR_NEEDMOREPARAMS(cArgs.msg.command, "Wrong params"));
     std::string reply;
     std::string channel = cArgs.msg.args[0];
     std::vector<Channel>::iterator it;
