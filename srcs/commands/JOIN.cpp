@@ -1,12 +1,5 @@
 #include "classes/Utils.hpp"
 
-std::ostream &operator<<(std::ostream &o, std::vector<std::string> v) {
-	for (size_t i = 0; i < v.size(); i++) {
-		o << v[i] << " ";
-	}
-	return o;
-}
-
 std::string join(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
