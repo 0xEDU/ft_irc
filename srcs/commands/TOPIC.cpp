@@ -13,8 +13,8 @@ std::string topic(CommandArgs cArgs) {
 	Channel &channel = (*it);
 	if (cArgs.msg.args.size() == 1) {
 		std::string currentTopic = channel.getTopic();
-		// if (currentTopic.empty())
-		// 	return RPL_NOTOPIC();
+		if (currentTopic.empty())
+			return RPL_NOTOPIC(clientNick, channelName);
 		return RPL_TOPIC(clientNick, channelName, currentTopic);
 	}
 	if (!channel.isOperator(cArgs.client) && !channel.isTopicOPOnly())
