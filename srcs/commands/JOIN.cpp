@@ -20,6 +20,7 @@ std::string join(CommandArgs cArgs) {
 		std::string channelUsers;
 		std::string channel = channels[i];
 		std::string nicks;
+		std::string topicMessage;
 		for (size_t i = 0; i < cArgs.clients.size(); i++) {
 			nicks += nick + " ";
 		}
@@ -34,6 +35,7 @@ std::string join(CommandArgs cArgs) {
 			channelUsers = (*it).getChannelUsers();
 			for (size_t i = 0; i < (*it).getClients().size(); i++)
 				cArgs.broadcastList.push_back((*it).getClients()[i]);
+			topicMessage = (*it).getTopic();
 		}
 		else
 		{
@@ -43,8 +45,8 @@ std::string join(CommandArgs cArgs) {
 			channelUsers = newChannel.getChannelUsers();
 			cArgs.channels.push_back(newChannel);
 		}
-		reply += (JOIN(user,channel)
-		+ RPL_TOPIC(nick, channel, "topic")
+		reply += (JOIN(user, channel)
+		+ (topicMessage.empty() ? "" : RPL_TOPIC(nick, channel, topicMessage)) // If the channel doesn't have a topic, don't append RPL_TOPIC to final reply
 		+ RPL_NAMREPLY(nick, channel, channelUsers)
 		+ RPL_ENDOFNAMES(nick, channel));
 	}
