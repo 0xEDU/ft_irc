@@ -3,6 +3,7 @@
 #define REPLIES_HPP
 
 #define JOIN(user, channel) (":" + user + " JOIN " + channel + "\r\n")
+#define PRIVMSG_BROADCAST(nick, user, channel, topic) (":" + nick + "!~" + user + "@ft.irc TOPIC " + channel + " "+ topic + "\r\n")
 
 #define RPL_WELCOME(nick, user) (":ft.irc 001 "+ user + " :Welcome to the Internet Relay Chat " + nick + "!" + user + "@*\r\n")
 #define RPL_TOPIC(nick, channel, topic) (":ft.irc 332 " + nick + " " + channel + " :" + topic + "\r\n")
