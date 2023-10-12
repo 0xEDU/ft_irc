@@ -186,3 +186,9 @@ std::pair<std::string, std::string> Channel::getModes() const {
     }
     return std::make_pair(modes, modeParams);
 }
+
+bool Channel::isTopicOPOnly() {
+    if (this->_t)
+        return false;
+    return true;
+}
