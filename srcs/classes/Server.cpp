@@ -16,7 +16,7 @@ void	Server::setPort(char *input)
 	this->_port = port;
 }
 
-void Server::setupTCP() const {
+void Server::setUpTCP() const {
 	const int	ENABLE = 1;
 	sockAddrIn	serverAddr;
 	

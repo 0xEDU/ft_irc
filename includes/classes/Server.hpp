@@ -19,7 +19,7 @@ class Server
 	Server();
 	~Server();
 
-	void setupTCP() const;
+	void setUpTCP() const;
 	static void start();
 
 	void setPort(char *input);
