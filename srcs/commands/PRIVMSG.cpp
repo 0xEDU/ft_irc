@@ -23,5 +23,5 @@ std::string privmsg(CommandArgs cArgs) {
         itClient = std::find(cArgs.clients.begin(), cArgs.clients.end(), recipient);
         cArgs.broadcastList.push_back((*itClient));
     }
-    return RPL_PRIVMSG(nick, user, recipient, message);
+    return RPL_PRIVMSG(user, recipient, message);
 }
