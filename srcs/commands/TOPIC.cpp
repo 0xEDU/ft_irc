@@ -8,8 +8,8 @@ std::string topic(CommandArgs cArgs) {
 	std::string clientUser = cArgs.client.getUser();
 	std::string channelName = cArgs.msg.args[0];
 	std::vector<Channel>::iterator it = std::find(cArgs.channels.begin(), cArgs.channels.end(), channelName);
-	// if (it == cArgs.channels.end())
-	// 	return RPL_NOTONCHANNEL();
+	if (it == cArgs.channels.end())
+		return ERR_NOTONCHANNEL(channelName);
 	Channel &channel = (*it);
 	if (cArgs.msg.args.size() == 1) {
 		std::string currentTopic = channel.getTopic();
