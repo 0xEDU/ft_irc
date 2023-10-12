@@ -36,7 +36,7 @@ void Server::setUpTCP() const {
 	// Configure file descriptor to non-blocking 
 	int flags = fcntl(Server::_serverFd, F_GETFL, 0);
 	if (fcntl(Server::_serverFd, F_SETFL, flags | O_NONBLOCK) == -1)
-    	throw std::runtime_error("Failed to set the non-blocking mode on socket file descriptor");
+		throw std::runtime_error("Failed to set the non-blocking mode on socket file descriptor");
 	
 	// Puts server to listen to port 8080 and sets a limit for the number of connections allowed to be held at 
 	if(listen(Server::_serverFd, CLIENT_LIMIT) == -1)
@@ -77,12 +77,12 @@ void	Server::start()
 		}
 
 		for (std::size_t i = 1; i < fds.size(); i++)
-        {
+		{
 			if ((fds[i].revents & POLLIN) == POLLIN)
 			{
-                Client &client = clients[i - 1];
+				Client &client = clients[i - 1];
 
-                client.incrementCurrCommand(Client::receiveData(client));
+				client.incrementCurrCommand(Client::receiveData(client));
 				if (client.getIsCommandComplete())
 				{
 					std::vector<std::string> lines = Utils::split(client.getCurrCommand(), "\r\n");
@@ -102,8 +102,8 @@ void	Server::start()
 					close(client.getFd());
 					clients.erase(clients.begin() + (long)i - 1);
 					fds.erase(fds.begin() + (long)i);
-                    for (size_t c = 0; c < channels.size(); c++)
-                        channels[c].disconnectClient(client);
+					for (size_t c = 0; c < channels.size(); c++)
+						channels[c].disconnectClient(client);
 					Client::decrementIdCounter();
 				}
 			}
@@ -117,12 +117,12 @@ std::string Server::getPasswd()
 }
 
 static bool isPrintable(const std::string &s) {
-    for (std::string::const_iterator it = s.begin(); it != s.end(); ++it) {
-        if (!std::isprint(static_cast<unsigned char>(*it))) {
-            return false;
-        }
-    }
-    return true;
+	for (std::string::const_iterator it = s.begin(); it != s.end(); ++it) {
+		if (!std::isprint(static_cast<unsigned char>(*it))) {
+			return false;
+		}
+	}
+	return true;
 }
 
 void Server::setPasswd(char *passwd)

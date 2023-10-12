@@ -15,7 +15,7 @@ std::string join(CommandArgs cArgs) {
 		std::string argument;
 		for (size_t i = 0; i < cArgs.channels.size(); i++)
 			argument += cArgs.channels[i].getName() + ",";
-        argument.erase(argument.size() - 1);
+		argument.erase(argument.size() - 1);
 		cArgs.msg.args[0] = argument;
 		return part(cArgs);
 	}
@@ -24,17 +24,17 @@ std::string join(CommandArgs cArgs) {
 	std::vector<Channel>::iterator it;
 	it = find (cArgs.channels.begin(), cArgs.channels.end(), channel);
 	if (it != cArgs.channels.end()) {
-        (*it).addClient(cArgs.client);
-        channelUsers = (*it).getChannelUsers();
-        for (size_t i = 0; i < (*it).getClients().size(); i++)
-            cArgs.broadcastList.push_back((*it).getClients()[i]);
-    }
+		(*it).addClient(cArgs.client);
+		channelUsers = (*it).getChannelUsers();
+		for (size_t i = 0; i < (*it).getClients().size(); i++)
+			cArgs.broadcastList.push_back((*it).getClients()[i]);
+	}
 	else
 	{
 		Channel newChannel(channel);
-        newChannel.addClient(cArgs.client);
-        newChannel.addOperator(cArgs.client);
-        channelUsers = newChannel.getChannelUsers();
+		newChannel.addClient(cArgs.client);
+		newChannel.addOperator(cArgs.client);
+		channelUsers = newChannel.getChannelUsers();
 		cArgs.channels.push_back(newChannel);
 	}
 	return (JOIN(user,channel)

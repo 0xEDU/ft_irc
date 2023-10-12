@@ -12,14 +12,14 @@ class Channel
 	std::string _topic;
 	std::string _name;
 	std::string _password;
-    bool        _i;
-    bool        _t;
-    bool        _k;
-    bool        _l;
+	bool		_i;
+	bool		_t;
+	bool		_k;
+	bool		_l;
 
 	bool 				_isInviteOnly;
 	std::vector<Client>	_clients;
-    std::vector<Client>	_operators;
+	std::vector<Client>	_operators;
 	int 				_userLimit;
 	
 	public:
@@ -43,19 +43,19 @@ class Channel
 	void setClients(const std::vector<Client> &clients);
 	int getUserLimit() const;
 	void setUserLimit(const int &userLimit);
-    std::string getChannelUsers();
-    void addClient(const Client &client);
-    void addOperator(const Client &client);
-    void removeOperator(const Client &client);
+	std::string getChannelUsers();
+	void addClient(const Client &client);
+	void addOperator(const Client &client);
+	void removeOperator(const Client &client);
 
-    void disconnectClient(const Client &client);
+	void disconnectClient(const Client &client);
 
-    bool isClientOnChannel(const Client &client);
-    bool isClientOnChannel(const std::string &client);
+	bool isClientOnChannel(const Client &client);
+	bool isClientOnChannel(const std::string &client);
 
-    bool isOperator(Client &client);
+	bool isOperator(Client &client);
 
-    std::pair<std::string, std::string> getModes() const;
+	std::pair<std::string, std::string> getModes() const;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "ft_irc.hpp"
 
 std::string kick(CommandArgs cArgs) {
-    (void)cArgs;
-    return "dale";
+	(void)cArgs;
+	return "dale";
 }

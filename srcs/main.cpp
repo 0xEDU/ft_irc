@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 		server.setPort(argv[1]);
 		Server::setPasswd(argv[2]);
 
-        server.setUpTCP();
+		server.setUpTCP();
 		Server::start();
 	}
 	catch(const std::exception& e)

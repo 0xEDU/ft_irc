@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-    <img src="https://github.com/guiribei/guiribei/blob/main/42_badges/ft_ircn.png" />
+	<img src="https://github.com/guiribei/guiribei/blob/main/42_badges/ft_ircn.png" />
 </p>
 
 <h1>WIP</h1>
