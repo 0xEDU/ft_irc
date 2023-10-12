@@ -12,6 +12,10 @@ class Server
 	static int _serverFd;
 	static std::string _passwd;
 
+	// void bindSocket();
+	// void createSocket();
+	// void configureAddress();
+	// void listenForClients();
 	static void sigHandler(int);
 
 	public:

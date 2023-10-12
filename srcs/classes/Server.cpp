@@ -1,5 +1,8 @@
 #include "ft_irc.hpp"
 
+// ---------------------------- //
+// STATIC VARIABLES DECLARATION
+// ---------------------------- //
 std::string Server::_passwd;
 int Server::_serverFd = 0;
 
@@ -7,6 +10,9 @@ Server::Server() : _port(0) {}
 
 Server::~Server() {}
 
+// ---------------------------- //
+// GETTERS AND SETTERS
+// ---------------------------- //
 void	Server::setPort(char *input)
 {
 	int port = std::atoi(input);
@@ -16,7 +22,61 @@ void	Server::setPort(char *input)
 	this->_port = port;
 }
 
+std::string Server::getPasswd()
+{
+	return (Server::_passwd);
+}
+
+static bool isPrintable(const std::string &s) {
+	for (std::string::const_iterator it = s.begin(); it != s.end(); ++it) {
+		if (!std::isprint(static_cast<unsigned char>(*it))) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void Server::setPasswd(char *passwd)
+{
+	if (!isPrintable(passwd))
+		throw std::logic_error("Invalid password provided");
+	Server::_passwd = std::string(passwd);
+}
+
+// ---------------------------- //
+// PRIVATE MEMBER FUNCTIONS
+// ---------------------------- //
+// void Server::bindSocket() {
+// 	// TODO
+// };
+
+// void Server::createSocket() {
+// 	// TODO
+// };
+
+// void Server::configureAddress() {
+// 	// TODO
+// };
+
+// void Server::listenForClients() {
+// 	// TODO
+// };
+
+void Server::sigHandler(int)
+{
+	close(Server::_serverFd);
+	throw std::runtime_error("\nServer stopped by SIGINT");
+}
+
+// ---------------------------- //
+// PUBLIC MEMBER FUNCTIONS
+// ---------------------------- //
 void Server::setUpTCP() const {
+	// createSocket();
+	// configureAddress();
+	// bindSocket();
+	// listenForClients();
+
 	const int	ENABLE = 1;
 	sockAddrIn	serverAddr;
 	
@@ -41,12 +101,6 @@ void Server::setUpTCP() const {
 	// Puts server to listen to port 8080 and sets a limit for the number of connections allowed to be held at 
 	if(listen(Server::_serverFd, CLIENT_LIMIT) == -1)
 		throw std::runtime_error("Failed to listen on socket");
-}
-
-void Server::sigHandler(int)
-{
-	close(Server::_serverFd);
-	throw std::runtime_error("\nServer stopped by SIGINT");
 }
 
 void	Server::start()
@@ -109,25 +163,4 @@ void	Server::start()
 			}
 		}
 	}
-}
-
-std::string Server::getPasswd()
-{
-	return (Server::_passwd);
-}
-
-static bool isPrintable(const std::string &s) {
-	for (std::string::const_iterator it = s.begin(); it != s.end(); ++it) {
-		if (!std::isprint(static_cast<unsigned char>(*it))) {
-			return false;
-		}
-	}
-	return true;
-}
-
-void Server::setPasswd(char *passwd)
-{
-	if (!isPrintable(passwd))
-		throw std::logic_error("Invalid password provided");
-	Server::_passwd = std::string(passwd);
 }
