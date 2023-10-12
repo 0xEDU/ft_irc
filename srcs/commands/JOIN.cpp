@@ -23,8 +23,6 @@ std::string join(CommandArgs cArgs) {
 		return part(cArgs);
 	}
 	// This should loop through all the channels and create them/add user to them or fail. Further testing is required for treating exceptions
-	LOG(channels[0])
-	LOG(channels[1])
 	for (size_t i = 0; i < channels.size(); i++) {
 		std::string channelUsers;
 		std::string channel = channels[i];
