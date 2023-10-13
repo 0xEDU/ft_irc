@@ -5,7 +5,8 @@
 // ---------------------------- //
 int Server::_port;
 std::string Server::_passwd;
-int Server::_serverSocketDescriptor = 0;
+sockAddrIn Server::_serverAddr;
+int Server::_serverSocketDescriptor;
 
 Server::Server() {}
 
@@ -47,21 +48,36 @@ void Server::setPasswd(char *passwd)
 // ---------------------------- //
 // PRIVATE MEMBER FUNCTIONS
 // ---------------------------- //
-// void Server::bindSocket() {
-// 	// TODO
-// };
+void Server::bindSocketToAddress() {
+	if (bind(Server::_serverSocketDescriptor, (sockAddr *) &_serverAddr, sizeof(_serverAddr)) < 0)
+		throw std::runtime_error("Failed to bind server file descriptor to socket");
+};
 
-// void Server::createSocket() {
-// 	// TODO
-// };
+void Server::createSocket() {
+	const int	ENABLE = 1;
 
-// void Server::configureAddress() {
-// 	// TODO
-// };
+	Server::_serverSocketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
+	if (Server::_serverSocketDescriptor < 0)
+		throw std::runtime_error("Failed to create socket");
+	if (setsockopt(Server::_serverSocketDescriptor, SOL_SOCKET, SO_REUSEADDR, &ENABLE, sizeof(int)) < 0)
+		throw std::runtime_error("Failed to set socket options");
+	// Configure socket descriptor to non-blocking 
+	if (fcntl(Server::_serverSocketDescriptor, F_SETFL, O_NONBLOCK) == -1)
+		throw std::runtime_error("Failed to set the non-blocking mode on socket file descriptor");
+};
 
-// void Server::listenForClients() {
-// 	// TODO
-// };
+void Server::configureAddress() {
+	std::memset(&_serverAddr, 0, sizeof(_serverAddr));
+	_serverAddr.sin_family = AF_INET;
+	_serverAddr.sin_addr.s_addr = INADDR_ANY;
+	_serverAddr.sin_port = htons(this->_port);
+};
+
+void Server::listenForClients() {
+	// Puts server to listen to port 8080 and sets a limit for the number of connections allowed to be held at 
+	if(listen(Server::_serverSocketDescriptor, CLIENT_LIMIT) == -1)
+		throw std::runtime_error("Failed to listen on socket");
+};
 
 void Server::sigHandler(int)
 {
@@ -84,36 +100,11 @@ Server& Server::getInstance() {
 	return instance;
 };
 
-void Server::setUpTCP() const {
-	// createSocket();
-	// configureAddress();
-	// bindSocket();
-	// listenForClients();
-
-	const int	ENABLE = 1;
-	sockAddrIn	serverAddr;
-	
-	Server::_serverSocketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
-	if (Server::_serverSocketDescriptor < 0)
-		throw std::runtime_error("Failed to create socket");
-	if (setsockopt(Server::_serverSocketDescriptor, SOL_SOCKET, SO_REUSEADDR, &ENABLE, sizeof(int)) < 0)
-		throw std::runtime_error("Failed to set socket options");
-	std::memset(&serverAddr, 0, sizeof(serverAddr));
-	serverAddr.sin_family = AF_INET; 
-	serverAddr.sin_addr.s_addr = INADDR_ANY;
-	serverAddr.sin_port = htons(this->_port);
-
-	if (bind(Server::_serverSocketDescriptor, (sockAddr *) &serverAddr, sizeof(serverAddr)) < 0)
-		throw std::runtime_error("Failed to bind server file descriptor to socket");
-
-	// Configure file descriptor to non-blocking 
-	int flags = fcntl(Server::_serverSocketDescriptor, F_GETFL, 0);
-	if (fcntl(Server::_serverSocketDescriptor, F_SETFL, flags | O_NONBLOCK) == -1)
-		throw std::runtime_error("Failed to set the non-blocking mode on socket file descriptor");
-	
-	// Puts server to listen to port 8080 and sets a limit for the number of connections allowed to be held at 
-	if(listen(Server::_serverSocketDescriptor, CLIENT_LIMIT) == -1)
-		throw std::runtime_error("Failed to listen on socket");
+void Server::setUpTCP() {
+	createSocket();
+	configureAddress();
+	bindSocketToAddress();
+	listenForClients();
 }
 
 void	Server::start()
