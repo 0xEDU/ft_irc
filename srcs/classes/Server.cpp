@@ -3,10 +3,11 @@
 // ---------------------------- //
 // STATIC VARIABLES DECLARATION
 // ---------------------------- //
+int Server::_port;
 std::string Server::_passwd;
-int Server::_serverFd = 0;
+int Server::_serverSocketDescriptor = 0;
 
-Server::Server() : _port(0) {}
+Server::Server() {}
 
 Server::~Server() {}
 
@@ -16,10 +17,10 @@ Server::~Server() {}
 void	Server::setPort(char *input)
 {
 	int port = std::atoi(input);
-	
+
 	if (port <= 0 || port > MAX_PORT_NUMBER)
 		throw std::logic_error("Invalid port number");
-	this->_port = port;
+	_port = port;
 }
 
 std::string Server::getPasswd()
@@ -38,7 +39,7 @@ static bool isPrintable(const std::string &s) {
 
 void Server::setPasswd(char *passwd)
 {
-	if (!isPrintable(passwd))
+	if (!isPrintable(passwd) || !passwd[0])
 		throw std::logic_error("Invalid password provided");
 	Server::_passwd = std::string(passwd);
 }
@@ -64,13 +65,25 @@ void Server::setPasswd(char *passwd)
 
 void Server::sigHandler(int)
 {
-	close(Server::_serverFd);
+	close(Server::_serverSocketDescriptor);
 	throw std::runtime_error("\nServer stopped by SIGINT");
 }
 
 // ---------------------------- //
 // PUBLIC MEMBER FUNCTIONS
 // ---------------------------- //
+Server& Server::getInstance() {
+/**
+ * Singleton design pattern.
+ * 
+ * This function provides access to the single instance of Server.
+ * Ensures that the instance is created only once.
+*/
+	static Server instance;
+
+	return instance;
+};
+
 void Server::setUpTCP() const {
 	// createSocket();
 	// configureAddress();
@@ -80,26 +93,26 @@ void Server::setUpTCP() const {
 	const int	ENABLE = 1;
 	sockAddrIn	serverAddr;
 	
-	Server::_serverFd = socket(AF_INET, SOCK_STREAM, 0);
-	if (Server::_serverFd < 0)
+	Server::_serverSocketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
+	if (Server::_serverSocketDescriptor < 0)
 		throw std::runtime_error("Failed to create socket");
-	if (setsockopt(Server::_serverFd, SOL_SOCKET, SO_REUSEADDR, &ENABLE, sizeof(int)) < 0)
+	if (setsockopt(Server::_serverSocketDescriptor, SOL_SOCKET, SO_REUSEADDR, &ENABLE, sizeof(int)) < 0)
 		throw std::runtime_error("Failed to set socket options");
 	std::memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET; 
 	serverAddr.sin_addr.s_addr = INADDR_ANY;
 	serverAddr.sin_port = htons(this->_port);
 
-	if (bind(Server::_serverFd, (sockAddr *) &serverAddr, sizeof(serverAddr)) < 0)
+	if (bind(Server::_serverSocketDescriptor, (sockAddr *) &serverAddr, sizeof(serverAddr)) < 0)
 		throw std::runtime_error("Failed to bind server file descriptor to socket");
 
 	// Configure file descriptor to non-blocking 
-	int flags = fcntl(Server::_serverFd, F_GETFL, 0);
-	if (fcntl(Server::_serverFd, F_SETFL, flags | O_NONBLOCK) == -1)
+	int flags = fcntl(Server::_serverSocketDescriptor, F_GETFL, 0);
+	if (fcntl(Server::_serverSocketDescriptor, F_SETFL, flags | O_NONBLOCK) == -1)
 		throw std::runtime_error("Failed to set the non-blocking mode on socket file descriptor");
 	
 	// Puts server to listen to port 8080 and sets a limit for the number of connections allowed to be held at 
-	if(listen(Server::_serverFd, CLIENT_LIMIT) == -1)
+	if(listen(Server::_serverSocketDescriptor, CLIENT_LIMIT) == -1)
 		throw std::runtime_error("Failed to listen on socket");
 }
 
@@ -115,7 +128,7 @@ void	Server::start()
 
 	// initialises this vector with the first POLLIN event i guess?
 	//
-	fds.push_back((pollfd) {.fd = Server::_serverFd, .events = POLLIN});
+	fds.push_back((pollfd) {.fd = Server::_serverSocketDescriptor, .events = POLLIN});
 	LOG("Server running...")
 	while (true)
 	{
@@ -125,7 +138,7 @@ void	Server::start()
 			throw std::logic_error("Poll error");
 		if (fds[0].revents & POLLIN)
 		{
-			Client newClient(Server::_serverFd);
+			Client newClient(Server::_serverSocketDescriptor);
 			fds.push_back((pollfd) { .fd = newClient.getFd(), .events = POLLIN});
 			clients.push_back(newClient);
 		}

@@ -8,10 +8,18 @@ class Server
 {
 	private:
 
-	int _port;
-	static int _serverFd;
+	static int _port;
+	static int _serverSocketDescriptor;
 	static std::string _passwd;
 
+	// Prevent instantiation of class
+	Server();
+	~Server();
+	// Prevent copying
+	Server(const Server&);
+	Server& operator=(const Server&);
+
+	// Private methods
 	// void bindSocket();
 	// void createSocket();
 	// void configureAddress();
@@ -19,9 +27,7 @@ class Server
 	static void sigHandler(int);
 
 	public:
-
-	Server();
-	~Server();
+	static Server& getInstance();
 
 	void setUpTCP() const;
 	static void start();
