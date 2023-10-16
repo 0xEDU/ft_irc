@@ -11,11 +11,12 @@ void Commands::populateMap()
 	_messageFunctions["QUIT"] = quit;
 	_messageFunctions["JOIN"] = join;
 	_messageFunctions["LISTC"] = listc;
-    _messageFunctions["PRIVMSG"] = privmsg;
-    _messageFunctions["KICK"] = kick;
-    _messageFunctions["PART"] = part;
-    _messageFunctions["WHO"] = who;
-    _messageFunctions["MODE"] = mode;
+	_messageFunctions["PRIVMSG"] = privmsg;
+	_messageFunctions["KICK"] = kick;
+	_messageFunctions["PART"] = part;
+	_messageFunctions["WHO"] = who;
+	_messageFunctions["MODE"] = mode;
+  _messageFunctions["TOPIC"] = topic;
 }
 
 std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)

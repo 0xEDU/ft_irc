@@ -3,6 +3,7 @@
 #define REPLIES_HPP
 
 #define JOIN(user, channel) (":" + user + " JOIN " + channel + "\r\n")
+#define PRIVMSG_BROADCAST(nick, user, channel, topic) (":" + nick + "!~" + user + "@ft.irc TOPIC " + channel + " "+ topic + "\r\n")
 
 #define RPL_WELCOME(nick, user) (":ft.irc 001 "+ user + " :Welcome to the Internet Relay Chat " + nick + "!" + user + "@*\r\n")
 #define RPL_TOPIC(nick, channel, topic) (":ft.irc 332 " + nick + " " + channel + " :" + topic + "\r\n")
@@ -14,6 +15,7 @@
 #define RPL_WHOREPLY(channel, user, nick, flags, realname) (":ft.irc 352 " + channel + " " + user + " 42sp.org.br ft.irc " + nick + " " + flags + ":0 " + realname + "\r\n")
 #define RPL_ENDOFWHO(channel) (":ft.irc 315 " + channel + " :End of /WHO list.\r\n")
 #define RPL_CHANNELMODEIS(channel, mode, modeParams) (":ft.irc 324 * " + channel + " " + mode + " " + modeParams + "\r\n")
+#define RPL_NOTOPIC(nick, channel) (":ft.irc 331 " + nick + " " + channel + " :No topic is set\r\n")
 
 
 #define ERR_ERRONEUSNICKNAME(nick) (":ft.irc 432 * " + nick + " :Nickname is invalid\r\n")

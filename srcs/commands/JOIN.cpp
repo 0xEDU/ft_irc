@@ -4,7 +4,6 @@ std::string join(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
 	std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], ",");
-	std::string topicMessage;
 	std::string reply;
 
 	if (channels[0] == "0") // This might cause some trouble if user sends JOIN 0 #anotherchannel. Further investigation needed
@@ -21,6 +20,7 @@ std::string join(CommandArgs cArgs) {
 		std::string channelUsers;
 		std::string channelName = channels[i];
 		std::string nicks;
+		std::string topicMessage;
 		for (size_t i = 0; i < cArgs.clients.size(); i++) {
 			nicks += nick + " ";
 		}
