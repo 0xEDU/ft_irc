@@ -21,6 +21,7 @@ std::string join(CommandArgs cArgs) {
 		std::string channelUsers;
 		std::string channelName = channels[i];
 		std::string nicks;
+		std::string topicMessage;
 		for (size_t i = 0; i < cArgs.clients.size(); i++) {
 			nicks += nick + " ";
 		}

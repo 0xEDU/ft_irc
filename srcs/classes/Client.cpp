@@ -17,7 +17,7 @@ Client::Client(int serverfd) :
 	if (this->_fd < 0)
 		throw std::runtime_error("Failed to accept client");
 	if (fcntl(this->_fd, F_SETFL, O_NONBLOCK) == -1)
-    	throw std::runtime_error("Failed to set socketFd to non-blocking");
+		throw std::runtime_error("Failed to set socketFd to non-blocking");
 
 	Client::_idCounter++;
 	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl;
@@ -32,7 +32,7 @@ Client &Client::operator=(const Client &rhs) {
 	if (&rhs != this) {
 		this->_realName = rhs._realName;
 		this->_nick = rhs._nick;
-        this->_user = rhs._user;
+		this->_user = rhs._user;
 		this->_id = rhs._id;
 		this->_fd = rhs._fd;
 		this->_pass = rhs._pass;
@@ -146,26 +146,26 @@ void Client::decrementIdCounter()
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
 {
 	if ((msg.first.empty() && msg.second.empty())
-        || (_currCommand.find("PRIVMSG") == 0 && msg.second.empty()))
-        return;
-    std::vector<Client>::iterator it = msg.second.begin();
-    if (msg.second.empty()) {
-        if (send(this->_fd, msg.first.c_str(), msg.first.length(), 0) == -1)
-            ERROR("Failed to send message to client")
-        return ;
-    }
-    for (; it != msg.second.end(); it++) {
-        if (send((*it)._fd, msg.first.c_str(), msg.first.length(), 0) == -1)
-            ERROR("Failed to send message to client")
-    }
+		|| (_currCommand.find("PRIVMSG") == 0 && msg.second.empty()))
+		return;
+	std::vector<Client>::iterator it = msg.second.begin();
+	if (msg.second.empty()) {
+		if (send(this->_fd, msg.first.c_str(), msg.first.length(), 0) == -1)
+			ERROR("Failed to send message to client")
+		return ;
+	}
+	for (; it != msg.second.end(); it++) {
+		if (send((*it)._fd, msg.first.c_str(), msg.first.length(), 0) == -1)
+			ERROR("Failed to send message to client")
+	}
 }
 
 bool Client::operator==(const Client &rhs) {
-    return this->_user == rhs._user;
+	return this->_user == rhs._user;
 }
 
 bool Client::operator==(const std::string &rhs) {
-    return this->_user == rhs;
+	return this->_user == rhs;
 }
 
 void Client::incrementCurrCommand(const std::string &cmd)
@@ -198,16 +198,16 @@ void Client::setIsCommandComplete(const bool &state)
 
 std::string Client::receiveData(Client &client)
 {
-    std::string data;
+	std::string data;
 
-    char buff[BUFFER_SIZE];
-    std::memset(buff, 0, BUFFER_SIZE);
+	char buff[BUFFER_SIZE];
+	std::memset(buff, 0, BUFFER_SIZE);
 
-    long nbytes = recv(client.getFd(), buff, BUFFER_SIZE, 0);
-    if (nbytes == 0)
-        client.setShouldEraseClient(true);
-    else
-        data.append(buff, nbytes);
-    std::cout << "RECEIVED: " << data << std::endl;
-    return data;
+	long nbytes = recv(client.getFd(), buff, BUFFER_SIZE, 0);
+	if (nbytes == 0)
+		client.setShouldEraseClient(true);
+	else
+		data.append(buff, nbytes);
+	std::cout << "RECEIVED: " << data << std::endl;
+	return data;
 }

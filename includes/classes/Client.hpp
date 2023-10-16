@@ -58,10 +58,10 @@ class Client
 	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;
 	void incrementRetries();
 
-    bool operator==(const Client &rhs);
-    bool operator==(const std::string &rhs);
+	bool operator==(const Client &rhs);
+	bool operator==(const std::string &rhs);
 
-    static std::string receiveData(Client &client);
+	static std::string receiveData(Client &client);
 };
 
 #endif

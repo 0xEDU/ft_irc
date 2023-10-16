@@ -17,10 +17,10 @@ struct RawMessage
 	RawMessage(const RawMessage &other);
 	RawMessage &operator=(const RawMessage &other);
 
-    static RawMessage parseMsg(std::string msg);
+	static RawMessage parseMsg(std::string msg);
 
-    static std::pair<std::string, std::vector<Client> >
-    processMessage(RawMessage &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels);
+	static std::pair<std::string, std::vector<Client> >
+	processMessage(RawMessage &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels);
 };
 
 

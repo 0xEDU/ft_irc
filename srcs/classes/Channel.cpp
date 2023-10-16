@@ -20,12 +20,12 @@ Channel &Channel::operator=(Channel const &src)
 		this->_password = src._password;
 		this->_isInviteOnly = src._isInviteOnly;
 		this->_clients = src._clients;
-        this->_operators = src._operators;
+		this->_operators = src._operators;
 		this->_userLimit = src._userLimit;
-        this->_i = src._i;
-        this->_t = src._t;
-        this->_k = src._k;
-        this->_l = src._l;
+		this->_i = src._i;
+		this->_t = src._t;
+		this->_k = src._k;
+		this->_l = src._l;
 	}
 	return (*this);
 }
@@ -103,86 +103,92 @@ void Channel::addClient(const Client &client)
 }
 
 std::string Channel::getChannelUsers() {
-    std::string channelUsers;
+	std::string channelUsers;
 
-    for (size_t i = 0; i < this->_clients.size(); i++) {
-        if (std::find(this->_operators.begin(), this->_operators.end(), this->_clients[i]) != this->_operators.end())
-            channelUsers += "@";
-        channelUsers += this->_clients[i].getUser();
-        channelUsers += " ";
-    }
-    return channelUsers;
+	for (size_t i = 0; i < this->_clients.size(); i++) {
+		if (std::find(this->_operators.begin(), this->_operators.end(), this->_clients[i]) != this->_operators.end())
+			channelUsers += "@";
+		channelUsers += this->_clients[i].getUser();
+		channelUsers += " ";
+	}
+	return channelUsers;
 }
 
 void Channel::addOperator(const Client &client) {
-    this->_operators.push_back(client);
+	this->_operators.push_back(client);
 }
 
 void Channel::removeOperator(const Client &client) {
-    this->_operators.erase(std::find(this->_operators.begin(), this->_operators.end(), client));
+	this->_operators.erase(std::find(this->_operators.begin(), this->_operators.end(), client));
 }
 
 bool Channel::isClientOnChannel(const Client &client) {
-    std::vector<Client>::iterator
-    it = std::find(this->_clients.begin(), this->_clients.end(), client);
-    if (it == this->_clients.end())
-        return false;
-    return true;
+	std::vector<Client>::iterator
+	it = std::find(this->_clients.begin(), this->_clients.end(), client);
+	if (it == this->_clients.end())
+		return false;
+	return true;
 }
 
 bool Channel::isClientOnChannel(const std::string &client) {
-    std::vector<Client>::iterator
-    it = std::find(this->_clients.begin(), this->_clients.end(), client);
-    if (it == this->_clients.end())
-        return false;
-    return true;
+	std::vector<Client>::iterator
+	it = std::find(this->_clients.begin(), this->_clients.end(), client);
+	if (it == this->_clients.end())
+		return false;
+	return true;
 }
 
 void Channel::disconnectClient(const Client &client) {
-    std::vector<Client>::iterator
-    clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
-    std::vector<Client>::iterator
-    operatorsIt = std::find(this->_operators.begin(), this->_operators.end(), client);
-    std::vector<Client> broadcastList;
+	std::vector<Client>::iterator
+	clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
+	std::vector<Client>::iterator
+	operatorsIt = std::find(this->_operators.begin(), this->_operators.end(), client);
+	std::vector<Client> broadcastList;
 
-    if (clientsIt != this->_clients.end()) {
-        this->_clients.erase(clientsIt);
-        broadcastList = this->_clients;
-        std::string reply;
-        reply = RPL_NAMREPLY(client.getNick(), this->_name, this->getChannelUsers()) +
-                RPL_ENDOFNAMES(client.getNick(), this->_name);
-        std::pair<std::string, std::vector<Client> > message = std::make_pair(reply, broadcastList);
-        client.sendMessage(message);
-    }
-    if (operatorsIt != this->_operators.end())
-        this->_operators.erase(operatorsIt);
+	if (clientsIt != this->_clients.end()) {
+		this->_clients.erase(clientsIt);
+		broadcastList = this->_clients;
+		std::string reply;
+		reply = RPL_NAMREPLY(client.getNick(), this->_name, this->getChannelUsers()) +
+				RPL_ENDOFNAMES(client.getNick(), this->_name);
+		std::pair<std::string, std::vector<Client> > message = std::make_pair(reply, broadcastList);
+		client.sendMessage(message);
+	}
+	if (operatorsIt != this->_operators.end())
+		this->_operators.erase(operatorsIt);
 }
 
 bool Channel::isOperator(Client &client) {
-    std::vector<Client>::iterator
-    it = std::find(this->_operators.begin(), this->_operators.end(), client);
-    if (it == this->_operators.end())
-        return false;
-    return true;
+	std::vector<Client>::iterator
+	it = std::find(this->_operators.begin(), this->_operators.end(), client);
+	if (it == this->_operators.end())
+		return false;
+	return true;
 }
 
 std::pair<std::string, std::string> Channel::getModes() const {
-    std::string modes = "+";
-    std::string modeParams = "";
-    if (this->_i)
-        modes += 'i';
+	std::string modes = "+";
+	std::string modeParams = "";
+	if (this->_i)
+		modes += 'i';
+	if (this->_t)
+		modes += 't';
+	if (this->_k) {
+		modes += 'k';
+		if (!this->_password.empty())
+			modeParams += this->_password + " ";
+	}
+	if (this->_l) {
+		modes += 'l';
+		std::ostringstream oss;
+		oss << this->_userLimit;
+		modeParams += oss.str() + " ";
+	}
+	return std::make_pair(modes, modeParams);
+}
+
+bool Channel::isTopicOPOnly() {
     if (this->_t)
-        modes += 't';
-    if (this->_k) {
-        modes += 'k';
-        if (!this->_password.empty())
-            modeParams += this->_password + " ";
-    }
-    if (this->_l) {
-        modes += 'l';
-        std::ostringstream oss;
-        oss << this->_userLimit;
-        modeParams += oss.str() + " ";
-    }
-    return std::make_pair(modes, modeParams);
+        return false;
+    return true;
 }
