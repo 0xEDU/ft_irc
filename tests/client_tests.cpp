@@ -5,7 +5,7 @@ Client *newClient(void) {
 	int port = 2000;
 	pollfd fakePoll[CLIENT_LIMIT];
 
-	int fakeServer = setupTCP(port);
+	int fakeServer = setUpTCP(port);
 	fakePoll[0].fd = fakeServer;
 	std::memset(fakePoll, 0, sizeof(pollfd) * CLIENT_LIMIT);
 	for (int i = 0; i < CLIENT_LIMIT; i++)
