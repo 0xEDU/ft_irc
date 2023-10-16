@@ -13,6 +13,9 @@ class Server
 	static sockaddr_in	_serverAddr;
 	static std::string	_passwd;
 
+	static std::vector<pollfd> _connections;
+	static std::vector<Client> _clients;
+
 	// Prevent instantiation of class
 	Server();
 	~Server();
@@ -21,16 +24,20 @@ class Server
 	Server& operator=(const Server&);
 
 	// Private methods
-	void bindSocketToAddress();
-	void createSocket();
-	void configureAddress();
-	void listenForClients();
+	static void bindSocketToAddress();
+	static void createSocket();
+	static void configureAddress();
+	static void listenForClients();
 	static void sigHandler(int);
 
+	static void pollForNewConnections(void);
+	// static void processClientActivity(void);
+
 	public:
+
 	static Server& getInstance();
 
-	void setUpTCP();
+	static void setUpTCP();
 	static void start();
 
 	void setPort(char *input);
