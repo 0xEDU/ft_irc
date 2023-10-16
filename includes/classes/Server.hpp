@@ -15,6 +15,7 @@ class Server
 
 	static std::vector<pollfd> _connections;
 	static std::vector<Client> _clients;
+	static std::vector<Channel> _channels;
 
 	// Prevent instantiation of class
 	Server();
@@ -30,8 +31,9 @@ class Server
 	static void listenForClients();
 	static void sigHandler(int);
 
-	static void pollForNewConnections(void);
-	// static void processClientActivity(void);
+	static void pollActiveConnections(void);
+	static void processClientsActivity(void);
+	static void checkForNewConnections(void);
 
 	public:
 

@@ -9,6 +9,7 @@ sockAddrIn Server::_serverAddr;
 int Server::_serverSocketDescriptor;
 std::vector<pollfd> Server::_connections;
 std::vector<Client> Server::_clients;
+std::vector<Channel> Server::_channels;
 
 Server::Server() {}
 
@@ -111,30 +112,62 @@ void Server::setUpTCP() {
 	LOG("Server is all set.")
 };
 
-void	Server::pollForNewConnections(void) {
-	// Poll goes through all the fds in the vector and sees if there is any queeued event.
+void	Server::pollActiveConnections(void) {
+	// Goes through all the active connections and registers queued event.
 	int activity = poll(_connections.data(), _connections.size(), TIMEOUT_MS);
 	if (activity < 0)
 		throw std::runtime_error("Poll error");
+};
 
-	// checks for new _connections to the server
+void	Server::checkForNewConnections(void) {
 	if ((_connections[0].revents & POLLIN) == POLLIN)
 	{
-		// ---------------- ACT 3 - inject connections (pollfds) into Clients
 		Client newClient(Server::_serverSocketDescriptor);
 		_connections.push_back((pollfd) { .fd = newClient.getFd(), .events = POLLIN});
 		_clients.push_back(newClient);
 	}
-}
+};
 
-void	Server::processClientActivity(void) {
+void	Server::processClientsActivity(void) {
+	for (std::size_t i = 1; i < _connections.size(); i++)
+	{
+		if ((_connections[i].revents & POLLIN) == POLLIN)
+		{
+			Client &client = _clients[i - 1];
+
+			client.incrementCurrCommand(Client::receiveData(client));
+			if (client.getIsCommandComplete())
+			{
+				std::vector<std::string> lines = Utils::split(client.getCurrCommand(), "\r\n");
+				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
+				{
+					if ((*line).empty())
+						continue ;
+					RawMessage msg = RawMessage::parseMsg(*line);
+					std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, client, _clients, _channels);
+					client.sendMessage(response);
+					client.setIsCommandComplete(false);
+					client.setCurrCommand("");
+				}
+			}
+			if (client.getShouldEraseClient())
+			{
+				close(client.getFd());
+				_clients.erase(_clients.begin() + (long)i - 1);
+				_connections.erase(_connections.begin() + (long)i);
+				for (size_t c = 0; c < _channels.size(); c++)
+					_channels[c].disconnectClient(client);
+				Client::decrementIdCounter();
+			}
+		}
+	}
 }
 
 void	Server::start()
 {
 	// std::vector<pollfd> connections;	// morre e vai pra dentro do Client como uma variável estática
 	// std::vector<Client> clients;
-	std::vector<Channel> channels;
+	// std::vector<Channel> _channels;
 
 	// Overrides the behaviour of SIGINT (ctrl+C)
 	signal(SIGINT, &Server::sigHandler);
@@ -147,41 +180,10 @@ void	Server::start()
 	while (true)
 	{
 		// check for new connections
-		pollForNewConnections();
+		pollActiveConnections();
 
-		// process clients activities
-		// processClientActivity();
-		for (std::size_t i = 1; i < _connections.size(); i++)
-		{
-			if ((_connections[i].revents & POLLIN) == POLLIN)
-			{
-				Client &client = _clients[i - 1];
-
-				client.incrementCurrCommand(Client::receiveData(client));
-				if (client.getIsCommandComplete())
-				{
-					std::vector<std::string> lines = Utils::split(client.getCurrCommand(), "\r\n");
-					for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
-					{
-						if ((*line).empty())
-							continue ;
-						RawMessage msg = RawMessage::parseMsg(*line);
-						std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, client, _clients, channels);
-						client.sendMessage(response);
-						client.setIsCommandComplete(false);
-						client.setCurrCommand("");
-					}
-				}
-				if (client.getShouldEraseClient())
-				{
-					close(client.getFd());
-					_clients.erase(_clients.begin() + (long)i - 1);
-					_connections.erase(_connections.begin() + (long)i);
-					for (size_t c = 0; c < channels.size(); c++)
-						channels[c].disconnectClient(client);
-					Client::decrementIdCounter();
-				}
-			}
-		}
+		// Process polled events for all active connections
+		checkForNewConnections();
+		processClientsActivity();
 	}
 }
