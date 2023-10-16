@@ -55,6 +55,7 @@ class Channel
 
 	bool isOperator(Client &client);
 
+	bool isTopicOPOnly();
 	std::pair<std::string, std::string> getModes() const;
 };
 

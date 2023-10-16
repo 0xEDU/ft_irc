@@ -19,9 +19,8 @@ std::string privmsg(CommandArgs cArgs) {
 		cArgs.broadcastList.erase(itClient); // Remove the client sending the message, so it doesn't send to itself :)
 	} else {
 		std::vector<Client>::iterator itClient;
-
 		itClient = std::find(cArgs.clients.begin(), cArgs.clients.end(), recipient);
 		cArgs.broadcastList.push_back((*itClient));
 	}
-	return RPL_PRIVMSG(nick, user, recipient, message);
+	return RPL_PRIVMSG(user, recipient, message);
 }
