@@ -10,7 +10,7 @@ std::string mode(CommandArgs cArgs) {
 	Channel &channel = (*it);
 	if (!channel.isClientOnChannel(cArgs.client))
 		return ERR_NOTONCHANNEL(channelName);
-	if (cArgs.msg.args.size() == 1 && cArgs.msg.args[0][0] == '#') {
+	if (cArgs.msg.args.size() == 1 && (cArgs.msg.args[0][0] == '#' || cArgs.msg.args[0][0] == '&')) {
 		std::pair<std::string, std::string> modes = channel.getModes();
 		return RPL_CHANNELMODEIS(channelName.substr(1, channelName.size() - 1), modes.first, modes.second);
 	}

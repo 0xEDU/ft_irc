@@ -6,10 +6,9 @@ std::string privmsg(CommandArgs cArgs) {
 	std::string recipient = cArgs.msg.args[0];
 	std::string message = cArgs.msg.args[1];
 
-	if (recipient[0] == '#') {
+	if (recipient[0] == '#' || recipient[0] == '&') {
 		std::vector<Channel>::iterator itChannel;
 		std::vector<Client>::iterator itClient;
-
 		itChannel = std::find(cArgs.channels.begin(), cArgs.channels.end(), recipient);
 		if (itChannel == cArgs.channels.end())
 			return (ERR_NOTONCHANNEL((recipient)));

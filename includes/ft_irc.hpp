@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <vector>
 #include <utility>
+#include <set>
 
 #include "classes/Client.hpp"
 #include "classes/RawMessage.hpp"

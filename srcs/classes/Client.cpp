@@ -196,6 +196,14 @@ void Client::setIsCommandComplete(const bool &state)
 	this->_isCommandComplete = state;
 }
 
+bool Client::isAuthenticated() const {
+	if (this->_user.empty()
+		&& this->_nick.empty()
+		&& this->_pass.empty())
+		return false;
+	return true;
+}
+
 std::string Client::receiveData(Client &client)
 {
 	std::string data;

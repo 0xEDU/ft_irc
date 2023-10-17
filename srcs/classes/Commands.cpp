@@ -16,11 +16,20 @@ void Commands::populateMap()
 	_messageFunctions["PART"] = part;
 	_messageFunctions["WHO"] = who;
 	_messageFunctions["MODE"] = mode;
-  _messageFunctions["TOPIC"] = topic;
+	_messageFunctions["TOPIC"] = topic;
 }
 
 std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)
 {
+	std::set<std::string> authorizedCommands;
+	authorizedCommands.insert("USER");
+	authorizedCommands.insert("CAP");
+	authorizedCommands.insert("NICK");
+	authorizedCommands.insert("PASS");
+
+	if (!args.client.isAuthenticated()
+	 && authorizedCommands.find(args.msg.command) == authorizedCommands.end())
+		return ("Unauthenticated user!\r\n");
 	if (_messageFunctions.find(cmdName) == _messageFunctions.end())
 		return (cmdName + " :Invalid command\r\n");
 	return (_messageFunctions[cmdName](args));
