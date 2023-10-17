@@ -26,5 +26,6 @@
 #define ERR_NEEDMOREPARAMS(command, reason) (":ft.irc 461 * " + command + " :" + reason + "\r\n")
 #define ERR_NOTONCHANNEL(channel) (":ft.irc 442 * " + channel + " :Client not on channel!\r\n")
 #define ERR_CHANOPRIVSNEEDED(user, channel) (":ft.irc 482 " + user + " " + channel + " :You're not a channel operator!\r\n")
+#define ERR_BADCHANNELKEY(user, channel) (":ft.irc 475 " + user + " " + channel + " :Password for channel was either not given or incorrect\r\n")
 
 #endif

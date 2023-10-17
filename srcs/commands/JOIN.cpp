@@ -4,9 +4,14 @@ std::string join(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
 	std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], ",");
+	std::vector<std::string> keys;
+	if (cArgs.msg.args.size() > 1)
+		keys = Utils::split(cArgs.msg.args[1],",");
 	std::string reply;
 
-	if (channels[0] == "0") // This might cause some trouble if user sends JOIN 0 #anotherchannel. Further investigation needed
+	if (keys.size() != channels.size() && !keys.empty())
+		return ERR_NEEDMOREPARAMS(cArgs.msg.command, "Nope");
+	if (channels[0] == "0") // This might cause some trouble if user sends JOIN 0,#anotherchannel. Further investigation needed
 	{
 		std::string argument;
 		for (size_t i = 0; i < cArgs.channels.size(); i++)
@@ -19,6 +24,9 @@ std::string join(CommandArgs cArgs) {
 	for (size_t i = 0; i < channels.size(); i++) {
 		std::string channelUsers;
 		std::string channelName = channels[i];
+		std::string channelKey;
+		if (!keys.empty())
+			channelKey = keys[i];
 		std::string nicks;
 		std::string topicMessage;
 		for (size_t i = 0; i < cArgs.clients.size(); i++) {
@@ -34,6 +42,10 @@ std::string join(CommandArgs cArgs) {
 		if (it != cArgs.channels.end()) {
 			if (channel.isClientOnChannel(cArgs.client))
 				continue ;
+			if (channel.getKey() != channelKey) {
+				reply += ERR_BADCHANNELKEY(cArgs.client.getUser(), channelName);
+				continue ;
+			}
 			channel.addClient(cArgs.client);
 			channelUsers = channel.getChannelUsers();
 			for (size_t i = 0; i < channel.getClients().size(); i++)
@@ -45,6 +57,8 @@ std::string join(CommandArgs cArgs) {
 			Channel newChannel(channelName);
 			newChannel.addClient(cArgs.client);
 			newChannel.addOperator(cArgs.client);
+			if (!channelKey.empty())
+				newChannel.setKey(channelKey);
 			channelUsers = newChannel.getChannelUsers();
 			cArgs.channels.push_back(newChannel);
 		}
