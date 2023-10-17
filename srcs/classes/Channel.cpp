@@ -17,7 +17,7 @@ Channel &Channel::operator=(Channel const &src)
 	{
 		this->_topic = src._topic;
 		this->_name = src._name;
-		this->_password = src._password;
+		this->_key = src._key;
 		this->_isInviteOnly = src._isInviteOnly;
 		this->_clients = src._clients;
 		this->_operators = src._operators;
@@ -57,14 +57,14 @@ void Channel::setName(const std::string &name)
 	this->_name = name;
 }
 
-std::string Channel::getPassword() const
+std::string Channel::getKey() const
 {
-	return (this->_password);
+	return (this->_key);
 }
 
-void Channel::setPassword(const std::string &password)
+void Channel::setKey(const std::string &key)
 {
-	this->_password = password;
+	this->_key = key;
 }
 
 bool Channel::getIsInviteOnly() const
@@ -175,8 +175,8 @@ std::pair<std::string, std::string> Channel::getModes() const {
 		modes += 't';
 	if (this->_k) {
 		modes += 'k';
-		if (!this->_password.empty())
-			modeParams += this->_password + " ";
+		if (!this->_key.empty())
+			modeParams += this->_key + " ";
 	}
 	if (this->_l) {
 		modes += 'l';
