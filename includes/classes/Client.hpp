@@ -11,9 +11,6 @@ class Client
 	bool _shouldEraseClient;
 	int _retries;
 	static int _idCounter;
-
-	protected:
-
 	int _fd;
 	int _id;
 	std::string _realName;
@@ -62,6 +59,8 @@ class Client
 	bool operator==(const std::string &rhs);
 
 	static std::string receiveData(Client &client);
+	
+	bool isAuthenticated(void) const;
 };
 
 #endif
