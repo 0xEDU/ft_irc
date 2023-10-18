@@ -19,13 +19,15 @@ class Client
 	std::string _currCommand;
 	std::string _pass;
 	bool _isCommandComplete;
+
+	pollfd &_pollfdRef;
 	
 	public:
 
-	Client();
+	// Client();
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
-	explicit Client(int serverfd);
+	explicit Client(int serverfd, pollfd &pollfdRef);
 	~Client();
 	
 	int getId() const;

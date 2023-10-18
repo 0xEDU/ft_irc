@@ -114,4 +114,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+rerun: re run
+
+.PHONY: all run v tests client-tests clean fclean re rerun

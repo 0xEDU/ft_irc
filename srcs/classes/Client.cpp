@@ -2,29 +2,21 @@
 
 int Client::_idCounter = 0;
 
-Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _isCommandComplete(false) {}
+// Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _isCommandComplete(false) {}
 
-Client::Client(int serverfd) :
+Client::Client(int socketDescriptor, pollfd &pollfdRef) :
 	_shouldEraseClient(false),
 	_retries(0),
-	_id(_idCounter),
-	_isCommandComplete(false)
+	_fd(socketDescriptor),
+	_isCommandComplete(false),
+	_pollfdRef(pollfdRef)
 {
-	sockAddrIn cliAddr;
-	socklen_t cliLen = sizeof(cliAddr);
-
-	this->_fd = accept(serverfd, (sockAddr *)&cliAddr, &cliLen);
-	if (this->_fd < 0)
-		throw std::runtime_error("Failed to accept client");
-	if (fcntl(this->_fd, F_SETFL, O_NONBLOCK) == -1)
-		throw std::runtime_error("Failed to set socketFd to non-blocking");
-
 	Client::_idCounter++;
-	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl;
 	this->_id = Client::_idCounter;
+	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl;
 }
 
-Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id(), _isCommandComplete() {
+Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id(), _isCommandComplete(), _pollfdRef(rhs._pollfdRef) {
 	*this = rhs;
 }
 
@@ -40,6 +32,7 @@ Client &Client::operator=(const Client &rhs) {
 		this->_isCommandComplete = rhs._isCommandComplete;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
 		this->_retries = rhs._retries;
+		this->_pollfdRef = rhs._pollfdRef;
 	}
 	return *this;
 }
