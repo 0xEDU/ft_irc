@@ -8,12 +8,13 @@ class Server
 {
 	private:
 
-	static int			_port;
+	static int			_serverPort;
 	static int			_serverSocketDescriptor;
+	static pollfd		_serverPollfd;
 	static sockaddr_in	_serverAddr;
-	static std::string	_passwd;
+	static std::string	_serverPassword;
 
-	static std::vector<pollfd> _connections;
+	static std::vector<pollfd> _connectionsPollfds;
 	static std::vector<Client> _clients;
 	static std::vector<Channel> _channels;
 
@@ -33,7 +34,7 @@ class Server
 
 	static void pollActiveConnections(void);
 	static void processClientsActivity(void);
-	static void checkForNewConnections(void);
+	static void acceptNewClients(void);
 
 	public:
 

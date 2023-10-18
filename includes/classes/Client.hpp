@@ -11,9 +11,6 @@ class Client
 	bool _shouldEraseClient;
 	int _retries;
 	static int _idCounter;
-
-	protected:
-
 	int _fd;
 	int _id;
 	std::string _realName;
@@ -22,13 +19,15 @@ class Client
 	std::string _currCommand;
 	std::string _pass;
 	bool _isCommandComplete;
+
+	pollfd &_pollfdRef;
 	
 	public:
 
-	Client();
+	// Client();
+	explicit Client(int serverfd, pollfd &pollfdRef);
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
-	explicit Client(int serverfd);
 	~Client();
 	
 	int getId() const;
@@ -62,6 +61,8 @@ class Client
 	bool operator==(const std::string &rhs);
 
 	static std::string receiveData(Client &client);
+	
+	bool isAuthenticated(void) const;
 };
 
 #endif

@@ -11,7 +11,7 @@ class Channel
 
 	std::string _topic;
 	std::string _name;
-	std::string _password;
+	std::string _key;
 	bool		_i;
 	bool		_t;
 	bool		_k;
@@ -35,8 +35,8 @@ class Channel
 	void setTopic(const std::string &topic);
 	std::string getName() const;
 	void setName(const std::string &name);
-	std::string getPassword() const;
-	void setPassword(const std::string &password);
+	std::string getKey() const;
+	void setKey(const std::string &key);
 	bool getIsInviteOnly() const;
 	void setIsInviteOnly(const bool &isInviteOnly);
 	std::vector<Client> getClients() const;
@@ -55,6 +55,7 @@ class Channel
 
 	bool isOperator(Client &client);
 
+	bool isTopicOPOnly();
 	std::pair<std::string, std::string> getModes() const;
 };
 
