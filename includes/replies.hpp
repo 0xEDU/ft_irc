@@ -27,5 +27,8 @@
 #define ERR_NOTONCHANNEL(channel) (":ft.irc 442 * " + channel + " :Client not on channel!\r\n")
 #define ERR_CHANOPRIVSNEEDED(user, channel) (":ft.irc 482 " + user + " " + channel + " :You're not a channel operator!\r\n")
 #define ERR_BADCHANNELKEY(user, channel) (":ft.irc 475 " + user + " " + channel + " :Password for channel was either not given or incorrect\r\n")
+#define ERR_NORECIPIENT(user) (":ft.irc 411 " + user + " :No recipient to message\r\n")
+#define ERR_NOTEXTTOSEND(user) (":ft.irc 412 " + user + " :No message to send\r\n")
+#define ERR_NOSUCHNICK(recipient) (":ft.irc 406 " + recipient + " :No such nick\r\n")
 
 #endif
