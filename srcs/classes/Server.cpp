@@ -5,7 +5,7 @@
 // ---------------------------- //
 int Server::_serverPort;
 int Server::_serverSocketDescriptor;
-pollfd Server::_serverPollfd;
+pollfd *Server::_serverPollfd;
 sockAddrIn Server::_serverAddr;
 std::string Server::_serverPassword;
 
@@ -122,7 +122,7 @@ void	Server::pollActiveConnections(void) {
 };
 
 void	Server::acceptNewClients(void) {
-	if ((_serverPollfd.revents & POLLIN) == POLLIN)
+	if ((_serverPollfd->revents & POLLIN) == POLLIN)
 	{
 		sockAddrIn newClientAddress;
 		socklen_t addressLength = sizeof(newClientAddress);
@@ -183,7 +183,7 @@ void	Server::start()
 	// First instance in vector corresponds to server's socket descriptor
 	// Any new connections to server will come through the server's connection in the first place.
 	_connectionsPollfds.push_back((pollfd) {.fd = Server::_serverSocketDescriptor, .events = POLLIN});
-	_serverPollfd = Server::_connectionsPollfds[0];
+	_serverPollfd = &Server::_connectionsPollfds[0];
 
 	LOG("Server running...")
 	while (true)

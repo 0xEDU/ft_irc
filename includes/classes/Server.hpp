@@ -10,7 +10,7 @@ class Server
 
 	static int			_serverPort;
 	static int			_serverSocketDescriptor;
-	static pollfd		_serverPollfd;
+	static pollfd		*_serverPollfd;
 	static sockaddr_in	_serverAddr;
 	static std::string	_serverPassword;
 

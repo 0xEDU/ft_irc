@@ -2,8 +2,6 @@
 
 int Client::_idCounter = 0;
 
-// Client::Client() : _shouldEraseClient(false), _retries(0), _fd(0), _id(0), _isCommandComplete(false) {}
-
 Client::Client(int socketDescriptor, pollfd &pollfdRef) :
 	_shouldEraseClient(false),
 	_retries(0),
@@ -133,7 +131,7 @@ void Client::setRetries(int retries)
 void Client::decrementIdCounter()
 {
 	_idCounter -= 1;
-	std::cout << "Number of clients connected: " << _idCounter << std::endl;
+	LOG("Number of clients connected: " << _idCounter)
 }
 
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
@@ -209,6 +207,6 @@ std::string Client::receiveData(Client &client)
 		client.setShouldEraseClient(true);
 	else
 		data.append(buff, nbytes);
-	std::cout << "RECEIVED: " << data << std::endl;
+	LOG("RECEIVED: " << data)
 	return data;
 }
