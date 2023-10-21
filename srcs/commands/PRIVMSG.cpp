@@ -3,6 +3,10 @@
 std::string privmsg(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
+	if (cArgs.msg.args.size() < 1)
+		return ERR_NORECIPIENT(user);
+	if (cArgs.msg.args.size() < 2)
+		return ERR_NOTEXTTOSEND(user);
 	std::string recipient = cArgs.msg.args[0];
 	std::string message = cArgs.msg.args[1];
 
@@ -19,6 +23,8 @@ std::string privmsg(CommandArgs cArgs) {
 	} else {
 		std::vector<Client>::iterator itClient;
 		itClient = std::find(cArgs.clients.begin(), cArgs.clients.end(), recipient);
+		if (itClient == cArgs.clients.end())
+			return ERR_NOSUCHNICK(recipient);
 		cArgs.broadcastList.push_back((*itClient));
 	}
 	return RPL_PRIVMSG(user, recipient, message);
