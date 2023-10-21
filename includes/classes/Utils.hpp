@@ -11,7 +11,9 @@ private:
 public:
 	static std::vector<std::string> split(const std::string &s, const std::string& delimiter = " ");
 
+	// Pollfd operator overloads
 };
 
 
+bool operator==(const pollfd &lhs, const pollfd &rhs);
 #endif

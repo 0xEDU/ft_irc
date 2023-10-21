@@ -13,5 +13,13 @@ std::vector<std::string> Utils::split(const std::string &s, const std::string& d
 	return tokens;
 }
 
+
+// Pollfd operator overloads
+bool operator==(const pollfd &lhs, const pollfd &rhs) {
+	return (lhs.events == rhs.events && lhs.fd == rhs.fd && lhs.revents == rhs.revents);
+};
+
+
+// Constructor/Destructor
 Utils::Utils() {}
 Utils::~Utils() {}

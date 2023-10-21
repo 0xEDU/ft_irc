@@ -141,34 +141,47 @@ void	Server::acceptNewClients(void) {
 };
 
 void	Server::processClientsActivity(void) {
-	for (std::size_t i = 1; i < _connectionsPollfds.size(); i++)
+	for (std::vector<Client>::iterator client = _clients.begin(); client < _clients.end(); client++)
 	{
-		if ((_connectionsPollfds[i].revents & POLLIN) == POLLIN)
+		if ((client->getPollfdRef().revents & POLLIN) == POLLIN)
 		{
-			Client &client = _clients[i - 1];
+			client->incrementCurrCommand(Client::receiveData(*client));
 
-			client.incrementCurrCommand(Client::receiveData(client));
-			if (client.getIsCommandComplete())
+			// função acumuladora de buffer
+			// e se chegar um ou vários \r\n joga pra dentro de uma FILA CHIQUERRIMA de comandos
+			// filadecomandos.push(novo_comando_do_cliente_x)
+
+			// função que percorre o array de comandos
+			// for (array_de_comandos.size()) {
+			// 	// processa comando
+			// 	// dá pop na fila de comandos
+			// }
+
+			// função que percorre os clients e faz clean up (kicka quem tem q kickar)
+
+			if (client->getIsCommandComplete())
 			{
-				std::vector<std::string> lines = Utils::split(client.getCurrCommand(), "\r\n");
+				std::vector<std::string> lines = Utils::split(client->getCurrCommand(), "\r\n");
 				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
 				{
 					if ((*line).empty())
 						continue ;
 					RawMessage msg = RawMessage::parseMsg(*line);
-					std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, client, _clients, _channels);
-					client.sendMessage(response);
-					client.setIsCommandComplete(false);
-					client.setCurrCommand("");
+					std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
+					client->sendMessage(response);
+					client->setIsCommandComplete(false);
+					client->setCurrCommand("");
 				}
 			}
-			if (client.getShouldEraseClient())
+			if (client->getShouldEraseClient())
 			{
-				close(client.getFd());
-				_clients.erase(_clients.begin() + (long)i - 1);
-				_connectionsPollfds.erase(_connectionsPollfds.begin() + (long)i);
+				close(client->getFd());
+				// usar find pra pegar o iterador do 
+				_connectionsPollfds.erase(std::find(_connectionsPollfds.begin(), _connectionsPollfds.end(), client->getPollfdRef()));
 				for (size_t c = 0; c < _channels.size(); c++)
-					_channels[c].disconnectClient(client);
+					_channels[c].disconnectClient(*client);
+				// usar o proprio cliente (iterador) da iteracao atual
+				_clients.erase(client);
 				Client::decrementIdCounter();
 			}
 		}

@@ -187,6 +187,10 @@ void Client::setIsCommandComplete(const bool &state)
 	this->_isCommandComplete = state;
 }
 
+pollfd &Client::getPollfdRef() {
+	return (this->_pollfdRef);
+};
+
 bool Client::isAuthenticated() const {
 	if (this->_user.empty()
 		&& this->_nick.empty()
@@ -207,6 +211,6 @@ std::string Client::receiveData(Client &client)
 		client.setShouldEraseClient(true);
 	else
 		data.append(buff, nbytes);
-	LOG("RECEIVED: " << data)
+	LOG("RECEIVED: >>" << data << "<<")
 	return data;
 }

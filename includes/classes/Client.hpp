@@ -30,6 +30,7 @@ class Client
 	Client &operator=( const Client &rhs);
 	~Client();
 	
+	// GETTERS AND SETTERS
 	int getId() const;
 	void setId(const int &id);
 	int getFd() const;
@@ -52,6 +53,7 @@ class Client
 	std::string getCurrCommand() const;
 	bool getIsCommandComplete() const;
 	void setIsCommandComplete(const bool &state);
+	pollfd &getPollfdRef();
 
 	static void decrementIdCounter();
 	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;
