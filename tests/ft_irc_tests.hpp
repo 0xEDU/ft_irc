@@ -1,4 +1,3 @@
-#pragma once
 #ifndef FT_IRC_TESTS_HPP
 #define FT_IRC_TESTS_HPP
 

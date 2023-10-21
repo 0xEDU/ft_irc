@@ -143,36 +143,40 @@ void	Server::acceptNewClients(void) {
 void	Server::processClientsActivity(void) {
 	for (std::vector<Client>::iterator client = _clients.begin(); client < _clients.end(); client++)
 	{
-		if ((client->getPollfdRef().revents & POLLIN) == POLLIN)
+		// if ()
+		if (client->detectedActivity())
 		{
-			client->incrementCurrCommand(Client::receiveData(*client));
+			client->storeRawData(Client::receiveData(*client));
+			client->pushToCommandQueue();
 
-			// função acumuladora de buffer
-			// e se chegar um ou vários \r\n joga pra dentro de uma FILA CHIQUERRIMA de comandos
-			// filadecomandos.push(novo_comando_do_cliente_x)
-
-			// função que percorre o array de comandos
-			// for (array_de_comandos.size()) {
-			// 	// processa comando
-			// 	// dá pop na fila de comandos
+			// for (command in commandQueue) {
+			// 	execute_command();
 			// }
 
 			// função que percorre os clients e faz clean up (kicka quem tem q kickar)
 
-			if (client->getIsCommandComplete())
-			{
-				std::vector<std::string> lines = Utils::split(client->getCurrCommand(), "\r\n");
-				for (std::vector<std::string>::iterator line = lines.begin(); line != lines.end(); line++)
-				{
-					if ((*line).empty())
-						continue ;
-					RawMessage msg = RawMessage::parseMsg(*line);
+			// if (client->getIsCommandComplete())
+			// {
+			// 	std::vector<std::string> lines = Utils::split(client->getCurrCommand(), "\r\n");
+				// for ( = lines.begin(); line != lines.end(); line++)
+				std::queue<std::string> &commandsQueue = client->getCommandsQueue();
+				while (!commandsQueue.empty()) {
+					std::string line = commandsQueue.front();
+					commandsQueue.pop();
+					RawMessage msg = RawMessage::parseMsg(line);
 					std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
 					client->sendMessage(response);
-					client->setIsCommandComplete(false);
-					client->setCurrCommand("");
 				}
-			}
+				// {
+				// 	if ((*line).empty())
+				// 		continue ;
+				// 	RawMessage msg = RawMessage::parseMsg(*line);
+				// 	std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
+				// 	client->sendMessage(response);
+				// 	client->setIsCommandComplete(false);
+				// 	client->setCurrCommand("");
+				// }
+			// }
 			if (client->getShouldEraseClient())
 			{
 				close(client->getFd());
@@ -209,4 +213,3 @@ void	Server::start()
 		processClientsActivity();
 	}
 };
-

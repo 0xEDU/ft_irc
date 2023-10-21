@@ -6,7 +6,6 @@ Client::Client(int socketDescriptor, pollfd &pollfdRef) :
 	_shouldEraseClient(false),
 	_retries(0),
 	_fd(socketDescriptor),
-	_isCommandComplete(false),
 	_pollfdRef(pollfdRef)
 {
 	Client::_idCounter++;
@@ -14,7 +13,7 @@ Client::Client(int socketDescriptor, pollfd &pollfdRef) :
 	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl;
 }
 
-Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id(), _isCommandComplete(), _pollfdRef(rhs._pollfdRef) {
+Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id(), _pollfdRef(rhs._pollfdRef) {
 	*this = rhs;
 }
 
@@ -26,8 +25,7 @@ Client &Client::operator=(const Client &rhs) {
 		this->_id = rhs._id;
 		this->_fd = rhs._fd;
 		this->_pass = rhs._pass;
-		this->_currCommand = rhs._currCommand;
-		this->_isCommandComplete = rhs._isCommandComplete;
+		this->_rawData = rhs._rawData;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
 		this->_retries = rhs._retries;
 		this->_pollfdRef = rhs._pollfdRef;
@@ -137,7 +135,7 @@ void Client::decrementIdCounter()
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
 {
 	if ((msg.first.empty() && msg.second.empty())
-		|| (_currCommand.find("PRIVMSG") == 0 && msg.second.empty()))
+		|| (_rawData.find("PRIVMSG") == 0 && msg.second.empty()))
 		return;
 	std::vector<Client>::iterator it = msg.second.begin();
 	if (msg.second.empty()) {
@@ -159,36 +157,22 @@ bool Client::operator==(const std::string &rhs) {
 	return this->_user == rhs;
 }
 
-void Client::incrementCurrCommand(const std::string &cmd)
+void Client::storeRawData(const std::string &data)
 {
-	this->_currCommand += cmd;
-	std::size_t found = this->_currCommand.find("\r\n");
-	if (found != std::string::npos)
-		this->_isCommandComplete = true;
+	this->_rawData += data;
 }
 
-void Client::setCurrCommand(const std::string &cmd)
+std::string Client::getRawData() const
 {
-	this->_currCommand = cmd;
-}
-
-std::string Client::getCurrCommand() const
-{
-	return (this->_currCommand);
-}
-
-bool Client::getIsCommandComplete() const
-{
-	return (this->_isCommandComplete);
-}
-
-void Client::setIsCommandComplete(const bool &state)
-{
-	this->_isCommandComplete = state;
+	return (this->_rawData);
 }
 
 pollfd &Client::getPollfdRef() {
 	return (this->_pollfdRef);
+};
+
+std::queue<std::string> &Client::getCommandsQueue() {
+	return (this->_commandsQueue);
 };
 
 bool Client::isAuthenticated() const {
@@ -213,4 +197,34 @@ std::string Client::receiveData(Client &client)
 		data.append(buff, nbytes);
 	LOG("RECEIVED: >>" << data << "<<")
 	return data;
+}
+
+bool Client::detectedActivity() {
+	return ((_pollfdRef.revents & POLLIN) == POLLIN);
+}
+
+void Client::pushToCommandQueue() {
+	std::string crlf = "\r\n";
+	bool commandIsComplete = (this->_rawData[_rawData.size() - 2] == '\r' && this->_rawData[_rawData.size() - 1] == '\n');
+
+	if (!_buffer.empty()) {
+		_buffer.append(_rawData);
+	}
+	std::vector<std::string> commands = Utils::split(_buffer, crlf);
+
+	if (!commandIsComplete) {
+		_buffer = commands.back();
+		commands.pop_back();
+	}
+	for (std::vector<std::string>::iterator command = commands.begin(); command != commands.end(); command++)
+		this->_commandsQueue.push(*command);
+	// {
+		// if ((*command).empty())
+		// 	continue ;
+	// 	RawMessage msg = RawMessage::parseMsg(*command);
+	// 	std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
+	// 	client->sendMessage(response);
+	// 	client->setIsCommandComplete(false);
+	// 	client->setCurrCommand("");
+	// }
 }

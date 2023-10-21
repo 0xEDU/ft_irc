@@ -71,8 +71,8 @@ run: all
 v: all
 	@valgrind --track-fds=yes ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 
-$(NAME): $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS)
-	@clang++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(CLASSES_OBJS) $(COMMANDS_OBJS) 
+	@clang++ $(FLAGS) $(OBJS) $(CLASSES_OBJS) $(COMMANDS_OBJS) -o $(NAME)
 
 $(PATH_OBJS)%.o: $(PATH_COMMANDS)%.cpp
 	@mkdir -p $(PATH_OBJS)

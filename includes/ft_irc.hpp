@@ -1,4 +1,3 @@
-#pragma once
 #ifndef FT_IRC_HPP
 #define FT_IRC_HPP
 
@@ -27,7 +26,13 @@
 #include <algorithm>
 #include <vector>
 #include <utility>
+#include <queue>
 #include <set>
+
+class Channel;
+struct CommandArgs;
+class Client;
+class Server;
 
 #include "classes/Client.hpp"
 #include "classes/RawMessage.hpp"
@@ -38,11 +43,6 @@
 #include "classes/Utils.hpp"
 
 #include "replies.hpp"
-
-class Channel;
-struct CommandArgs;
-class Client;
-class Server;
 
 typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;

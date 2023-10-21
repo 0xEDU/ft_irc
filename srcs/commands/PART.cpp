@@ -9,7 +9,8 @@ std::string part(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
 	std::string returnMessage;
-	std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], ",");
+	std::string comma = ",";
+	std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], comma);
 
 	for (size_t i = 0; i < channels.size(); i++) {
 		std::string channel = channels[i];
