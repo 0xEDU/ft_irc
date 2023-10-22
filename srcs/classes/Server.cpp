@@ -153,6 +153,8 @@ std::ostream &operator<<(std::ostream &oss, std::queue<std::string> queue) {
 }
 
 void	Server::processClientsActivity(void) {
+	if (_clients.empty())
+		return ;
 	for (std::vector<Client>::iterator client = _clients.begin(); client != _clients.end(); client++)
 	{
 		// if ()

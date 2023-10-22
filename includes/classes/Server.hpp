@@ -13,9 +13,9 @@ class Server
 	static sockaddr_in	_serverAddr;
 	static std::string	_serverPassword;
 
-	static std::vector<pollfd> _connectionsPollfds;
-	static std::vector<Client> _clients;
-	static std::vector<Channel> _channels;
+	static std::vector<pollfd>	_connectionsPollfds;
+	static std::vector<Client>		_clients;
+	static std::vector<Channel	> _channels;
 
 	// Prevent instantiation of class
 	Server();

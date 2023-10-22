@@ -206,23 +206,26 @@ bool Client::detectedActivity() {
 }
 
 void Client::flushRawData() {
-	this->_rawData = "";
+	this->_rawData.clear();
 }
 
 void Client::pushToCommandQueue() {
+	if (this->_rawData.empty())
+		return ;
 	std::string crlf = "\r\n";
-	// bool commandIsComplete = (this->_rawData[_rawData.size() - 2] == '\r' && this->_rawData[_rawData.size() - 1] == '\n');
 
-	// if (_buffer.empty()) {
-	// 	_buffer.append(_rawData);
-	// }
+	if (!this->_buffer.empty()) {
+		// this->_rawData.append(_buffer);
+		this->_rawData.insert(0, this->_buffer); // Prepend
+		this->_buffer.clear();
+	}
 	// LOG(_buffer)
-	std::vector<std::string> commands = Utils::split(_rawData, crlf);
-
-	// if (!commandIsComplete) {
-	// 	_buffer = commands.back();
-	// 	commands.pop_back();
-	// }
+	std::vector<std::string> commands = Utils::split(this->_rawData, crlf);
+	bool commandIsComplete = (this->_rawData[_rawData.size() - 2] == '\r' && this->_rawData[_rawData.size() - 1] == '\n');
+	if (!commandIsComplete) {
+		this->_buffer = commands.back();
+		commands.pop_back();
+	}
 	// for (size_t i = 0; i < commands.size(); i++) {
 	// 	LOG("[" << i << "] " << commands[i])
 	// }
