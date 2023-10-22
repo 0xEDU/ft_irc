@@ -173,8 +173,8 @@ std::queue<std::string> &Client::getCommandsQueue() {
 
 bool Client::isAuthenticated() const {
 	if (this->_user.empty()
-		&& this->_nick.empty()
-		&& this->_pass.empty())
+		|| this->_nick.empty()
+		|| this->_pass.empty())
 		return false;
 	return true;
 }

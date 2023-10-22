@@ -2,6 +2,8 @@
 
 std::string nick(CommandArgs cArgs)
 {
+	if (cArgs.msg.args.size() < 1)
+		return ERR_NONICKNAMEGIVEN;
 	std::string nickname = cArgs.msg.args[0];
 	if (nickname.empty())
 	{
@@ -17,7 +19,7 @@ std::string nick(CommandArgs cArgs)
 		}
 	}
 	cArgs.client.setNick(nickname);
-	if (cArgs.client.getRetries() != 0)
-		return(RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
+	if (cArgs.client.isAuthenticated())
+		return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
 	return ("");
 }
