@@ -1,8 +1,9 @@
 #ifndef FT_IRC_HPP
 #define FT_IRC_HPP
 
-#define LOG(x) std::cout << x << std::endl;
+#define LOG(x) std::cout << "[INFO] " << x << std::endl;
 #define ERROR(x) std::cerr << "[ERROR] IRC Internal error: " << x << std::endl;
+#define DEBUG(x) std::cout << "[DEBUG] " << x << std::endl;
 #define CLIENT_LIMIT 1024
 #define TIMEOUT_MS 1000
 #define BUFFER_SIZE 512
