@@ -2,6 +2,8 @@
 
 std::string user(CommandArgs cArgs)
 {
+	if (cArgs.msg.args.size() != 4)
+		return ERR_NEEDMOREPARAMS(cArgs.msg.command, "Wrong number of parameters");
 	std::string username = cArgs.msg.args[0];
 	for (std::size_t i = 0; i < cArgs.clients.size(); i++)
 	{
