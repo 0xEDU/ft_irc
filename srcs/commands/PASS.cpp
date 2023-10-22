@@ -8,5 +8,7 @@ std::string pass(CommandArgs cArgs)
 		cArgs.client.setShouldEraseClient(true);
 		return (ERR_PASSWDMISMATCH);
 	}
+	if (cArgs.client.isAuthenticated())
+		return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));
 	return ("");
 }
