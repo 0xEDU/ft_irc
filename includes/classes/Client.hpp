@@ -57,7 +57,6 @@ class Client
 	static void decrementIdCounter();
 	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;
 	void incrementRetries();
-	bool detectedActivity();
 	void pushToCommandQueue();
 
 	bool operator==(const Client &rhs);

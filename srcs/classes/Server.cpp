@@ -152,13 +152,22 @@ std::ostream &operator<<(std::ostream &oss, std::queue<std::string> queue) {
 	return oss;
 }
 
+bool operator==(const pollfd &pollfd, const int &clientFd) {
+	return (pollfd.fd == clientFd);
+}
+
+bool Server::detectedActivity(const int &clientFd) {
+	std::vector<pollfd>::iterator pollfd =
+		std::find(_connectionsPollfds.begin(), _connectionsPollfds.end(), clientFd);
+	return ((pollfd->revents & POLLIN) == POLLIN);
+}
+
 void	Server::processClientsActivity(void) {
 	if (_clients.empty())
 		return ;
 	for (std::vector<Client>::iterator client = _clients.begin(); client != _clients.end(); client++)
 	{
-		// if ()
-		if (client->detectedActivity())
+		if (detectedActivity(client->getFd()))
 		{
 			client->storeRawData(Client::receiveData(*client));
 			client->pushToCommandQueue();

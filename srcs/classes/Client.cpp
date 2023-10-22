@@ -201,10 +201,6 @@ std::string Client::receiveData(Client &client)
 	return data;
 }
 
-bool Client::detectedActivity() {
-	return ((_pollfdRef.revents & POLLIN) == POLLIN);
-}
-
 void Client::flushRawData() {
 	this->_rawData.clear();
 }
@@ -214,31 +210,16 @@ void Client::pushToCommandQueue() {
 		return ;
 	std::string crlf = "\r\n";
 
-	if (!this->_buffer.empty()) {
-		// this->_rawData.append(_buffer);
-		this->_rawData.insert(0, this->_buffer); // Prepend
-		this->_buffer.clear();
-	}
-	// LOG(_buffer)
-	std::vector<std::string> commands = Utils::split(this->_rawData, crlf);
-	bool commandIsComplete = (this->_rawData[_rawData.size() - 2] == '\r' && this->_rawData[_rawData.size() - 1] == '\n');
+	this->_buffer.append(_rawData);
+	std::vector<std::string> commands = Utils::split(this->_buffer, crlf);
+	bool commandIsComplete = (_buffer.size() >= 2
+		&& this->_rawData[_rawData.size() - 2] == '\r'
+		&& this->_rawData[_rawData.size() - 1] == '\n');
 	if (!commandIsComplete) {
 		this->_buffer = commands.back();
 		commands.pop_back();
 	}
-	// for (size_t i = 0; i < commands.size(); i++) {
-	// 	LOG("[" << i << "] " << commands[i])
-	// }
 	for (std::vector<std::string>::iterator command = commands.begin(); command != commands.end(); command++) {
 		this->_commandsQueue.push(*command);
 	}
-	// {
-		// if ((*command).empty())
-		// 	continue ;
-	// 	RawMessage msg = RawMessage::parseMsg(*command);
-	// 	std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
-	// 	client->sendMessage(response);
-	// 	client->setIsCommandComplete(false);
-	// 	client->setCurrCommand("");
-	// }
 }
