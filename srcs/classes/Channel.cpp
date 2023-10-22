@@ -138,7 +138,7 @@ bool Channel::isClientOnChannel(const std::string &client) {
 	return true;
 }
 
-void Channel::disconnectClient(const Client &client) {
+void Channel::removeClient(const Client &client) {
 	std::vector<Client>::iterator
 	clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
 	std::vector<Client>::iterator

@@ -20,7 +20,7 @@ std::string part(CommandArgs cArgs) {
 			return ERR_NOSUCHCHANNEL(channel);
 		if (!(*it).isClientOnChannel(cArgs.client))
 			return ERR_NOTONCHANNEL(channel);
-		(*it).disconnectClient(cArgs.client);
+		(*it).removeClient(cArgs.client);
 		if ((*it).getClients().empty())
 			cArgs.channels.erase(it);
 		if (!message.empty())

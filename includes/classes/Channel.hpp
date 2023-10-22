@@ -48,7 +48,7 @@ class Channel
 	void addOperator(const Client &client);
 	void removeOperator(const Client &client);
 
-	void disconnectClient(const Client &client);
+	void removeClient(const Client &client);
 
 	bool isClientOnChannel(const Client &client);
 	bool isClientOnChannel(const std::string &client);
