@@ -2,6 +2,8 @@
 
 std::string nick(CommandArgs cArgs)
 {
+	if (cArgs.msg.args.size() < 1)
+		return ERR_NONICKNAMEGIVEN;
 	std::string nickname = cArgs.msg.args[0];
 	if (nickname.empty())
 	{
