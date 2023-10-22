@@ -49,6 +49,7 @@ class Client
 	void setRetries(int value);
 	static int getIdCounter();
 	void storeRawData(const std::string &cmd);
+	void flushRawData();
 	std::string getRawData() const;
 	std::queue<std::string> &getCommandsQueue();
 	pollfd &getPollfdRef();

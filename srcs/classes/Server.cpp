@@ -13,7 +13,9 @@ std::vector<pollfd> Server::_connectionsPollfds;
 std::vector<Client> Server::_clients;
 std::vector<Channel> Server::_channels;
 
-Server::Server() {}
+Server::Server() {
+	_connectionsPollfds.reserve(100);
+}
 
 Server::~Server() {}
 
@@ -122,7 +124,7 @@ void	Server::pollActiveConnections(void) {
 };
 
 void	Server::acceptNewClients(void) {
-	if ((_serverPollfd->revents & POLLIN) == POLLIN)
+	if ((Server::_connectionsPollfds[0].revents & POLLIN) == POLLIN)
 	{
 		sockAddrIn newClientAddress;
 		socklen_t addressLength = sizeof(newClientAddress);
@@ -132,16 +134,26 @@ void	Server::acceptNewClients(void) {
 			throw std::runtime_error("Failed to accept new client");
 		if (fcntl(newClientSocketDescriptor, F_SETFL, O_NONBLOCK) == -1)
 			throw std::runtime_error("Failed to set client's socket descriptor to non-blocking mode");
-
-		_connectionsPollfds.push_back((pollfd) { .fd = newClientSocketDescriptor, .events = POLLIN});
-
+		_connectionsPollfds.push_back((pollfd) {.fd = newClientSocketDescriptor, .events = POLLIN});
 		Client newClient(newClientSocketDescriptor, _connectionsPollfds.back());
 		_clients.push_back(newClient);
 	}
 };
 
+std::ostream &operator<<(std::ostream &oss, std::queue<std::string> queue) {
+	if (queue.empty()) {
+		oss << "Queue is empty!";
+		return oss;
+	}
+	for (size_t i = 0; i < queue.size(); i++) {
+		oss << "[" << i << "] " << queue.front() << std::endl;
+		queue.pop();
+	}
+	return oss;
+}
+
 void	Server::processClientsActivity(void) {
-	for (std::vector<Client>::iterator client = _clients.begin(); client < _clients.end(); client++)
+	for (std::vector<Client>::iterator client = _clients.begin(); client != _clients.end(); client++)
 	{
 		// if ()
 		if (client->detectedActivity())
@@ -161,12 +173,18 @@ void	Server::processClientsActivity(void) {
 				// for ( = lines.begin(); line != lines.end(); line++)
 				std::queue<std::string> &commandsQueue = client->getCommandsQueue();
 				while (!commandsQueue.empty()) {
+					// LOG(commandsQueue)
 					std::string line = commandsQueue.front();
+					// LOG("LINE: |" << line << "|")
 					commandsQueue.pop();
 					RawMessage msg = RawMessage::parseMsg(line);
 					std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
+					LOG("RESPONSE: " << response.first)
 					client->sendMessage(response);
 				}
+				if (commandsQueue.empty())
+					client->flushRawData();
+				LOG(client->getCommandsQueue())
 				// {
 				// 	if ((*line).empty())
 				// 		continue ;
@@ -196,11 +214,9 @@ void	Server::start()
 {
 	// Overrides the behaviour of SIGINT (ctrl+C)
 	signal(SIGINT, &Server::sigHandler);
-
 	// First instance in vector corresponds to server's socket descriptor
 	// Any new connections to server will come through the server's connection in the first place.
 	_connectionsPollfds.push_back((pollfd) {.fd = Server::_serverSocketDescriptor, .events = POLLIN});
-	_serverPollfd = &Server::_connectionsPollfds[0];
 
 	LOG("Server running...")
 	while (true)

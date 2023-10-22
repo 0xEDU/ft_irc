@@ -26,6 +26,8 @@ Client &Client::operator=(const Client &rhs) {
 		this->_fd = rhs._fd;
 		this->_pass = rhs._pass;
 		this->_rawData = rhs._rawData;
+		this->_buffer = rhs._buffer;
+		this->_commandsQueue = rhs._commandsQueue;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
 		this->_retries = rhs._retries;
 		this->_pollfdRef = rhs._pollfdRef;
@@ -203,21 +205,30 @@ bool Client::detectedActivity() {
 	return ((_pollfdRef.revents & POLLIN) == POLLIN);
 }
 
+void Client::flushRawData() {
+	this->_rawData = "";
+}
+
 void Client::pushToCommandQueue() {
 	std::string crlf = "\r\n";
-	bool commandIsComplete = (this->_rawData[_rawData.size() - 2] == '\r' && this->_rawData[_rawData.size() - 1] == '\n');
+	// bool commandIsComplete = (this->_rawData[_rawData.size() - 2] == '\r' && this->_rawData[_rawData.size() - 1] == '\n');
 
-	if (!_buffer.empty()) {
-		_buffer.append(_rawData);
-	}
-	std::vector<std::string> commands = Utils::split(_buffer, crlf);
+	// if (_buffer.empty()) {
+	// 	_buffer.append(_rawData);
+	// }
+	// LOG(_buffer)
+	std::vector<std::string> commands = Utils::split(_rawData, crlf);
 
-	if (!commandIsComplete) {
-		_buffer = commands.back();
-		commands.pop_back();
-	}
-	for (std::vector<std::string>::iterator command = commands.begin(); command != commands.end(); command++)
+	// if (!commandIsComplete) {
+	// 	_buffer = commands.back();
+	// 	commands.pop_back();
+	// }
+	// for (size_t i = 0; i < commands.size(); i++) {
+	// 	LOG("[" << i << "] " << commands[i])
+	// }
+	for (std::vector<std::string>::iterator command = commands.begin(); command != commands.end(); command++) {
 		this->_commandsQueue.push(*command);
+	}
 	// {
 		// if ((*command).empty())
 		// 	continue ;
