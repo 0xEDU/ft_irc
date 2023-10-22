@@ -69,7 +69,7 @@ run: all
 	@./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 	
 v: all
-	@valgrind --track-fds=yes ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
+	@valgrind --track-fds=yes --quiet ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 
 $(NAME): $(OBJS) $(CLASSES_OBJS) $(COMMANDS_OBJS) 
 	@clang++ $(FLAGS) $(OBJS) $(CLASSES_OBJS) $(COMMANDS_OBJS) -o $(NAME)
