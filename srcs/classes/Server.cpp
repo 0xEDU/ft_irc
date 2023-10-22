@@ -135,7 +135,7 @@ void	Server::acceptNewClients(void) {
 		if (fcntl(newClientSocketDescriptor, F_SETFL, O_NONBLOCK) == -1)
 			throw std::runtime_error("Failed to set client's socket descriptor to non-blocking mode");
 		_connectionsPollfds.push_back((pollfd) {.fd = newClientSocketDescriptor, .events = POLLIN});
-		Client newClient(newClientSocketDescriptor, _connectionsPollfds.back());
+		Client newClient(newClientSocketDescriptor);
 		_clients.push_back(newClient);
 	}
 };

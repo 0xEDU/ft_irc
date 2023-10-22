@@ -5,7 +5,7 @@ int Client::_idCounter = 0;
 Client::Client(int socketDescriptor) :
 	_shouldEraseClient(false),
 	_retries(0),
-	_fd(socketDescriptor),
+	_fd(socketDescriptor)
 {
 	Client::_idCounter++;
 	this->_id = Client::_idCounter;

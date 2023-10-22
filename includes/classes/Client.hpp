@@ -23,7 +23,7 @@ class Client
 	public:
 
 	// Client();
-	explicit Client(int serverfd);
+	explicit Client(int socketDescriptor);
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
 	~Client();
