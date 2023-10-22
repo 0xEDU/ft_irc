@@ -9,7 +9,8 @@ std::string part(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
 	std::string returnMessage;
-	std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], ",");
+	std::string comma = ",";
+	std::vector<std::string> channels = Utils::split(cArgs.msg.args[0], comma);
 
 	for (size_t i = 0; i < channels.size(); i++) {
 		std::string channel = channels[i];
@@ -19,7 +20,7 @@ std::string part(CommandArgs cArgs) {
 			return ERR_NOSUCHCHANNEL(channel);
 		if (!(*it).isClientOnChannel(cArgs.client))
 			return ERR_NOTONCHANNEL(channel);
-		(*it).disconnectClient(cArgs.client);
+		(*it).removeClient(cArgs.client);
 		if ((*it).getClients().empty())
 			cArgs.channels.erase(it);
 		if (!message.empty())

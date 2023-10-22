@@ -1,9 +1,9 @@
-#pragma once
 #ifndef FT_IRC_HPP
 #define FT_IRC_HPP
 
-#define LOG(x) std::cout << x << std::endl;
-#define ERROR(x) std::cerr << "Error: " << x << std::endl;
+#define LOG(x) std::cout << "[INFO] " << x << std::endl;
+#define ERROR(x) std::cerr << "[ERROR] IRC Internal error: " << x << std::endl;
+#define DEBUG(x) std::cout << "[DEBUG] " << x << std::endl;
 #define CLIENT_LIMIT 1024
 #define TIMEOUT_MS 1000
 #define BUFFER_SIZE 512
@@ -27,7 +27,13 @@
 #include <algorithm>
 #include <vector>
 #include <utility>
+#include <queue>
 #include <set>
+
+class Channel;
+struct CommandArgs;
+class Client;
+class Server;
 
 #include "classes/Client.hpp"
 #include "classes/RawMessage.hpp"
@@ -38,11 +44,6 @@
 #include "classes/Utils.hpp"
 
 #include "replies.hpp"
-
-class Channel;
-struct CommandArgs;
-class Client;
-class Server;
 
 typedef struct sockaddr_in sockAddrIn;
 typedef struct sockaddr sockAddr;

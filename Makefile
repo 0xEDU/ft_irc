@@ -69,10 +69,10 @@ run: all
 	@./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 	
 v: all
-	@valgrind --track-fds=yes ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
+	@valgrind --track-fds=yes --quiet ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 
-$(NAME): $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS)
-	@clang++ $(FLAGS) $(OBJS) $(COMMANDS_OBJS) $(CLASSES_OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(CLASSES_OBJS) $(COMMANDS_OBJS) 
+	@clang++ $(FLAGS) $(OBJS) $(CLASSES_OBJS) $(COMMANDS_OBJS) -o $(NAME)
 
 $(PATH_OBJS)%.o: $(PATH_COMMANDS)%.cpp
 	@mkdir -p $(PATH_OBJS)
@@ -114,4 +114,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+rerun: re run
+
+.PHONY: all run v tests client-tests clean fclean re rerun

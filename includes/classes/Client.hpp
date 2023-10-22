@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
@@ -16,18 +15,20 @@ class Client
 	std::string _realName;
 	std::string _nick;
 	std::string _user;
-	std::string _currCommand;
+	std::string _rawData;
 	std::string _pass;
-	bool _isCommandComplete;
-	
+
+	std::queue<std::string> _commandsQueue;
+	std::string _buffer;
 	public:
 
-	Client();
+	// Client();
+	explicit Client(int socketDescriptor);
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
-	explicit Client(int serverfd);
 	~Client();
 	
+	// GETTERS AND SETTERS
 	int getId() const;
 	void setId(const int &id);
 	int getFd() const;
@@ -45,15 +46,15 @@ class Client
 	int getRetries() const;
 	void setRetries(int value);
 	static int getIdCounter();
-	void incrementCurrCommand(const std::string &cmd);
-	void setCurrCommand(const std::string &cmd);
-	std::string getCurrCommand() const;
-	bool getIsCommandComplete() const;
-	void setIsCommandComplete(const bool &state);
+	void storeRawData(const std::string &cmd);
+	void flushBuffer();
+	std::string getRawData() const;
+	std::queue<std::string> &getCommandsQueue();
 
 	static void decrementIdCounter();
 	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;
 	void incrementRetries();
+	void pushToCommandQueue();
 
 	bool operator==(const Client &rhs);
 	bool operator==(const std::string &rhs);

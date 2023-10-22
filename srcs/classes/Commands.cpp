@@ -26,6 +26,7 @@ std::string Commands::callFunction(const std::string &cmdName, const CommandArgs
 	authorizedCommands.insert("CAP");
 	authorizedCommands.insert("NICK");
 	authorizedCommands.insert("PASS");
+	authorizedCommands.insert("QUIT");
 
 	if (!args.client.isAuthenticated()
 	 && authorizedCommands.find(args.msg.command) == authorizedCommands.end())

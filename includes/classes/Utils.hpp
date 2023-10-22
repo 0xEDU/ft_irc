@@ -9,9 +9,8 @@ private:
 	~Utils();
 
 public:
-	static std::vector<std::string> split(const std::string &s, const std::string& delimiter = " ");
-
+	static std::vector<std::string> split(std::string &s, std::string& delimiter);
 };
 
-
+bool operator==(const pollfd &lhs, const pollfd &rhs);
 #endif
