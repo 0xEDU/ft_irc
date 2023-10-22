@@ -134,8 +134,8 @@ void Client::decrementIdCounter()
 
 void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
 {
-	if ((msg.first.empty() && msg.second.empty())
-		|| (_rawData.find("PRIVMSG") == 0 && msg.second.empty()))
+
+	if ((msg.first.empty() && msg.second.empty()))
 		return;
 	std::vector<Client>::iterator it = msg.second.begin();
 	if (msg.second.empty()) {
