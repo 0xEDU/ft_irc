@@ -18,14 +18,12 @@ class Client
 	std::string _rawData;
 	std::string _pass;
 
-	pollfd &_pollfdRef;
-
 	std::queue<std::string> _commandsQueue;
 	std::string _buffer;
 	public:
 
 	// Client();
-	explicit Client(int serverfd, pollfd &pollfdRef);
+	explicit Client(int serverfd);
 	Client(const Client &rhs);
 	Client &operator=( const Client &rhs);
 	~Client();
@@ -49,10 +47,9 @@ class Client
 	void setRetries(int value);
 	static int getIdCounter();
 	void storeRawData(const std::string &cmd);
-	void flushRawData();
+	void flushBuffer();
 	std::string getRawData() const;
 	std::queue<std::string> &getCommandsQueue();
-	pollfd &getPollfdRef();
 
 	static void decrementIdCounter();
 	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;

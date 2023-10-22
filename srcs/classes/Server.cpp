@@ -165,56 +165,29 @@ bool Server::detectedActivity(const int &clientFd) {
 void	Server::processClientsActivity(void) {
 	if (_clients.empty())
 		return ;
-	for (std::vector<Client>::iterator client = _clients.begin(); client != _clients.end(); client++)
+	for (size_t i = 0; i < _clients.size(); i++)
 	{
-		if (detectedActivity(client->getFd()))
+		Client &client = _clients[i];
+		if (detectedActivity(client.getFd()))
 		{
-			client->storeRawData(Client::receiveData(*client));
-			client->pushToCommandQueue();
+			client.storeRawData(Client::receiveData(client));
+			client.pushToCommandQueue();
 
-			// for (command in commandQueue) {
-			// 	execute_command();
-			// }
-
-			// função que percorre os clients e faz clean up (kicka quem tem q kickar)
-
-			// if (client->getIsCommandComplete())
-			// {
-			// 	std::vector<std::string> lines = Utils::split(client->getCurrCommand(), "\r\n");
-				// for ( = lines.begin(); line != lines.end(); line++)
-				std::queue<std::string> &commandsQueue = client->getCommandsQueue();
-				while (!commandsQueue.empty()) {
-					// LOG(commandsQueue)
-					std::string line = commandsQueue.front();
-					// LOG("LINE: |" << line << "|")
-					commandsQueue.pop();
-					RawMessage msg = RawMessage::parseMsg(line);
-					std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
-					LOG("RESPONSE: " << response.first)
-					client->sendMessage(response);
-				}
-				if (commandsQueue.empty())
-					client->flushRawData();
-				LOG(client->getCommandsQueue())
-				// {
-				// 	if ((*line).empty())
-				// 		continue ;
-				// 	RawMessage msg = RawMessage::parseMsg(*line);
-				// 	std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, *client, _clients, _channels);
-				// 	client->sendMessage(response);
-				// 	client->setIsCommandComplete(false);
-				// 	client->setCurrCommand("");
-				// }
-			// }
-			if (client->getShouldEraseClient())
+			std::queue<std::string> &commandsQueue = client.getCommandsQueue();
+			while (!commandsQueue.empty()) {
+				std::string line = commandsQueue.front();
+				commandsQueue.pop();
+				RawMessage msg = RawMessage::parseMsg(line);
+				std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, client, _clients, _channels);
+				client.sendMessage(response);
+			}
+			if (client.getShouldEraseClient())
 			{
-				close(client->getFd());
-				// usar find pra pegar o iterador do 
-				_connectionsPollfds.erase(std::find(_connectionsPollfds.begin(), _connectionsPollfds.end(), client->getPollfdRef()));
+				close(client.getFd());
+				_connectionsPollfds.erase(std::find(_connectionsPollfds.begin(), _connectionsPollfds.end(), client.getFd()));
 				for (size_t c = 0; c < _channels.size(); c++)
-					_channels[c].disconnectClient(*client);
-				// usar o proprio cliente (iterador) da iteracao atual
-				_clients.erase(client);
+					_channels[c].disconnectClient(client);
+				_clients.erase(_clients.begin() + i);
 				Client::decrementIdCounter();
 			}
 		}
@@ -232,7 +205,7 @@ void	Server::start()
 	LOG("Server running...")
 	while (true)
 	{
-		// check for new connections
+		// Check for new connections
 		pollActiveConnections();
 
 		// Process polled events for all active connections

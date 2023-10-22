@@ -2,18 +2,17 @@
 
 int Client::_idCounter = 0;
 
-Client::Client(int socketDescriptor, pollfd &pollfdRef) :
+Client::Client(int socketDescriptor) :
 	_shouldEraseClient(false),
 	_retries(0),
 	_fd(socketDescriptor),
-	_pollfdRef(pollfdRef)
 {
 	Client::_idCounter++;
 	this->_id = Client::_idCounter;
 	std::cout << "Number of clients connected: " << Client::_idCounter << std::endl;
 }
 
-Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id(), _pollfdRef(rhs._pollfdRef) {
+Client::Client(const Client &rhs) : _shouldEraseClient(), _retries(), _fd(), _id() {
 	*this = rhs;
 }
 
@@ -30,7 +29,6 @@ Client &Client::operator=(const Client &rhs) {
 		this->_commandsQueue = rhs._commandsQueue;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
 		this->_retries = rhs._retries;
-		this->_pollfdRef = rhs._pollfdRef;
 	}
 	return *this;
 }
@@ -161,17 +159,13 @@ bool Client::operator==(const std::string &rhs) {
 
 void Client::storeRawData(const std::string &data)
 {
-	this->_rawData += data;
+	this->_rawData = data;
 }
 
 std::string Client::getRawData() const
 {
 	return (this->_rawData);
 }
-
-pollfd &Client::getPollfdRef() {
-	return (this->_pollfdRef);
-};
 
 std::queue<std::string> &Client::getCommandsQueue() {
 	return (this->_commandsQueue);
@@ -201,23 +195,24 @@ std::string Client::receiveData(Client &client)
 	return data;
 }
 
-void Client::flushRawData() {
-	this->_rawData.clear();
+void Client::flushBuffer() {
+	this->_buffer.clear();
 }
 
 void Client::pushToCommandQueue() {
-	if (this->_rawData.empty())
-		return ;
 	std::string crlf = "\r\n";
-
 	this->_buffer.append(_rawData);
+	if (this->_buffer.empty())
+		return ;
 	std::vector<std::string> commands = Utils::split(this->_buffer, crlf);
-	bool commandIsComplete = (_buffer.size() >= 2
+	bool commandIsComplete = (_rawData.size() >= 2
 		&& this->_rawData[_rawData.size() - 2] == '\r'
 		&& this->_rawData[_rawData.size() - 1] == '\n');
 	if (!commandIsComplete) {
 		this->_buffer = commands.back();
 		commands.pop_back();
+	} else {
+		this->_buffer.clear();
 	}
 	for (std::vector<std::string>::iterator command = commands.begin(); command != commands.end(); command++) {
 		this->_commandsQueue.push(*command);
