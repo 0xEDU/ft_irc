@@ -33,6 +33,7 @@ class Server
 	static void processClientsActivity(void);
 	static void acceptNewClients(void);
 	static bool detectedActivity(const int &clientFd);
+	static void disconnectClient(const Client &client, const int &clientPosition);
 
 	public:
 
