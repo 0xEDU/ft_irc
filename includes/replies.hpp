@@ -4,6 +4,7 @@
 #define FTIRC std::string(":ft.irc")
 #define CRLF std::string("\r\n")
 #define COMMA std::string(",")
+#define COLON std::string(":")
 #define SPACE std::string(" ")
 
 // 0s
@@ -34,10 +35,10 @@
 #define ERR_CHANOPRIVSNEEDED(user, channel) (FTIRC + " 482 " + user + " " + channel + " :You're not a channel operator!" + CRLF)
 
 // Miscellaneous
-#define JOIN(user, channel)                             (":" + user + " JOIN " + channel + CRLF)
-#define PRIVMSG_BROADCAST(nick, user, channel, topic)   (":" + nick + "!~" + user + "@ft.irc TOPIC " + channel + " "+ topic + CRLF)
-#define RPL_PRIVMSG(user, dest, message)                (":" + user + " PRIVMSG " + dest + " :" + message + CRLF)
-#define RPL_PARTMSG(nick, user, dest, message)          (":" + nick + "!~" + user + "@* PART " + dest + " :" + message + CRLF)
-#define RPL_PARTNOMSG(nick, user, dest)                 (":" + nick + "!" + user + "@* PART " + dest + CRLF)
+#define JOIN(user, channel)                             (COLON + user + " JOIN " + channel + CRLF)
+#define PRIVMSG_BROADCAST(nick, user, channel, topic)   (COLON + nick + "!~" + user + "@ft.irc TOPIC " + channel + " "+ topic + CRLF)
+#define RPL_PRIVMSG(user, dest, message)                (COLON + user + " PRIVMSG " + dest + " :" + message + CRLF)
+#define RPL_PARTMSG(nick, user, dest, message)          (COLON + nick + "!~" + user + "@* PART " + dest + " :" + message + CRLF)
+#define RPL_PARTNOMSG(nick, user, dest)                 (COLON + nick + "!" + user + "@* PART " + dest + CRLF)
 
 #endif
