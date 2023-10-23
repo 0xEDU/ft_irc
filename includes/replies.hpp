@@ -16,7 +16,7 @@
 #define RPL_CHANNELMODEIS(channel, mode, modeParams) (":ft.irc 324 * " + channel + " " + mode + " " + modeParams + "\r\n")
 #define RPL_NOTOPIC(nick, channel) (":ft.irc 331 " + nick + " " + channel + " :No topic is set\r\n")
 
-
+#define ERR_NONICKNAMEGIVEN ":ft.irc 431 * :No nickname given\r\n"
 #define ERR_ERRONEUSNICKNAME(nick) (":ft.irc 432 * " + nick + " :Nickname is invalid\r\n")
 #define ERR_NICKNAMEINUSE(nick) (":ft.irc 433 * " + nick + " :Nickname is already in use\r\n")
 #define ERR_ALREADYREGISTERED(user) (":ft.irc 462 " + user + " :User already registered\r\n")
