@@ -26,7 +26,6 @@ RawMessage RawMessage::parseMsg(std::string msg)
 {
 	std::string prefix;
 	std::vector<std::string> args;
-	std::string space = " ";
 
 	if (msg.empty())
 		throw std::logic_error("Empty line.");
@@ -40,11 +39,11 @@ RawMessage RawMessage::parseMsg(std::string msg)
 	{
 		std::string trailing = msg.substr(found + 2, msg.size() - 1);
 		msg = msg.substr(0, found);
-		args = Utils::split(msg, space);
+		args = Utils::split(msg, SPACE);
 		args.push_back(trailing);
 	}
 	else
-		args = Utils::split(msg, space);
+		args = Utils::split(msg, SPACE);
 	std::string command = args[0];
 	args.erase(args.begin());
 	return (RawMessage(prefix, command, args));

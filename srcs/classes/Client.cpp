@@ -200,11 +200,10 @@ void Client::flushBuffer() {
 }
 
 void Client::pushToCommandQueue() {
-	std::string crlf = "\r\n";
 	this->_buffer.append(_rawData);
 	if (this->_buffer.empty())
 		return ;
-	std::vector<std::string> commands = Utils::split(this->_buffer, crlf);
+	std::vector<std::string> commands = Utils::split(this->_buffer, CRLF);
 	bool commandIsComplete = (_rawData.size() >= 2
 		&& this->_rawData[_rawData.size() - 2] == '\r'
 		&& this->_rawData[_rawData.size() - 1] == '\n');
