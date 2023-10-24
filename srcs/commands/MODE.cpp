@@ -12,7 +12,7 @@ std::string mode(CommandArgs cArgs) {
 		return ERR_NOTONCHANNEL(channelName);
 	if (cArgs.msg.args.size() == 1 && (cArgs.msg.args[0][0] == '#' || cArgs.msg.args[0][0] == '&')) {
 		std::pair<std::string, std::string> modes = channel.getModes();
-		return RPL_CHANNELMODEIS(channelName.substr(1, channelName.size() - 1), modes.first, modes.second);
+		return RPL_CHANNELMODEIS(cArgs.client.getNick(), channelName, modes.first, modes.second);
 	}
 	if (!channel.isOperator(cArgs.client))
 		return ERR_CHANOPRIVSNEEDED(cArgs.client.getUser(), channelName);
@@ -44,13 +44,13 @@ std::string mode(CommandArgs cArgs) {
 					channel.removeOperator(*it);
 			}
 			case 'i':
-				LOG('daal')
+				LOG("daal")
 			case 't':
-				LOG('dale')
+				LOG("dale")
 			case 'l':
-				LOG('dale')
+				LOG("dale")
 			case 'k':
-				LOG('dale')
+				LOG("dale")
 			default:
 				continue;
 		}

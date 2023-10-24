@@ -10,10 +10,11 @@
 #define RPL_ENDOFNAMES(nick, channel) (":ft.irc 366 " + nick + " " + channel + " : End of names list\r\n")
 #define RPL_PRIVMSG(user, dest, message) (":" + user + " PRIVMSG " + dest + " :" + message + "\r\n")
 #define RPL_PARTMSG(nick, user, dest, message) (":" + nick + "!~" + user + "@* PART " + dest + " :" + message + "\r\n")
+#define ERR_NONICKNAMEGIVEN ":ft.irc 431 * :No nickname given\r\n"
 #define RPL_PARTNOMSG(nick, user, dest) (":" + nick + "!" + user + "@* PART " + dest + "\r\n")
 #define RPL_WHOREPLY(channel, user, nick, flags, realname) (":ft.irc 352 " + channel + " " + user + " 42sp.org.br ft.irc " + nick + " " + flags + ":0 " + realname + "\r\n")
 #define RPL_ENDOFWHO(channel) (":ft.irc 315 " + channel + " :End of /WHO list.\r\n")
-#define RPL_CHANNELMODEIS(channel, mode, modeParams) (":ft.irc 324 * " + channel + " " + mode + " " + modeParams + "\r\n")
+#define RPL_CHANNELMODEIS(nick, channel, mode, modeParams) (":ft.irc 324 " + nick + " " + channel + " " + mode + " " + modeParams + "\r\n")
 #define RPL_NOTOPIC(nick, channel) (":ft.irc 331 " + nick + " " + channel + " :No topic is set\r\n")
 
 

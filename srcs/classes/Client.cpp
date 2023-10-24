@@ -139,11 +139,13 @@ void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) cons
 		return;
 	std::vector<Client>::iterator it = msg.second.begin();
 	if (msg.second.empty()) {
+		DEBUG("SENDING: " << msg.first)
 		if (send(this->_fd, msg.first.c_str(), msg.first.length(), 0) == -1)
 			ERROR("Failed to send message to client")
 		return ;
 	}
 	for (; it != msg.second.end(); it++) {
+		DEBUG("SENDING: " << msg.first)
 		if (send((*it)._fd, msg.first.c_str(), msg.first.length(), 0) == -1)
 			ERROR("Failed to send message to client")
 	}
