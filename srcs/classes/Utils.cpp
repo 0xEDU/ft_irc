@@ -1,5 +1,8 @@
 #include "ft_irc.hpp"
+#include <algorithm>
 
+
+// Split
 std::vector<std::string> Utils::split(std::string &s, std::string& delimiter)
 {
 	std::vector<std::string> tokens;
@@ -14,12 +17,38 @@ std::vector<std::string> Utils::split(std::string &s, std::string& delimiter)
 	return tokens;
 }
 
+// Check if the string has unique mode characters
+bool Utils::containsUniqueModeCharacters(std::string str) {
+	std::string modeCharacters = "+-oitkl";
+	if (str.size() > modeCharacters.size())
+		return false;
+	std::sort(str.begin(), str.end());
+	for (size_t i = 0; i < str.length(); ++i) {
+		if (modeCharacters.find(str[i]) == std::string::npos) {
+			return false;
+		}
+	}
+	return std::unique(str.begin(), str.end()) == str.end();
+}
+
+// Check if the modes in the mode string have a corresponding parameter
+bool Utils::hasModeCommandsWithParams(std::string modes, std::vector<std::string> modeParams) {
+	std::string charactersWithParams = "okl";
+	size_t charsWithParamsCount = 0;
+	for (size_t i = 0; i < modes.length(); ++i) {
+		if (charactersWithParams.find(modes[i]) != std::string::npos) {
+			charsWithParamsCount++;
+		}
+	}
+	if (charsWithParamsCount != modeParams.size())
+		return false;
+	return true;
+}
 
 // Pollfd operator overloads
 bool operator==(const pollfd &lhs, const pollfd &rhs) {
 	return (lhs.events == rhs.events && lhs.fd == rhs.fd && lhs.revents == rhs.revents);
 };
-
 
 // Constructor/Destructor
 Utils::Utils() {}
