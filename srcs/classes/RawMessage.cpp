@@ -53,6 +53,7 @@ RawMessage::processMessage(RawMessage &msg, Client &client, std::vector<Client> 
 {
 	std::vector<Client> broadcastList;
 	CommandArgs cArgs = CommandArgs(client, msg, clients, channels, broadcastList);
-
+	if (cArgs.msg.args.size() > 15)
+		return (std::make_pair(ERR_NEEDMOREPARAMS(cArgs.msg.command, "Too many args"), broadcastList));
 	return (std::make_pair(Commands::callFunction(msg.command, cArgs), broadcastList));
 }

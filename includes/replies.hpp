@@ -8,7 +8,7 @@
 #define SPACE std::string(" ")
 
 // 0s
-#define RPL_WELCOME(nick, user)                             (FTIRC + " 001 " + user + " :Welcome to the Internet Relay Chat " + nick + "!" + user + "@*" + CRLF)
+#define RPL_WELCOME(nick, user) (FTIRC + " 001 " + user + " :Welcome to the Internet Relay Chat " + nick + "!" + user + "@*" + CRLF)
 
 // 300s
 #define RPL_ENDOFWHO(channel)                               (FTIRC + " 315 " + channel + " :End of /WHO list." + CRLF)
