@@ -9,7 +9,7 @@
 #define RPL_NAMREPLY(nick, channel, names) (":ft.irc 353 " + nick + " = " + channel + " : " + names + "\r\n")
 #define RPL_ENDOFNAMES(nick, channel) (":ft.irc 366 " + nick + " " + channel + " : End of names list\r\n")
 #define RPL_PRIVMSG(user, dest, message) (":" + user + " PRIVMSG " + dest + " :" + message + "\r\n")
-#define RPL_PARTMSG(nick, user, dest, message) (":" + nick + "!~" + user + "@* PART " + dest + " :" + message + "\r\n")
+#define RPL_PARTMSG(nick, user, dest, message) (":" + nick + "!" + user + "@* PART " + dest + " :" + message + "\r\n")
 #define RPL_PARTNOMSG(nick, user, dest) (":" + nick + "!" + user + "@* PART " + dest + "\r\n")
 #define RPL_WHOREPLY(channel, user, nick, flags, realname) (":ft.irc 352 " + channel + " " + user + " 42sp.org.br ft.irc " + nick + " " + flags + ":0 " + realname + "\r\n")
 #define RPL_ENDOFWHO(channel) (":ft.irc 315 " + channel + " :End of /WHO list.\r\n")
@@ -17,6 +17,7 @@
 #define RPL_NOTOPIC(nick, channel) (":ft.irc 331 " + nick + " " + channel + " :No topic is set\r\n")
 
 
+#define ERR_NONICKNAMEGIVEN ":ft.irc 431 * :No nickname given\r\n"
 #define ERR_ERRONEUSNICKNAME(nick) (":ft.irc 432 * " + nick + " :Nickname is invalid\r\n")
 #define ERR_NICKNAMEINUSE(nick) (":ft.irc 433 * " + nick + " :Nickname is already in use\r\n")
 #define ERR_ALREADYREGISTERED(user) (":ft.irc 462 " + user + " :User already registered\r\n")
