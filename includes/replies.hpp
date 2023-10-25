@@ -36,11 +36,13 @@
 #define ERR_CHANOPRIVSNEEDED(user, channel)             (FTIRC + " 482 " + user + " " + channel + " :You're not a channel operator!" + CRLF)
 
 // Miscellaneous
-#define JOIN(user, channel)                             (COLON + user + " JOIN " + channel + CRLF)
-#define PRIVMSG_BROADCAST(nick, user, channel, topic)   (COLON + nick + "!~" + user + "@ft.irc TOPIC " + channel + SPACE + topic + CRLF)
-#define RPL_PRIVMSG(user, dest, message)                (COLON + user + " PRIVMSG " + dest + " :" + message + CRLF)
-#define RPL_PARTMSG(nick, user, dest, message)          (COLON + nick + "!~" + user + "@* PART " + dest + " :" + message + CRLF)
-#define RPL_PARTNOMSG(nick, user, dest)                 (COLON + nick + "!" + user + "@* PART " + dest + CRLF)
-#define RPL_KICK(nick, user, channel, client)           (COLON + nick + "!" + user + "@ft.irc KICK " + channel + SPACE + client)
+#define JOIN(user, channel)                                         (COLON + user + " JOIN " + channel + CRLF)
+#define PRIVMSG_BROADCAST(nick, user, channel, topic)               (COLON + nick + "!~" + user + "@ft.irc TOPIC " + channel + SPACE + topic + CRLF)
+#define RPL_PRIVMSG(user, dest, message)                            (COLON + user + " PRIVMSG " + dest + " :" + message + CRLF)
+#define RPL_PARTMSG(nick, user, dest, message)                      (COLON + nick + "!~" + user + "@* PART " + dest + " :" + message + CRLF)
+#define RPL_PARTNOMSG(nick, user, dest)                             (COLON + nick + "!" + user + "@* PART " + dest + CRLF)
+#define RPL_KICKREASON(op_nick, op_user, channel, client, reason)   (COLON + op_nick + "!" + op_user + "@ft.irc KICK " + channel + SPACE + client + SPACE + COLON + reason + CRLF)
+#define RPL_KICKNOREASON(op_nick, op_user, channel, client)         (COLON + op_nick + "!" + op_user + "@ft.irc KICK " + channel + SPACE + client + CRLF)
+#define RPL_KICKFEEDBACK(op_nick, op_user, channel, client)         (COLON + op_nick + "!" + op_user + "@ft.irc KICK " + channel + SPACE + client + CRLF)
 
 #endif

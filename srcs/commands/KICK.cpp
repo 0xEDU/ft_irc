@@ -15,6 +15,9 @@ std::string kick(CommandArgs cArgs) {
 
 	std::vector<std::string> specifiedChannels = Utils::split(cArgs.msg.args[0], COMMA);
 	std::vector<std::string> usersToKick = Utils::split(cArgs.msg.args[1], COMMA);
+	std::string reason;
+	if (cArgs.msg.args.size() > 2)
+		reason = cArgs.msg.args[2];
 
 	if (specifiedChannels.size() == 0)
 		return ERR_NEEDMOREPARAMS(cArgs.msg.command, "No channels sent in");
@@ -48,6 +51,10 @@ std::string kick(CommandArgs cArgs) {
 		}
 		// finally, kicks user out of channel.
 		channelToKickFrom->removeClient(*clientToBeKicked);
+		if (reason.empty())
+			reply.append(RPL_KICKNOREASON(cArgs.client.getNick(), cArgs.client.getUser(), specifiedChannels[i], usersToKick[i]));
+		else
+			reply.append(RPL_KICKREASON(cArgs.client.getNick(), cArgs.client.getUser(), specifiedChannels[i], usersToKick[i], reason));
 	}
 
 	return reply;
