@@ -149,6 +149,17 @@ void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) cons
 	}
 }
 
+void Client::sendToBroadcastOnly(std::pair<std::string, std::vector<Client> > &msg)
+{
+	if ((msg.first.empty() && msg.second.empty()))
+		return;
+	std::vector<Client>::iterator it = msg.second.begin();
+	for (; it != msg.second.end(); it++) {
+		if (send((*it)._fd, msg.first.c_str(), msg.first.length(), 0) == -1)
+			ERROR("Failed to send message to client")
+	}
+}
+
 bool Client::operator==(const Client &rhs) {
 	return this->_user == rhs._user;
 }

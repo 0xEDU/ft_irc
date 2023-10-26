@@ -22,23 +22,34 @@ std::string part(CommandArgs cArgs)
 		std::string channelName = channels[i];
 		std::vector<Channel>::iterator it;
 		it = std::find(cArgs.channels.begin(), cArgs.channels.end(), channelName);
+		std::vector<Client> broadcastList;
+		std::string reply;
+		std::pair<std::string, std::vector<Client> > broadcastPair; //compor um par por iteração no for causa algum problema?
 
 		if (it == cArgs.channels.end())
 			return ERR_NOSUCHCHANNEL(channelName);
 		if (!it->isClientOnChannel(cArgs.client))
 			return ERR_NOTONCHANNEL(channelName);
-		cArgs.broadcastList = it->getClients();//isso aqui vai bugar quando tiver mais de um canal, pq vai sobrescrever
 		it->removeClient(cArgs.client);
+		broadcastList = it->getClients();
 		if (it->getClients().empty())
 			cArgs.channels.erase(it);
 		if (!message.empty())
-			returnMessage.append(RPL_PARTMSG(user, nick, channelName, message));
-			//chamar o send pra broadcast list
-			//limpar a broadcast list
+		{
+			reply = RPL_PARTMSG(user, nick, channelName, message);
+			broadcastPair = std::make_pair(reply, broadcastList);
+			Client::sendToBroadcastOnly(broadcastPair);
+			broadcastList.clear();
+			returnMessage.append(reply);
+		}
 		else
+		{
+			reply = RPL_PARTNOMSG(user, nick, channelName);
+			broadcastPair = std::make_pair(reply, broadcastList);//chamar o send pra broadcast list
+			Client::sendToBroadcastOnly(broadcastPair);
+			broadcastList.clear(); //limpar a broadcast list
 			returnMessage.append(RPL_PARTNOMSG(user, nick, channelName));
-			//chamar o send pra broadcast list
-			//limpar a broadcast list
+		}
 	}
 	return returnMessage;
 }
