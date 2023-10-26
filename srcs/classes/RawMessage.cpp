@@ -22,9 +22,11 @@ RawMessage &RawMessage::operator=(const RawMessage &other)
 	}
 	return (*this);
 }
+
 RawMessage RawMessage::parseMsg(std::string msg)
 {
 	std::string prefix;
+	std::string command;
 	std::vector<std::string> args;
 
 	if (msg.empty())
@@ -44,10 +46,11 @@ RawMessage RawMessage::parseMsg(std::string msg)
 	}
 	else
 		args = Utils::split(msg, SPACE);
-	std::string command = args[0];
+	command = args[0];
 	args.erase(args.begin());
 	return (RawMessage(prefix, command, args));
 }
+
 std::pair<std::string, std::vector<Client> >
 RawMessage::processMessage(RawMessage &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels)
 {

@@ -132,7 +132,7 @@ void Client::decrementIdCounter()
 	LOG("Number of clients connected: " << _idCounter)
 }
 
-void Client::sendMessage(std::pair<std::string, std::vector<Client> > &msg) const
+void Client::sendReply(std::pair<std::string, std::vector<Client> > &msg) const
 {
 
 	if ((msg.first.empty() && msg.second.empty()))

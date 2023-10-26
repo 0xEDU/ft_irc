@@ -52,7 +52,7 @@ class Client
 	std::queue<std::string> &getCommandsQueue();
 
 	static void decrementIdCounter();
-	void sendMessage(std::pair<std::string, std::vector<Client> > &msg) const;
+	void sendReply(std::pair<std::string, std::vector<Client> > &msg) const;
 	void incrementRetries();
 	void pushToCommandQueue();
 
