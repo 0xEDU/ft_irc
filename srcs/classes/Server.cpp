@@ -163,10 +163,10 @@ bool Server::detectedActivity(const int &clientFd) {
 }
 
 void Server::disconnectClient(const Client &client, const int &clientPosition) {
-	close(client.getFd());
-	_connectionsPollfds.erase(std::find(_connectionsPollfds.begin(), _connectionsPollfds.end(), client.getFd()));
 	for (size_t i = 0; i < _channels.size(); i++)
 		_channels[i].removeClient(client);
+	close(client.getFd());
+	_connectionsPollfds.erase(std::find(_connectionsPollfds.begin(), _connectionsPollfds.end(), client.getFd()));
 	_clients.erase(_clients.begin() + clientPosition);
 	Client::decrementIdCounter();
 }
