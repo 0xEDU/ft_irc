@@ -51,6 +51,7 @@ std::string kick(CommandArgs cArgs) {
 		}
 		// finally, kicks user out of channel.
 		std::vector<Client> broadcastList = channelToKickFrom->getClients();
+		broadcastList.erase(std::find(broadcastList.begin(), broadcastList.end(), cArgs.client));
 		std::string messageToBroadcast;
 
 		if (reason.empty())
