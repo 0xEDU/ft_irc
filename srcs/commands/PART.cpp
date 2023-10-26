@@ -10,8 +10,6 @@ std::string part(CommandArgs cArgs)
 		return ERR_NEEDMOREPARAMS(cArgs.msg.command, "No channel specified");
 	else if (cArgs.msg.args.size() == 2)
 		message = cArgs.msg.args[1];
-	else
-		message = "Leaving";
 	
 	std::string nick = cArgs.client.getNick();
 	std::string user = cArgs.client.getUser();
@@ -35,8 +33,12 @@ std::string part(CommandArgs cArgs)
 			cArgs.channels.erase(it);
 		if (!message.empty())
 			returnMessage.append(RPL_PARTMSG(user, nick, channelName, message));
+			//chamar o send pra broadcast list
+			//limpar a broadcast list
 		else
 			returnMessage.append(RPL_PARTNOMSG(user, nick, channelName));
+			//chamar o send pra broadcast list
+			//limpar a broadcast list
 	}
 	return returnMessage;
 }
