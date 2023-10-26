@@ -50,11 +50,19 @@ std::string kick(CommandArgs cArgs) {
 			continue ;
 		}
 		// finally, kicks user out of channel.
-		channelToKickFrom->removeClient(*clientToBeKicked);
+		std::vector<Client> broadcastList = channelToKickFrom->getClients();
+		std::string messageToBroadcast;
+
 		if (reason.empty())
-			reply.append(RPL_KICKNOREASON(cArgs.client.getNick(), cArgs.client.getUser(), specifiedChannels[i], usersToKick[i]));
+			messageToBroadcast.append(RPL_KICKNOREASON(cArgs.client.getNick(), cArgs.client.getUser(), specifiedChannels[i], usersToKick[i]));
 		else
-			reply.append(RPL_KICKREASON(cArgs.client.getNick(), cArgs.client.getUser(), specifiedChannels[i], usersToKick[i], reason));
+			messageToBroadcast.append(RPL_KICKREASON(cArgs.client.getNick(), cArgs.client.getUser(), specifiedChannels[i], usersToKick[i], reason));
+
+		std::pair<std::string, std::vector<Client> > broadcastPair = std::make_pair(messageToBroadcast, broadcastList);
+		Client::sendToBroadcastOnly(broadcastPair);
+
+		channelToKickFrom->removeClient(*clientToBeKicked);
+		reply.append(messageToBroadcast);
 	}
 
 	return reply;
