@@ -1,5 +1,6 @@
 #include "ft_irc.hpp"
 #include <algorithm>
+#include <cstdlib>
 
 
 // Split
@@ -31,16 +32,26 @@ bool Utils::containsUniqueModeCharacters(std::string str) {
 	return std::unique(str.begin(), str.end()) == str.end();
 }
 
+bool hasOnlyDigits(const std::string &str)
+{
+    return str.find_first_not_of("0123456789") == std::string::npos;
+}
+
 // Check if the modes in the mode string have a corresponding parameter
 bool Utils::hasModeCommandsWithParams(std::string modes, std::vector<std::string> modeParams) {
 	std::string charactersWithParams = "okl";
-	size_t charsWithParamsCount = 0;
+	size_t paramsCount = 0;
 	for (size_t i = 0; i < modes.length(); ++i) {
 		if (charactersWithParams.find(modes[i]) != std::string::npos) {
-			charsWithParamsCount++;
+			paramsCount++;
+		}
+		if (modes[i] == 'l'
+			&& std::strtod(modeParams[paramsCount - 1].c_str(), NULL) <= 0
+			&& !hasOnlyDigits(modeParams[paramsCount - 1])) {
+			return false;
 		}
 	}
-	if (charsWithParamsCount != modeParams.size())
+	if (paramsCount != modeParams.size())
 		return false;
 	return true;
 }
