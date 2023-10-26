@@ -186,9 +186,15 @@ void	Server::processClientsActivity(void) {
 			while (!commandsQueue.empty()) {
 				std::string line = commandsQueue.front();
 				commandsQueue.pop();
+
+				// parses client request and breaks down into parts as per the IRC protocol
 				RawMessage msg = RawMessage::parseMsg(line);
+
+				// send client request to execution, returns a list of pairs of reply_message (string) + broadcast_list (vector of Clients)
 				std::pair<std::string, std::vector<Client> > response = RawMessage::processMessage(msg, client, _clients, _channels);
-				client.sendMessage(response);
+
+				// reply to the client
+				client.sendReply(response);
 			}
 			if (client.getShouldEraseClient())
 				disconnectClient(client, i);

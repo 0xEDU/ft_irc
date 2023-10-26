@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <cstdlib>
 
-
 // Split
 std::vector<std::string> Utils::split(std::string &s, std::string& delimiter)
 {
