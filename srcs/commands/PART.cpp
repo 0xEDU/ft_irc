@@ -27,16 +27,16 @@ std::string part(CommandArgs cArgs)
 
 		if (it == cArgs.channels.end())
 			return ERR_NOSUCHCHANNEL(channelName);
-		if (!(*it).isClientOnChannel(cArgs.client))
+		if (!it->isClientOnChannel(cArgs.client))
 			return ERR_NOTONCHANNEL(channelName);
-		(*it).removeClient(cArgs.client);//printar os clients dos channels dps daqui
-		if ((*it).getClients().empty())
-			cArgs.channels.erase(it);//talvez isto não esteja funcionando
-		//if (!message.empty())
-		returnMessage.append(RPL_PARTMSG(nick, user, channelName, message));
-		cArgs.broadcastList = (*it).getClients();//isso aqui vai bugar quando tiver mais de um canal, pq vai sobrescrever
-		//else
-			//returnMessage.append(RPL_PARTNOMSG(nick, user, channelName));
+		cArgs.broadcastList = it->getClients();//isso aqui vai bugar quando tiver mais de um canal, pq vai sobrescrever
+		it->removeClient(cArgs.client);
+		if (it->getClients().empty())
+			cArgs.channels.erase(it);
+		if (!message.empty())
+			returnMessage.append(RPL_PARTMSG(user, nick, channelName, message));
+		else
+			returnMessage.append(RPL_PARTNOMSG(user, nick, channelName));
 	}
 	return returnMessage;
 }
