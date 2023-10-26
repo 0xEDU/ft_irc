@@ -53,6 +53,7 @@ class Client
 
 	static void decrementIdCounter();
 	void sendReply(std::pair<std::string, std::vector<Client> > &msg) const;
+	static void sendToBroadcastOnly(std::pair<std::string, std::vector<Client> > &msg);
 	void incrementRetries();
 	void pushToCommandQueue();
 
