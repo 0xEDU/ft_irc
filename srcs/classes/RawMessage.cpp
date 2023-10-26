@@ -22,11 +22,12 @@ RawMessage &RawMessage::operator=(const RawMessage &other)
 	}
 	return (*this);
 }
+
 RawMessage RawMessage::parseMsg(std::string msg)
 {
 	std::string prefix;
+	std::string command;
 	std::vector<std::string> args;
-	std::string space = " ";
 
 	if (msg.empty())
 		throw std::logic_error("Empty line.");
@@ -40,15 +41,16 @@ RawMessage RawMessage::parseMsg(std::string msg)
 	{
 		std::string trailing = msg.substr(found + 2, msg.size() - 1);
 		msg = msg.substr(0, found);
-		args = Utils::split(msg, space);
+		args = Utils::split(msg, SPACE);
 		args.push_back(trailing);
 	}
 	else
-		args = Utils::split(msg, space);
-	std::string command = args[0];
+		args = Utils::split(msg, SPACE);
+	command = args[0];
 	args.erase(args.begin());
 	return (RawMessage(prefix, command, args));
 }
+
 std::pair<std::string, std::vector<Client> >
 RawMessage::processMessage(RawMessage &msg, Client &client, std::vector<Client> &clients, std::vector<Channel> &channels)
 {

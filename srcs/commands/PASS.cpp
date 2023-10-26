@@ -10,7 +10,7 @@ std::string pass(CommandArgs cArgs)
 	if (cArgs.client.getPass() != Server::getPasswd())
 	{
 		cArgs.client.setShouldEraseClient(true);
-		return (ERR_PASSWDMISMATCH);
+		return (ERR_PASSWDMISMATCH());
 	}
 	if (cArgs.client.isAuthenticated())
 		return (RPL_WELCOME(cArgs.client.getNick(), cArgs.client.getUser()));

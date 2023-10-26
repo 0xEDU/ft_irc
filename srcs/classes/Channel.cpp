@@ -139,10 +139,8 @@ bool Channel::isClientOnChannel(const std::string &client) {
 }
 
 void Channel::removeClient(const Client &client) {
-	std::vector<Client>::iterator
-	clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
-	std::vector<Client>::iterator
-	operatorsIt = std::find(this->_operators.begin(), this->_operators.end(), client);
+	std::vector<Client>::iterator clientsIt = std::find(this->_clients.begin(), this->_clients.end(), client);
+	std::vector<Client>::iterator operatorsIt = std::find(this->_operators.begin(), this->_operators.end(), client);
 
 	if (clientsIt != this->_clients.end())
 		this->_clients.erase(clientsIt);
