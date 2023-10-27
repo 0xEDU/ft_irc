@@ -33,36 +33,24 @@ bool Utils::containsUniqueModeCharacters(std::string str) {
 	return std::unique(str.begin(), str.end()) == str.end();
 }
 
-bool hasOnlyDigits(const std::string &str)
-{
-    return str.find_first_not_of("0123456789") == std::string::npos;
-}
-
 // Check if the modes in the mode string have a corresponding parameter
 bool Utils::hasModeCommandsWithParams(std::string modes, std::vector<std::string> modeParams) {
-	std::string charactersWithParams = "okl";
-	bool shouldNegate = false;
-	bool hasNegation = modes.find('-') != std::string::npos;
-	if (hasNegation) {
-		charactersWithParams = "o";
-		shouldNegate = true;
-	}
+	std::string charactersWithParams;
+	modes.find('-') != std::string::npos ? charactersWithParams = "o" : charactersWithParams = "okl";
 	size_t paramsCount = 0;
 	for (size_t i = 0; i < modes.length(); ++i) {
-		if (!shouldNegate) {
-			if (modes[i] == 'l' && std::strtod(modeParams[paramsCount].c_str(), NULL) <= 0) {
-				return false;
-			}
-			if (modes[i] == 'l' && !hasOnlyDigits(modeParams[paramsCount])) {
-				return false;
-			}
-		}
 		if (charactersWithParams.find(modes[i]) != std::string::npos) {
 			paramsCount++;
 		}
 	}
 	if (paramsCount != modeParams.size())
 		return false;
+		// if (modes[i] == 'l' && std::strtod(modeParams[paramsCount].c_str(), NULL) <= 0) {
+		// 	return false;
+		// }
+		// if (modes[i] == 'l' && !hasOnlyDigits(modeParams[paramsCount])) {
+		// 	return false;
+		// }
 	return true;
 }
 
