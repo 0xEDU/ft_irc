@@ -20,6 +20,7 @@ class Client
 
 	std::queue<std::string> _commandsQueue;
 	std::string _buffer;
+	std::vector<std::string> _channelsInvited;
 	public:
 
 	// Client();
@@ -50,6 +51,11 @@ class Client
 	void flushBuffer();
 	std::string getRawData() const;
 	std::queue<std::string> &getCommandsQueue();
+
+	void addChannelToInvited(const std::string &channelName);
+	std::vector<std::string> &getChannelInvited();
+	bool channelOnInviteList(const std::string &channelName);
+	void removeChannelFromInviteList(const std::string &channelName);
 
 	static void decrementIdCounter();
 	void sendReply(std::pair<std::string, std::vector<Client> > &msg) const;

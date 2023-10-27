@@ -1,4 +1,5 @@
 #include "classes/Utils.hpp"
+#include "replies.hpp"
 
 std::string join(CommandArgs cArgs) {
 	std::string nick = cArgs.client.getNick();
@@ -42,6 +43,10 @@ std::string join(CommandArgs cArgs) {
 		if (it != cArgs.channels.end()) {
 			if (channel.isClientOnChannel(cArgs.client))
 				continue ;
+			if (channel.getIsInviteOnly() && !cArgs.client.channelOnInviteList(channelName)) {
+				reply +=  ERR_INVITEONLYCHAN(channelName);
+				continue;
+			}
 			if ((channel.getKey() != "") && (channel.getKey() != channelKey)) {
 				reply += ERR_BADCHANNELKEY(cArgs.client.getUser(), channelName);
 				continue ;
@@ -55,6 +60,8 @@ std::string join(CommandArgs cArgs) {
 			for (size_t i = 0; i < channel.getClients().size(); i++)
 				cArgs.broadcastList.push_back(channel.getClients()[i]);
 			topicMessage = channel.getTopic();
+			if (cArgs.client.channelOnInviteList(channelName))
+				cArgs.client.removeChannelFromInviteList(channelName);
 		}
 		else
 		{

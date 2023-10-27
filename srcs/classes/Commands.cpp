@@ -17,6 +17,7 @@ void Commands::populateMap()
 	_messageFunctions["WHO"] = who;
 	_messageFunctions["MODE"] = mode;
 	_messageFunctions["TOPIC"] = topic;
+	_messageFunctions["INVITE"] = invite;
 }
 
 std::string Commands::callFunction(const std::string &cmdName, const CommandArgs &args)
