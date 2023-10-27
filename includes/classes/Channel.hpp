@@ -19,7 +19,7 @@ class Channel
 
 	std::vector<Client>	_clients;
 	std::vector<Client>	_operators;
-	int 				_userLimit;
+	size_t 				_userLimit;
 	
 	public:
 
@@ -43,8 +43,8 @@ class Channel
 	std::vector<Client> &getClients();
 	const std::vector<Client> &getClients() const;
 	void setClients(const std::vector<Client> &clients);
-	int getUserLimit() const;
-	void setUserLimit(const int &userLimit);
+	size_t getUserLimit() const;
+	void setUserLimit(const size_t &userLimit);
 	std::string getChannelUsers();
 	void addClient(const Client &client);
 	void addOperator(const Client &client);
