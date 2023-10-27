@@ -23,9 +23,10 @@ COMMANDS_SRCS =	CAP.cpp \
 				QUIT.cpp \
 				KICK.cpp \
 				PART.cpp \
-				WHO.cpp \
 				MODE.cpp \
-				TOPIC.cpp
+				TOPIC.cpp \
+				WHO.cpp \
+				INVITE.cpp
 
 CLASSES_SRCS =	Channel.cpp \
 				Commands.cpp \

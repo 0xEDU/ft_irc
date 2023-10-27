@@ -29,6 +29,7 @@ Client &Client::operator=(const Client &rhs) {
 		this->_commandsQueue = rhs._commandsQueue;
 		this->_shouldEraseClient = rhs._shouldEraseClient;
 		this->_retries = rhs._retries;
+		this->_channelsInvited = rhs._channelsInvited;
 	}
 	return *this;
 }
@@ -130,6 +131,26 @@ void Client::decrementIdCounter()
 {
 	_idCounter -= 1;
 	LOG("Number of clients connected: " << _idCounter)
+}
+void Client::addChannelToInvited(const std::string &channelName) {
+	this->_channelsInvited.push_back(channelName);
+}
+
+std::vector<std::string> &Client::getChannelInvited() {
+	return this->_channelsInvited;
+}
+
+bool Client::channelOnInviteList(const std::string &channelName) {
+	return std::find(
+		this->_channelsInvited.begin(), this->_channelsInvited.end(), channelName
+	) != this->_channelsInvited.end();
+}
+
+void Client::removeChannelFromInviteList(const std::string &channelName) {
+	std::vector<std::string>::iterator it = std::find(
+		this->_channelsInvited.begin(), this->_channelsInvited.end(), channelName
+	);
+	this->_channelsInvited.erase(it);
 }
 
 void Client::sendReply(std::pair<std::string, std::vector<Client> > &msg) const
