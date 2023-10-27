@@ -99,12 +99,12 @@ void Channel::setClients(const std::vector<Client> &clients)
 	this->_clients = clients;
 }
 
-int Channel::getUserLimit() const
+size_t Channel::getUserLimit() const
 {
 	return (this->_userLimit);
 }
 
-void Channel::setUserLimit(const int &userLimit)
+void Channel::setUserLimit(const size_t &userLimit)
 {
 	this->_l = true;
 	this->_userLimit = userLimit;

@@ -32,6 +32,7 @@
 #define ERR_NEEDMOREPARAMS(command, reason)             (FTIRC + " 461 * " + command + " :" + reason + CRLF)
 #define ERR_ALREADYREGISTERED(user)                     (FTIRC + " 462 " + user + " :User already registered" + CRLF)
 #define ERR_PASSWDMISMATCH()                            (FTIRC + " 464 * :Password was either not given or was incorrect" + CRLF)
+#define ERR_CHANNELISFULL(channel)                      (FTIRC + " 471 * " + channel + " :Channel is full!" + CRLF)
 #define ERR_BADCHANNELKEY(user, channel)                (FTIRC + " 475 " + user + " " + channel + " :Password for channel was either not given or incorrect" + CRLF)
 #define ERR_CHANOPRIVSNEEDED(user, channel)             (FTIRC + " 482 " + user + " " + channel + " :You're not a channel operator!" + CRLF)
 

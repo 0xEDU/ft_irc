@@ -42,8 +42,12 @@ std::string join(CommandArgs cArgs) {
 		if (it != cArgs.channels.end()) {
 			if (channel.isClientOnChannel(cArgs.client))
 				continue ;
-			if (channel.getKey() != channelKey) {
+			if ((channel.getKey() != "") && (channel.getKey() != channelKey)) {
 				reply += ERR_BADCHANNELKEY(cArgs.client.getUser(), channelName);
+				continue ;
+			}
+			if (channel.getClients().size() == channel.getUserLimit()) {
+				reply += ERR_CHANNELISFULL(channelName);
 				continue ;
 			}
 			channel.addClient(cArgs.client);
