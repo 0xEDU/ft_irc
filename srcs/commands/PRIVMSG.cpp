@@ -22,15 +22,12 @@ std::string privmsg(CommandArgs cArgs) {
 		itClient = std::find(cArgs.broadcastList.begin(), cArgs.broadcastList.end(), cArgs.client);
 		cArgs.broadcastList.erase(itClient); // Remove the client sending the message, so it doesn't send to itself :)
 	} else {
-		int foundPosition = -1;
-		for (size_t i = 0; i < cArgs.clients.size(); i++) {
-			if (cArgs.clients[i].getNick() == recipient) {
-				foundPosition = i;
-				break ;
-			}
-		}
-		if (foundPosition == -1)
+		std::vector<Client>::iterator itClient;
+		itClient = std::find(cArgs.clients.begin(), cArgs.clients.end(), recipient);
+		if (itClient == cArgs.clients.end())
 			return ERR_NOSUCHNICK(recipient);
+		cArgs.broadcastList.push_back((*itClient));
+
 	}
 	return RPL_PRIVMSG(user, recipient, message);
 }

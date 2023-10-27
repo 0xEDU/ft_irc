@@ -186,7 +186,7 @@ bool Client::operator==(const Client &rhs) {
 }
 
 bool Client::operator==(const std::string &rhs) {
-	return this->_user == rhs;
+	return this->_user == rhs || this->_nick == rhs;
 }
 
 void Client::storeRawData(const std::string &data)
