@@ -77,7 +77,18 @@ void Channel::setIsInviteOnly(const bool &isInviteOnly)
 	this->_isInviteOnly = isInviteOnly;
 }
 
-std::vector<Client> Channel::getClients() const
+void Channel::setTopicRestricted(bool action) {
+	this->_t = action;
+}
+std::vector<Client> &Channel::getClients()
+{
+	return (this->_clients);
+}
+
+void Channel::removeKey() {
+	this->_key = "";
+}
+const std::vector<Client> &Channel::getClients() const
 {
 	return (this->_clients);
 }
@@ -146,6 +157,10 @@ void Channel::removeClient(const Client &client) {
 		this->_clients.erase(clientsIt);
 	if (operatorsIt != this->_operators.end())
 		this->_operators.erase(operatorsIt);
+}
+
+void Channel::removeClientLimit() {
+	this->_userLimit = -1;
 }
 
 bool Channel::isOperator(Client &client) {

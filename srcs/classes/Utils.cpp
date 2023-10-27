@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 // Split
-std::vector<std::string> Utils::split(std::string &s, std::string& delimiter)
+std::vector<std::string> Utils::split(std::string &s, std::string delimiter)
 {
 	std::vector<std::string> tokens;
 	size_t pos_start = 0, pos_end, delim_len = delimiter.length();
@@ -22,12 +22,14 @@ bool Utils::containsUniqueModeCharacters(std::string str) {
 	std::string modeCharacters = "+-oitkl";
 	if (str.size() > modeCharacters.size())
 		return false;
-	std::sort(str.begin(), str.end());
 	for (size_t i = 0; i < str.length(); ++i) {
-		if (modeCharacters.find(str[i]) == std::string::npos) {
+		if (modeCharacters.find(str[i]) == std::string::npos
+			|| (str[i] == '+' && i != 0)
+			|| (str[i] == '-' && i != 0)) {
 			return false;
 		}
 	}
+	std::sort(str.begin(), str.end());
 	return std::unique(str.begin(), str.end()) == str.end();
 }
 
@@ -39,15 +41,22 @@ bool hasOnlyDigits(const std::string &str)
 // Check if the modes in the mode string have a corresponding parameter
 bool Utils::hasModeCommandsWithParams(std::string modes, std::vector<std::string> modeParams) {
 	std::string charactersWithParams = "okl";
+	bool shouldNegate = false;
+	bool hasNegation = modes.find('-') != std::string::npos;
+	if (hasNegation) {
+		charactersWithParams = "o";
+		shouldNegate = true;
+	}
 	size_t paramsCount = 0;
 	for (size_t i = 0; i < modes.length(); ++i) {
+		if (modes[i] == 'l' && std::strtod(modeParams[paramsCount].c_str(), NULL) <= 0 && shouldNegate) {
+			return false;
+		}
+		if (modes[i] == 'l' && !hasOnlyDigits(modeParams[paramsCount]) && shouldNegate) {
+			return false;
+		}
 		if (charactersWithParams.find(modes[i]) != std::string::npos) {
 			paramsCount++;
-		}
-		if (modes[i] == 'l'
-			&& std::strtod(modeParams[paramsCount - 1].c_str(), NULL) <= 0
-			&& !hasOnlyDigits(modeParams[paramsCount - 1])) {
-			return false;
 		}
 	}
 	if (paramsCount != modeParams.size())

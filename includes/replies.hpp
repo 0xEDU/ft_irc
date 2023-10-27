@@ -44,5 +44,6 @@
 #define RPL_KICKREASON(op_nick, op_user, channel, client, reason)   (COLON + op_nick + "!" + op_user + "@ft.irc KICK " + channel + SPACE + client + SPACE + COLON + reason + CRLF)
 #define RPL_KICKNOREASON(op_nick, op_user, channel, client)         (COLON + op_nick + "!" + op_user + "@ft.irc KICK " + channel + SPACE + client + CRLF)
 #define RPL_KICKFEEDBACK(op_nick, op_user, channel, client)         (COLON + op_nick + "!" + op_user + "@ft.irc KICK " + channel + SPACE + client + CRLF)
+#define RPL_MODEBASE(nick, user, channel)                           (COLON + nick + "!" + user + "@ft.irc MODE " + channel + " ")
 
 #endif

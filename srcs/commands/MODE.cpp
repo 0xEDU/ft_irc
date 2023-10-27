@@ -1,4 +1,5 @@
 #include "ft_irc.hpp"
+#include "replies.hpp"
 
 template<typename T>
 struct ChannelOptions {
@@ -54,7 +55,7 @@ std::string mode(CommandArgs cArgs) {
 		return ERR_NOTONCHANNEL(channelName);
 	if (cArgs.msg.args.size() == 1 && (cArgs.msg.args[0][0] == '#' || cArgs.msg.args[0][0] == '&')) {
 		std::pair<std::string, std::string> modes = channel.getModes();
-		return RPL_CHANNELMODEIS(cArgs.client.getNick(), channelName, modes.first, modes.second);
+		return RPL_CHANNELMODEIS(channelName, modes.first, modes.second); // Test for this later
 	}
 	if (!channel.isOperator(cArgs.client))
 		return ERR_CHANOPRIVSNEEDED(cArgs.client.getUser(), channelName);
@@ -65,43 +66,72 @@ std::string mode(CommandArgs cArgs) {
 		|| !Utils::containsUniqueModeCharacters(modes)
 		|| !Utils::hasModeCommandsWithParams(modes, modesParams))
 		return (ERR_NEEDMOREPARAMS(cArgs.msg.command, "Wrong params"));
+	bool action = true;
+	std::string reply = RPL_MODEBASE(cArgs.client.getNick(), cArgs.client.getUser(), channelName);
+	reply += '+';
+	std::string replyParams;
+	size_t paramPosition = 0;
+	for (size_t i = 0; i < modes.size(); i++) {
+		char modeChar = modes[i];
+		switch (modeChar) {
+			case '-': {
+				action = false;
+				reply.erase(reply.size() - 1); // IM SORRY FOR THIS
+				reply += '-';
+				continue;
+			}
+			case 'i': {
+				channel.setIsInviteOnly(action);
+				reply += 'i';
+				continue;
+			}
+			case 't': {
+				channel.setTopicRestricted(action);
+				reply += 't';
+				continue;
+			}
+			case 'l': {
+				if (modes.find('-') == std::string::npos)
+					replyParams += modesParams[paramPosition] + " ";
+				if (action == true)
+					channel.setUserLimit(static_cast<int>(std::atoi(modesParams[paramPosition++].c_str())));
+				else
+					channel.removeClientLimit();
+				reply += 'l';
+				continue;
+			}
+			case 'k': {
+				if (modes.find('-') == std::string::npos)
+					replyParams += modesParams[paramPosition] + " ";
+				if (action == true)
+					channel.setKey(modesParams[paramPosition++]);
+				else
+					channel.removeKey();
+				reply += 'k';
+				continue;
+			}
+			case 'o': {
 
-	// validateArgs();
-	// bool action = true;
-	// for (size_t i = 0; i < modes.size(); i++) {
-	// 	if (modes[i] == '+')
-	// 		action = true;
-	// 	if (modes[i] == '-')
-	// 		action = false;
-	// 	char c = modes[i];
-	// 	switch (c) {
-	// 		case 'o':
-	// 		{
-	// 			std::string targetUser;
-	// 			LOG(cArgs.msg.args[2])
-	// 			if (cArgs.msg.args.size() == 4)
-	// 				targetUser = cArgs.msg.args[2];
-	// 			if (cArgs.msg.args.size() == 5)
-	// 				targetUser = cArgs.msg.args[3];
-	// 			if (!channel.isClientOnChannel(targetUser))
-	// 				return ERR_NOTONCHANNEL(channelName);
-	// 			std::vector<Client>::iterator it = std::find(cArgs.clients.begin(), cArgs.clients.end(), targetUser);
-	// 			if (action)
-	// 				channel.addOperator(*it);
-	// 			else
-	// 				channel.removeOperator(*it);
-	// 		}
-	// 		case 'i':
-	// 			LOG("daal")
-	// 		case 't':
-	// 			LOG("dale")
-	// 		case 'l':
-	// 			LOG("dale")
-	// 		case 'k':
-	// 			LOG("dale")
-	// 		default:
-	// 			continue;
-	// 	}
-	// }
-	return "";
+				replyParams += modesParams[paramPosition] + " ";
+				DEBUG(modesParams[paramPosition])
+				std::vector<Client>::iterator it = std::find(channel.getClients().begin(), channel.getClients().end(), modesParams[paramPosition++]);
+				if (it == channel.getClients().end())
+					return (ERR_NOTONCHANNEL(channelName));
+				if (*it == cArgs.client)
+					return (ERR_NEEDMOREPARAMS(cArgs.msg.command, "Wrong params"));
+				if (action == true)
+					channel.addOperator(*it);
+				else
+					channel.removeOperator(*it);
+				reply += 'o';
+				continue;
+			}
+			default:
+				continue;
+		}
+	}
+	reply += " " + replyParams;
+	reply += CRLF;
+	cArgs.broadcastList = channel.getClients();
+	return reply;
 }
