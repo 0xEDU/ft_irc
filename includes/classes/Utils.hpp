@@ -10,6 +10,8 @@ private:
 
 public:
 	static std::vector<std::string> split(std::string &s, std::string delimiter);
+	static bool containsUniqueModeCharacters(std::string str);
+	static bool hasModeCommandsWithParams(std::string str, std::vector<std::string> args);
 };
 
 bool operator==(const pollfd &lhs, const pollfd &rhs);
