@@ -56,7 +56,6 @@ std::string mode(CommandArgs cArgs) {
 		return ERR_CHANOPRIVSNEEDED(cArgs.client.getUser(), channelName);
 	std::string modes = cArgs.msg.args[1];
 	std::vector<std::string> modesParams(cArgs.msg.args.begin() + 2, cArgs.msg.args.end());
-	DEBUG("MODES: " << modes)
 	if (cArgs.msg.args.size() > 5 || cArgs.msg.args.size() < 2
 		|| !containsUniqueModeCharacters(modes)
 		|| !hasModeCommandsWithParams(modes, modesParams))
@@ -112,7 +111,6 @@ std::string mode(CommandArgs cArgs) {
 				if (action == false && modes.find('k') != std::string::npos)
 					continue;
 				replyParams += modesParams[paramPosition] + " ";
-				DEBUG(modesParams[paramPosition])
 				std::vector<Client>::iterator it
 					= std::find(channel.getClients().begin(), channel.getClients().end(), modesParams[paramPosition++]);
 				if (it == channel.getClients().end())
