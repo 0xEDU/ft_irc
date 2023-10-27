@@ -1,12 +1,12 @@
 #include "ft_irc.hpp"
 
-Channel::Channel() : _i(false), _t(true), _k(false), _l(false), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
+Channel::Channel() : _i(false), _t(true), _k(false), _l(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
-Channel::Channel(const std::string& name) : _name(name), _i(false), _t(true), _k(false), _l(false), _isInviteOnly(false), _clients(std::vector<Client>()), _userLimit(-1) {}
+Channel::Channel(const std::string& name) : _name(name), _i(false), _t(true), _k(false), _l(false), _clients(std::vector<Client>()), _userLimit(-1) {}
 
 Channel::~Channel() {}
 
-Channel::Channel(Channel const &src) : _i(), _t(), _k(), _l(), _isInviteOnly(), _userLimit()
+Channel::Channel(Channel const &src) : _i(), _t(), _k(), _l(), _userLimit()
 {
 	*this = src;
 }
@@ -18,7 +18,6 @@ Channel &Channel::operator=(Channel const &src)
 		this->_topic = src._topic;
 		this->_name = src._name;
 		this->_key = src._key;
-		this->_isInviteOnly = src._isInviteOnly;
 		this->_clients = src._clients;
 		this->_operators = src._operators;
 		this->_userLimit = src._userLimit;
@@ -64,17 +63,18 @@ std::string Channel::getKey() const
 
 void Channel::setKey(const std::string &key)
 {
+	this->_k = true;
 	this->_key = key;
 }
 
 bool Channel::getIsInviteOnly() const
 {
-	return (this->_isInviteOnly);
+	return (this->_i);
 }
 
-void Channel::setIsInviteOnly(const bool &isInviteOnly)
+void Channel::setIsInviteOnly(bool action)
 {
-	this->_isInviteOnly = isInviteOnly;
+	this->_i = action;
 }
 
 void Channel::setTopicRestricted(bool action) {
@@ -86,6 +86,7 @@ std::vector<Client> &Channel::getClients()
 }
 
 void Channel::removeKey() {
+	this->_k = false;
 	this->_key = "";
 }
 const std::vector<Client> &Channel::getClients() const
@@ -105,6 +106,7 @@ int Channel::getUserLimit() const
 
 void Channel::setUserLimit(const int &userLimit)
 {
+	this->_l = true;
 	this->_userLimit = userLimit;
 }
 
@@ -160,6 +162,7 @@ void Channel::removeClient(const Client &client) {
 }
 
 void Channel::removeClientLimit() {
+	this->_l = false;
 	this->_userLimit = -1;
 }
 

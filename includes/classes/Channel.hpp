@@ -17,7 +17,6 @@ class Channel
 	bool		_k;
 	bool		_l;
 
-	bool 				_isInviteOnly;
 	std::vector<Client>	_clients;
 	std::vector<Client>	_operators;
 	int 				_userLimit;
@@ -40,7 +39,7 @@ class Channel
 	void removeKey();
 	void setTopicRestricted(bool action);
 	bool getIsInviteOnly() const;
-	void setIsInviteOnly(const bool &isInviteOnly);
+	void setIsInviteOnly(bool action);
 	std::vector<Client> &getClients();
 	const std::vector<Client> &getClients() const;
 	void setClients(const std::vector<Client> &clients);
