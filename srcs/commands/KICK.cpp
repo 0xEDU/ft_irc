@@ -49,6 +49,11 @@ std::string kick(CommandArgs cArgs) {
 			reply.append(ERR_USERNOTINCHANNEL(cArgs.client.getUser(), usersToKick[i], specifiedChannels[i]));
 			continue ;
 		}
+		//prevent auto-kick
+		if (*clientToBeKicked == cArgs.client) {
+			reply.append(ERR_NEEDMOREPARAMS(cArgs.msg.command, "You can't KICK yourself... use PART instead!"));
+			continue ;
+		}
 		// finally, kicks user out of channel.
 		std::vector<Client> broadcastList = channelToKickFrom->getClients();
 		broadcastList.erase(std::find(broadcastList.begin(), broadcastList.end(), cArgs.client));
