@@ -49,11 +49,13 @@ bool Utils::hasModeCommandsWithParams(std::string modes, std::vector<std::string
 	}
 	size_t paramsCount = 0;
 	for (size_t i = 0; i < modes.length(); ++i) {
-		if (modes[i] == 'l' && std::strtod(modeParams[paramsCount].c_str(), NULL) <= 0 && shouldNegate) {
-			return false;
-		}
-		if (modes[i] == 'l' && !hasOnlyDigits(modeParams[paramsCount]) && shouldNegate) {
-			return false;
+		if (!shouldNegate) {
+			if (modes[i] == 'l' && std::strtod(modeParams[paramsCount].c_str(), NULL) <= 0) {
+				return false;
+			}
+			if (modes[i] == 'l' && !hasOnlyDigits(modeParams[paramsCount])) {
+				return false;
+			}
 		}
 		if (charactersWithParams.find(modes[i]) != std::string::npos) {
 			paramsCount++;
