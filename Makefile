@@ -1,3 +1,6 @@
+SERVER_PORT = 6667
+SERVER_PASSWORD = 123
+
 NAME = ircserv
 BONUS_NAME = ircbot
 
@@ -43,15 +46,14 @@ BONUS_SRCS =	bot_bonus.cpp
 
 BONUS_OBJS = ${BONUS_SRCS:%.cpp=$(PATH_OBJS)%.o}
 
-SERVER_PORT = 6667
-SERVER_PASSWORD = 123
-
 all: $(NAME)
+	@echo "\033[1;33m[INFO] Nothing to be done for '$@'.\033[0m"
+	@echo "\033[1;33m[INFO] Use \`make run\` to start the server.\033[0m"
 
 bonus: $(BONUS_NAME)
 	
 run: all
-	@./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
+	./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
 	
 v: all
 	@valgrind --track-fds=yes --quiet ./$(NAME) $(SERVER_PORT) $(SERVER_PASSWORD)
